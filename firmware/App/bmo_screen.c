@@ -1,4 +1,5 @@
 #include "bmo_screen.h"
+#include "bmo_bitmaps.h"
 #include <stdio.h>
 #include <string.h>
 
@@ -160,6 +161,10 @@ void BMO_Screen_Update(uint32_t now_ms) {
             ssd1306_WriteString(buf, Font_7x10, White);
             break;
         }
+
+        case BMO_FACE_FULL_BODY:
+            ssd1306_DrawBitmap(0, 0, bmo_splash_bitmap, 128, 64, White);
+            break;
 
         default:
             current_face = BMO_FACE_NORMAL;

@@ -19,7 +19,8 @@ typedef enum {
     BMO_FACE_HAPPY,        /* Joyful arch eyes with wide smile (can detected) */
     BMO_FACE_SHOCK,        /* Wide eyes with small pupils (obstacle / cliff alert) */
     BMO_FACE_WINK,         /* Playful wink with smirk */
-    BMO_FACE_TELEMETRY     /* Diagnostics: battery voltage, collected cans, state */
+    BMO_FACE_TELEMETRY,    /* Diagnostics: battery voltage, collected cans, state */
+    BMO_FACE_FULL_BODY     /* Adventure Time BMO full-body pixel art */
 } bmo_face_t;
 
 /* Initialize OLED display controller and clear frame buffer */

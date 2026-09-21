@@ -104,7 +104,7 @@ int main(void)
   	display_present = 1;
   	printf("BMO OLED Display initialized on I2C2\r\n");
   	BMO_Screen_Init();
-  	BMO_Screen_SetFace(BMO_FACE_NORMAL);
+  	BMO_Screen_SetFace(BMO_FACE_FULL_BODY);
   } else {
   	printf("BMO OLED Display not detected on I2C2\r\n");
   }
@@ -114,7 +114,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   uint32_t last_anim_tick = 0;
   uint32_t last_mood_tick = 0;
-  uint8_t demo_mood = 0;
+  uint8_t demo_mood = 6;
 
   while (1)
   {
@@ -130,10 +130,10 @@ int main(void)
     		BMO_Screen_Update(now);
     	}
 
-    	// Expression showcase: cycle moods every 3.5 seconds
+    	// Expression showcase: cycle moods every 3.5 seconds (7 moods)
     	if (now - last_mood_tick >= 3500) {
     		last_mood_tick = now;
-    		demo_mood = (demo_mood + 1) % 6;
+    		demo_mood = (demo_mood + 1) % 7;
     		BMO_Screen_SetFace((bmo_face_t)demo_mood);
 
     		if (demo_mood == BMO_FACE_TELEMETRY) {
