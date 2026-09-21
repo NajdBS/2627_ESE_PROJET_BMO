@@ -5,4 +5,4 @@ Projet d'Option 3A ESE (2026-2027)
 ## Équipe
 - Najd BEN SAAD
 - Achraf AHAL
-- Yassin GARAFI
+- Yassin GARAF
