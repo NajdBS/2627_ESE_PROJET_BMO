@@ -1,2 +1,19 @@
-BMO/.history/
-*.lck
+# Compilation STM32
+Debug/
+Release/
+*.o
+*.elf
+*.bin
+*.hex
+*.map
+*.d
+.settings/
+
+# KiCad temporaires
+*-bak
+*.kicad_prl
+_autosave-*
+
+# Fichiers OS
+.DS_Store
+Thumbs.db
