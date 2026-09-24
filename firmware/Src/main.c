@@ -20,6 +20,7 @@
 #include "main.h"
 #include "dma.h"
 #include "i2c.h"
+#include "tim.h"
 #include "usart.h"
 #include "gpio.h"
 
@@ -27,6 +28,7 @@
 /* USER CODE BEGIN Includes */
 #include <stdio.h>
 #include "bmo_screen.h"
+#include "ydlidar_x2.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -48,6 +50,7 @@
 
 /* USER CODE BEGIN PV */
 uint8_t display_present = 0;
+ydlidar_x2_t g_lidar;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -63,6 +66,55 @@ int _write(int file, char *ptr, int len)
   (void)file;
   HAL_UART_Transmit(&huart2, (uint8_t*) ptr, len, HAL_MAX_DELAY);
   return len;
+}
+
+/* Helper to convert angle into intuitive 8-cardinal sector label */
+static const char* Get_Sector_Name(uint16_t angle)
+{
+    if (angle >= 338 || angle < 23)   return "Front";
+    if (angle >= 23  && angle < 68)   return "Front-Right";
+    if (angle >= 68  && angle < 113)  return "Right";
+    if (angle >= 113 && angle < 158)  return "Rear-Right";
+    if (angle >= 158 && angle < 203)  return "Rear";
+    if (angle >= 203 && angle < 248)  return "Rear-Left";
+    if (angle >= 248 && angle < 293)  return "Left";
+    return "Front-Left";
+}
+
+/* Clean, aligned, professional LiDAR telemetry dashboard output */
+static void Print_Lidar_Telemetry(const ydlidar_x2_t *lidar)
+{
+    /* Find nearest detected obstacle (excluding blind zone < 120 mm) */
+    uint16_t min_dist = 0xFFFF;
+    uint16_t min_angle = 0;
+    for (uint16_t a = 0; a < 360; a++) {
+        uint16_t d = lidar->distances[a];
+        if (d >= 120 && d < min_dist) {
+            min_dist = d;
+            min_angle = a;
+        }
+    }
+
+    uint16_t fwd = YDLIDAR_X2_GetDistance(lidar, 0);
+    uint16_t rgt = YDLIDAR_X2_GetDistance(lidar, 90);
+    uint16_t bck = YDLIDAR_X2_GetDistance(lidar, 180);
+    uint16_t lft = YDLIDAR_X2_GetDistance(lidar, 270);
+
+    /* Line 1: Health & Motor spin rate */
+    printf("[LIDAR X2] %4.1f Hz | Laps: %5lu | Pkts: %6lu (Err: %lu)\r\n",
+           lidar->scan_frequency_hz,
+           lidar->laps_count,
+           lidar->valid_packets_count,
+           lidar->checksum_errors_count);
+
+    /* Line 2: Closest obstacle + 4 cardinal distances with fixed column alignment */
+    if (min_dist != 0xFFFF) {
+        printf("  >> Nearest: %4u mm @ %3u deg [%-11s] | Fwd: %4u mm | Rgt: %4u mm | Bck: %4u mm | Lft: %4u mm\r\n",
+               min_dist, min_angle, Get_Sector_Name(min_angle), fwd, rgt, bck, lft);
+    } else {
+        printf("  >> Nearest: ---- mm @ --- deg [No target  ] | Fwd: %4u mm | Rgt: %4u mm | Bck: %4u mm | Lft: %4u mm\r\n",
+               fwd, rgt, bck, lft);
+    }
 }
 /* USER CODE END 0 */
 
@@ -98,13 +150,28 @@ int main(void)
   MX_DMA_Init();
   MX_USART2_UART_Init();
   MX_I2C2_Init();
+  MX_TIM15_Init();
+  MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
+  printf("\r\n========================================\r\n");
+  printf("   BMO SYSTEM - STM32G474 FIRMWARE     \r\n");
+  printf("   OLED (I2C2) + YDLIDAR X2 (USART1 DMA)\r\n");
+  printf("========================================\r\n");
+
+  /* Initialize YDLIDAR X2 on USART1 with Circular DMA */
+  YDLIDAR_X2_Init(&g_lidar, &huart1);
+
+  /* Start LiDAR motor PWM at 10 kHz (35% duty cycle = 6 Hz nominal speed) */
+  HAL_TIM_PWM_Start(&htim15, TIM_CHANNEL_1);
+  __HAL_TIM_SET_COMPARE(&htim15, TIM_CHANNEL_1, 35);
+  printf("YDLIDAR X2 Motor PWM started on PB14 (TIM15_CH1) @ 10 kHz, 35%% Duty\r\n");
+
   // Probe I2C2 to verify OLED display presence before initialization
   if (HAL_OK == HAL_I2C_IsDeviceReady(&hi2c2, SSD1306_I2C_ADDR, 3, 1000)) {
   	display_present = 1;
   	printf("BMO OLED Display initialized on I2C2\r\n");
   	BMO_Screen_Init();
-  	BMO_Screen_SetFace(BMO_FACE_FULL_BODY);
+  	BMO_Screen_SetFace(BMO_FACE_LIDAR_RADAR);
   } else {
   	printf("BMO OLED Display not detected on I2C2\r\n");
   }
@@ -114,30 +181,59 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   uint32_t last_anim_tick = 0;
   uint32_t last_mood_tick = 0;
-  uint8_t demo_mood = 6;
+  uint32_t last_lidar_tick = 0;
+  uint8_t demo_mood = (uint8_t)BMO_FACE_LIDAR_RADAR;
 
   while (1)
   {
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-    if (display_present) {
-    	uint32_t now = HAL_GetTick();
+    uint32_t now = HAL_GetTick();
 
+    /* Process incoming LiDAR DMA bytes continuously (non-blocking) */
+    YDLIDAR_X2_Process(&g_lidar);
+
+    /* Telemetry output to VCP terminal every 500 ms */
+    if (now - last_lidar_tick >= 500) {
+        last_lidar_tick = now;
+        Print_Lidar_Telemetry(&g_lidar);
+
+        if (display_present) {
+            /* Find closest obstacle for OLED radar */
+            uint16_t min_dist = 0xFFFF;
+            uint16_t min_angle = 0;
+            for (uint16_t a = 0; a < 360; a++) {
+                uint16_t d = g_lidar.distances[a];
+                if (d >= 120 && d < min_dist) {
+                    min_dist = d;
+                    min_angle = a;
+                }
+            }
+            uint16_t fwd = YDLIDAR_X2_GetDistance(&g_lidar, 0);
+            uint16_t rgt = YDLIDAR_X2_GetDistance(&g_lidar, 90);
+            uint16_t bck = YDLIDAR_X2_GetDistance(&g_lidar, 180);
+            uint16_t lft = YDLIDAR_X2_GetDistance(&g_lidar, 270);
+
+            BMO_Screen_SetLidarData(g_lidar.scan_frequency_hz, fwd, rgt, bck, lft, min_dist, min_angle);
+        }
+    }
+
+    if (display_present) {
     	// Refresh facial animation at 25 FPS (every 40 ms via DMA)
     	if (now - last_anim_tick >= 40) {
     		last_anim_tick = now;
     		BMO_Screen_Update(now);
     	}
 
-    	// Expression showcase: cycle moods every 3.5 seconds (7 moods)
-    	if (now - last_mood_tick >= 3500) {
+    	// Expression showcase: cycle moods every 5 seconds (8 modes, including 2D Radar)
+    	if (now - last_mood_tick >= 5000) {
     		last_mood_tick = now;
-    		demo_mood = (demo_mood + 1) % 7;
+    		demo_mood = (demo_mood + 1) % 8;
     		BMO_Screen_SetFace((bmo_face_t)demo_mood);
 
     		if (demo_mood == BMO_FACE_TELEMETRY) {
-    			BMO_Screen_SetTelemetry(3.92f, 0, "STANDBY");
+    			BMO_Screen_SetTelemetry(3.92f, 0, "LIDAR 6Hz");
     		}
     	}
     }
