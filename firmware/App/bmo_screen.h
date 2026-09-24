@@ -20,7 +20,8 @@ typedef enum {
     BMO_FACE_SHOCK,        /* Wide eyes with small pupils (obstacle / cliff alert) */
     BMO_FACE_WINK,         /* Playful wink with smirk */
     BMO_FACE_TELEMETRY,    /* Diagnostics: battery voltage, collected cans, state */
-    BMO_FACE_FULL_BODY     /* Adventure Time BMO full-body pixel art */
+    BMO_FACE_FULL_BODY,    /* Adventure Time BMO full-body pixel art */
+    BMO_FACE_LIDAR_RADAR   /* Real-time 2D mini-radar & distance display */
 } bmo_face_t;
 
 /* Initialize OLED display controller and clear frame buffer */
@@ -34,6 +35,9 @@ bmo_face_t BMO_Screen_GetFace(void);
 
 /* Update telemetry values shown on the dashboard screen */
 void BMO_Screen_SetTelemetry(float vbat, uint8_t cans, const char* state_str);
+
+/* Update live LiDAR telemetry and mini-radar visualization */
+void BMO_Screen_SetLidarData(float scan_hz, uint16_t fwd_mm, uint16_t rgt_mm, uint16_t bck_mm, uint16_t lft_mm, uint16_t min_mm, uint16_t min_deg);
 
 /*
  * Main display refresh and animation loop.

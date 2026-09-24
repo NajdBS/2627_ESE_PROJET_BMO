@@ -1,4 +1,5 @@
 # Compilation STM32
+build/
 Debug/
 Release/
 *.o

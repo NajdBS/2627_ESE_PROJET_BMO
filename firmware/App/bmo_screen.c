@@ -2,6 +2,7 @@
 #include "bmo_bitmaps.h"
 #include <stdio.h>
 #include <string.h>
+#include <math.h>
 
 /* Current active emotion displayed on the robot */
 static bmo_face_t current_face = BMO_FACE_NORMAL;
@@ -19,6 +20,25 @@ static uint32_t last_look_time = 0;
 static float telem_vbat = 3.92f;
 static uint8_t telem_cans = 0;
 static char telem_state[16] = "IDLE";
+
+/* Cached LiDAR telemetry for radar screen */
+static float    telem_lidar_hz = 0.0f;
+static uint16_t telem_lidar_fwd = 0;
+static uint16_t telem_lidar_rgt = 0;
+static uint16_t telem_lidar_bck = 0;
+static uint16_t telem_lidar_lft = 0;
+static uint16_t telem_lidar_min_dist = 0;
+static uint16_t telem_lidar_min_angle = 0;
+
+void BMO_Screen_SetLidarData(float scan_hz, uint16_t fwd_mm, uint16_t rgt_mm, uint16_t bck_mm, uint16_t lft_mm, uint16_t min_mm, uint16_t min_deg) {
+    telem_lidar_hz = scan_hz;
+    telem_lidar_fwd = fwd_mm;
+    telem_lidar_rgt = rgt_mm;
+    telem_lidar_bck = bck_mm;
+    telem_lidar_lft = lft_mm;
+    telem_lidar_min_dist = min_mm;
+    telem_lidar_min_angle = min_deg;
+}
 
 void BMO_Screen_Init(void) {
     ssd1306_Init();
@@ -165,6 +185,51 @@ void BMO_Screen_Update(uint32_t now_ms) {
         case BMO_FACE_FULL_BODY:
             ssd1306_DrawBitmap(0, 0, bmo_splash_bitmap, 128, 64, White);
             break;
+
+        case BMO_FACE_LIDAR_RADAR: {
+            char buf[24];
+            /* Header: frequency */
+            snprintf(buf, sizeof(buf), "LIDAR %.1fHz", telem_lidar_hz);
+            ssd1306_SetCursor(2, 2);
+            ssd1306_WriteString(buf, Font_6x8, White);
+
+            /* Radar Circle on the left (Center: 28, 38, Radius: 22) */
+            const uint8_t rcx = 28;
+            const uint8_t rcy = 38;
+            const uint8_t rrad = 22;
+            ssd1306_DrawCircle(rcx, rcy, rrad, White);
+            ssd1306_DrawCircle(rcx, rcy, rrad / 2, White);
+            ssd1306_Line(rcx - rrad, rcy, rcx + rrad, rcy, White);
+            ssd1306_Line(rcx, rcy - rrad, rcx, rcy + rrad, White);
+
+            /* Plot closest obstacle blip if valid (range 120mm to 3500mm) */
+            if (telem_lidar_min_dist >= 120 && telem_lidar_min_dist <= 3500) {
+                float rad = (float)telem_lidar_min_angle * (3.14159265f / 180.0f);
+                float norm_dist = (float)telem_lidar_min_dist / 3000.0f;
+                if (norm_dist > 1.0f) norm_dist = 1.0f;
+                int8_t bx = rcx + (int8_t)(sinf(rad) * norm_dist * (float)(rrad - 2));
+                int8_t by = rcy - (int8_t)(cosf(rad) * norm_dist * (float)(rrad - 2));
+                ssd1306_FillCircle(bx, by, 2, White);
+            }
+
+            /* Cardinal Distances on the right (Font 6x8) */
+            snprintf(buf, sizeof(buf), "F:%4u", telem_lidar_fwd);
+            ssd1306_SetCursor(58, 14);
+            ssd1306_WriteString(buf, Font_6x8, White);
+
+            snprintf(buf, sizeof(buf), "R:%4u", telem_lidar_rgt);
+            ssd1306_SetCursor(58, 26);
+            ssd1306_WriteString(buf, Font_6x8, White);
+
+            snprintf(buf, sizeof(buf), "B:%4u", telem_lidar_bck);
+            ssd1306_SetCursor(58, 38);
+            ssd1306_WriteString(buf, Font_6x8, White);
+
+            snprintf(buf, sizeof(buf), "L:%4u", telem_lidar_lft);
+            ssd1306_SetCursor(58, 50);
+            ssd1306_WriteString(buf, Font_6x8, White);
+            break;
+        }
 
         default:
             current_face = BMO_FACE_NORMAL;
