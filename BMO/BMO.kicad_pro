@@ -429,7 +429,7 @@
         "uuid": "509804e7-65e7-46e6-80ed-6cdb4037dc07"
       }
     ],
-    "used_designators": "",
+    "used_designators": "#FLG5,R1-6,J11,L2,#PWR1,#PWR29,#PWR38-39,#PWR42,#PWR103-111,#PWR114-122,#PWR146-147,C9-16,C22,C31,C34,SW1,H1-4,U1,Y2,Bluetooth1",
     "variants": []
   },
   "sheets": [
@@ -440,6 +440,10 @@
     [
       "6ae9c4a4-c173-43ed-93f8-54a31d5275c1",
       "STM32G474RBT3"
+    ],
+    [
+      "c0555228-78be-4774-98c7-4b68c52803f7",
+      "Sensors"
     ]
   ],
   "text_variables": {},
