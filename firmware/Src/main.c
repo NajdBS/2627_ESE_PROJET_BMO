@@ -29,6 +29,9 @@
 #include <stdio.h>
 #include "bmo_screen.h"
 #include "ydlidar_x2.h"
+#include "drv8833.h"
+#include "encoder.h"
+#include "vl53l0x.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -51,6 +54,18 @@
 /* USER CODE BEGIN PV */
 uint8_t display_present = 0;
 ydlidar_x2_t g_lidar;
+
+/* DRV8833 Motors */
+drv8833_t g_motor_left;
+drv8833_t g_motor_right;
+
+/* Quadrature Encoders */
+encoder_t g_enc_left;
+encoder_t g_enc_right;
+
+/* VL53L0X Distance Sensor */
+vl53l0x_t g_tof;
+bool g_tof_present = false;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -68,7 +83,7 @@ int _write(int file, char *ptr, int len)
   return len;
 }
 
-/* Helper to convert angle into intuitive 8-cardinal sector label */
+/*
 static const char* Get_Sector_Name(uint16_t angle)
 {
     if (angle >= 338 || angle < 23)   return "Front";
@@ -81,10 +96,8 @@ static const char* Get_Sector_Name(uint16_t angle)
     return "Front-Left";
 }
 
-/* Clean, aligned, professional LiDAR telemetry dashboard output */
 static void Print_Lidar_Telemetry(const ydlidar_x2_t *lidar)
 {
-    /* Find nearest detected obstacle (excluding blind zone < 120 mm) */
     uint16_t min_dist = 0xFFFF;
     uint16_t min_angle = 0;
     for (uint16_t a = 0; a < 360; a++) {
@@ -100,14 +113,12 @@ static void Print_Lidar_Telemetry(const ydlidar_x2_t *lidar)
     uint16_t bck = YDLIDAR_X2_GetDistance(lidar, 180);
     uint16_t lft = YDLIDAR_X2_GetDistance(lidar, 270);
 
-    /* Line 1: Health & Motor spin rate */
     printf("[LIDAR X2] %4.1f Hz | Laps: %5lu | Pkts: %6lu (Err: %lu)\r\n",
            lidar->scan_frequency_hz,
            lidar->laps_count,
            lidar->valid_packets_count,
            lidar->checksum_errors_count);
 
-    /* Line 2: Closest obstacle + 4 cardinal distances with fixed column alignment */
     if (min_dist != 0xFFFF) {
         printf("  >> Nearest: %4u mm @ %3u deg [%-11s] | Fwd: %4u mm | Rgt: %4u mm | Bck: %4u mm | Lft: %4u mm\r\n",
                min_dist, min_angle, Get_Sector_Name(min_angle), fwd, rgt, bck, lft);
@@ -116,6 +127,7 @@ static void Print_Lidar_Telemetry(const ydlidar_x2_t *lidar)
                fwd, rgt, bck, lft);
     }
 }
+*/
 /* USER CODE END 0 */
 
 /**
@@ -152,21 +164,22 @@ int main(void)
   MX_I2C2_Init();
   MX_TIM15_Init();
   MX_USART1_UART_Init();
+  MX_TIM2_Init();
+  MX_TIM3_Init();
+  MX_TIM4_Init();
+  MX_I2C3_Init();
   /* USER CODE BEGIN 2 */
   printf("\r\n========================================\r\n");
-  printf("   BMO SYSTEM - STM32G474 FIRMWARE     \r\n");
-  printf("   OLED (I2C2) + YDLIDAR X2 (USART1 DMA)\r\n");
+  printf("   BMO SYSTEM - ENCODER TEST BENCH      \r\n");
   printf("========================================\r\n");
 
-  /* Initialize YDLIDAR X2 on USART1 with Circular DMA */
+  /*
   YDLIDAR_X2_Init(&g_lidar, &huart1);
 
-  /* Start LiDAR motor PWM at 10 kHz (35% duty cycle = 6 Hz nominal speed) */
   HAL_TIM_PWM_Start(&htim15, TIM_CHANNEL_1);
   __HAL_TIM_SET_COMPARE(&htim15, TIM_CHANNEL_1, 35);
   printf("YDLIDAR X2 Motor PWM started on PB14 (TIM15_CH1) @ 10 kHz, 35%% Duty\r\n");
 
-  // Probe I2C2 to verify OLED display presence before initialization
   if (HAL_OK == HAL_I2C_IsDeviceReady(&hi2c2, SSD1306_I2C_ADDR, 3, 1000)) {
   	display_present = 1;
   	printf("BMO OLED Display initialized on I2C2\r\n");
@@ -175,14 +188,48 @@ int main(void)
   } else {
   	printf("BMO OLED Display not detected on I2C2\r\n");
   }
+
+  DRV8833_Init(&g_motor_left, &htim3, TIM_CHANNEL_1, TIM_CHANNEL_2, false);
+  DRV8833_Init(&g_motor_right, &htim3, TIM_CHANNEL_3, TIM_CHANNEL_4, true);
+  DRV8833_Coast(&g_motor_left);
+  DRV8833_Coast(&g_motor_right);
+  printf("DRV8833 Motors initialized on TIM3 (CH1..CH4) @ 20 kHz PWM\r\n");
+  */
+
+  /* Initialize Quadrature Encoders (TIM2 32-bit & TIM4 16-bit) */
+  /*
+  Encoder_Init(&g_enc_left, &htim2, ENCODER_DEFAULT_CPR_WHEEL, ENCODER_DEFAULT_WHEEL_DIAM_MM, false);
+  Encoder_Init(&g_enc_right, &htim4, ENCODER_DEFAULT_CPR_WHEEL, ENCODER_DEFAULT_WHEEL_DIAM_MM, true);
+  printf("Quadrature Encoders initialized: Left=TIM2 (PA0/PA1), Right=TIM4 (PB6/PB7)\r\n");
+  */
+
+  /* Initialize ToF Sensor (VL53L0X on I2C3 PC8/PC9) */
+  printf("Checking I2C3 for VL53L0X ToF sensor...\r\n");
+  if (HAL_I2C_IsDeviceReady(&hi2c3, VL53L0X_DEFAULT_ADDRESS_8BIT, 2, 50) == HAL_OK) {
+      printf("[ToF] Device detected at 0x29 (0x52)!\r\n");
+      if (VL53L0X_Init(&g_tof, &hi2c3)) {
+          VL53L0X_StartContinuous(&g_tof, 0);
+          g_tof_present = true;
+          printf("[ToF] VL53L0X initialized & continuous ranging started!\r\n");
+      } else {
+          printf("[ToF] VL53L0X init failed!\r\n");
+      }
+  } else {
+      printf("[ToF] No device responding on I2C3 (PC8/PC9)\r\n");
+  }
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  /*
   uint32_t last_anim_tick = 0;
   uint32_t last_mood_tick = 0;
-  uint32_t last_lidar_tick = 0;
+  */
+  uint32_t last_tof_tick = 0;
+  /*
+  uint32_t last_encoder_tick = 0;
   uint8_t demo_mood = (uint8_t)BMO_FACE_LIDAR_RADAR;
+  */
 
   while (1)
   {
@@ -191,16 +238,36 @@ int main(void)
     /* USER CODE BEGIN 3 */
     uint32_t now = HAL_GetTick();
 
-    /* Process incoming LiDAR DMA bytes continuously (non-blocking) */
+    /*
     YDLIDAR_X2_Process(&g_lidar);
+    */
 
-    /* Telemetry output to VCP terminal every 500 ms */
-    if (now - last_lidar_tick >= 500) {
-        last_lidar_tick = now;
-        Print_Lidar_Telemetry(&g_lidar);
+    /* Periodic encoder update (every 50 ms) */
+    /*
+    if (now - last_encoder_tick >= 50) {
+        float dt = (float)(now - last_encoder_tick) / 1000.0f;
+        last_encoder_tick = now;
+        Encoder_Update(&g_enc_left, dt);
+        Encoder_Update(&g_enc_right, dt);
+    }
+    */
 
+    /* Telemetry output to VCP terminal every 100 ms */
+    if (now - last_tof_tick >= 100) {
+        last_tof_tick = now;
+
+        if (g_tof_present) {
+            uint16_t dist_mm = VL53L0X_ReadDistanceContinuous(&g_tof, NULL);
+            if (dist_mm != 65535) {
+                printf("[ToF VL53L0X] Distance: %4u mm (%4.1f cm)\r\n", dist_mm, (float)dist_mm / 10.0f);
+            } else {
+                printf("[ToF VL53L0X] Out of range / Timeout\r\n");
+            }
+        }
+    }
+
+        /*
         if (display_present) {
-            /* Find closest obstacle for OLED radar */
             uint16_t min_dist = 0xFFFF;
             uint16_t min_angle = 0;
             for (uint16_t a = 0; a < 360; a++) {
@@ -217,16 +284,15 @@ int main(void)
 
             BMO_Screen_SetLidarData(g_lidar.scan_frequency_hz, fwd, rgt, bck, lft, min_dist, min_angle);
         }
-    }
+        */
 
+    /*
     if (display_present) {
-    	// Refresh facial animation at 25 FPS (every 40 ms via DMA)
     	if (now - last_anim_tick >= 40) {
     		last_anim_tick = now;
     		BMO_Screen_Update(now);
     	}
 
-    	// Expression showcase: cycle moods every 5 seconds (8 modes, including 2D Radar)
     	if (now - last_mood_tick >= 5000) {
     		last_mood_tick = now;
     		demo_mood = (demo_mood + 1) % 8;
@@ -237,6 +303,7 @@ int main(void)
     		}
     	}
     }
+    */
   }
   /* USER CODE END 3 */
 }
