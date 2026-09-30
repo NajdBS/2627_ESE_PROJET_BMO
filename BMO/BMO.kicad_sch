@@ -13,8 +13,8 @@
 	)
 	(lib_symbols)
 	(sheet
-		(at 33.02 36.83)
-		(size 53.34 74.93)
+		(at 104.14 59.69)
+		(size 52.07 46.99)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
@@ -29,7 +29,7 @@
 		)
 		(uuid "6ae9c4a4-c173-43ed-93f8-54a31d5275c1")
 		(property "Sheetname" "STM32G474RBT3"
-			(at 33.02 36.1184 0)
+			(at 104.14 58.9784 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -40,7 +40,7 @@
 			)
 		)
 		(property "Sheetfile" "STM32G474RBT3.kicad_sch"
-			(at 33.02 112.3446 0)
+			(at 104.14 107.2646 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -59,7 +59,53 @@
 		)
 	)
 	(sheet
-		(at 104.14 148.59)
+		(at 40.64 92.71)
+		(size 40.64 35.56)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "98240721-2fbf-478b-a86b-202306854f98")
+		(property "Sheetname" "Motors"
+			(at 40.64 91.9984 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "Motors.kicad_sch"
+			(at 40.64 128.8546 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "BMO"
+				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07"
+					(page "5")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 39.37 35.56)
 		(size 39.37 29.21)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -75,7 +121,7 @@
 		)
 		(uuid "a118be83-9452-4230-9073-78ab810a1c4b")
 		(property "Sheetname" "Power"
-			(at 104.14 147.8784 0)
+			(at 39.37 34.8484 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -86,7 +132,7 @@
 			)
 		)
 		(property "Sheetfile" "Power.kicad_sch"
-			(at 104.14 178.3846 0)
+			(at 39.37 65.3546 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -105,7 +151,7 @@
 		)
 	)
 	(sheet
-		(at 154.94 46.99)
+		(at 213.36 29.21)
 		(size 44.45 64.77)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -121,7 +167,7 @@
 		)
 		(uuid "c0555228-78be-4774-98c7-4b68c52803f7")
 		(property "Sheetname" "Sensors"
-			(at 154.94 46.2784 0)
+			(at 213.36 28.4984 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -132,7 +178,7 @@
 			)
 		)
 		(property "Sheetfile" "Sensors.kicad_sch"
-			(at 154.94 112.3446 0)
+			(at 213.36 94.5646 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
