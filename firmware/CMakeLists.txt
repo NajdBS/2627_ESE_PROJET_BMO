@@ -49,6 +49,8 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     BSP/ssd1306/ssd1306_fonts.c
     BSP/ssd1306/ssd1306_tests.c
     BSP/ydlidar_x2/ydlidar_x2.c
+    BSP/drv8833/drv8833.c
+    BSP/encoder/encoder.c
 
     # BMO Application Logic
     App/bmo_screen.c
@@ -58,6 +60,8 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
 target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
     BSP/ssd1306
     BSP/ydlidar_x2
+    BSP/drv8833
+    BSP/encoder
     App
 )
 
