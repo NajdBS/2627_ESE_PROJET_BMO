@@ -692,56 +692,6 @@
 				(justify left top)
 			)
 		)
-		(pin "I2C1_SCL_MPU-6050 & Jauge" input
-			(at 92.71 43.18 0)
-			(uuid "eab60591-319a-4b58-9ec4-70abb456f06b")
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(pin "I2C1_SDA_MPU-6050 & Jauge" input
-			(at 92.71 46.99 0)
-			(uuid "2d3ab405-394f-4151-adb4-9bc4978c5f77")
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(pin "CHRG_OTG" input
-			(at 92.71 50.8 0)
-			(uuid "4a0cfbc6-c972-4f20-b69d-64b57189b13f")
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(pin "Boost_EN" input
-			(at 53.34 50.8 180)
-			(uuid "768b3814-4c61-40cf-8b6a-1239de7db79e")
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(pin "linear_regulator_EN" input
-			(at 53.34 53.34 180)
-			(uuid "8f8d83e3-13bb-44a5-a23c-10bb1c2eb8ea")
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
 		(instances
 			(project "BMO"
 				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07"
