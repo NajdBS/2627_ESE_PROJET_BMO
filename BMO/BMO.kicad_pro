@@ -661,7 +661,7 @@
         "uuid": "509804e7-65e7-46e6-80ed-6cdb4037dc07"
       }
     ],
-    "used_designators": "#FLG1-4,R1-29,R36,J1-7,J14-15,#PWR1-86,C1-34,C37-38,TP1-5,FB1,F1,U1-9,D1-6,L1-3,Q1,Bluetooth1,H1-4,SW1,Y1",
+    "used_designators": "J1-7,#FLG1-4,R1-25,R27-28,#PWR1-37,#PWR40-41,#PWR43-100,#PWR123,#PWR128-130,C1-21,C23-30,C32-33,C35-45,F1,FB1,TP1-5,U1-8,D1-5,L1-4,Q1,Lidar1,TOF2-3,SW2",
     "variants": []
   },
   "sheets": [
@@ -682,7 +682,7 @@
       "Power"
     ],
     [
-      "98240721-2fbf-478b-a86b-202306854f98",
+      "2f64cbfe-9ed5-49f5-b555-732b5110c5e3",
       "Motors"
     ]
   ],
