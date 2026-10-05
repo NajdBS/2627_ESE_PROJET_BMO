@@ -54,6 +54,7 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     BSP/vl53l0x/vl53l0x.c
     BSP/apds9960/apds9960.c
     BSP/servo/servo.c
+    BSP/neopixel/neopixel.c
 
     # BMO Application Logic
     App/bmo_screen.c
@@ -68,6 +69,7 @@ target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
     BSP/vl53l0x
     BSP/apds9960
     BSP/servo
+    BSP/neopixel
     App
 )
 

@@ -34,6 +34,7 @@
 #include "vl53l0x.h"
 #include "apds9960.h"
 #include "servo.h"
+#include "neopixel.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -90,6 +91,58 @@ int _write(int file, char *ptr, int len)
   (void)file;
   HAL_UART_Transmit(&huart2, (uint8_t*) ptr, len, HAL_MAX_DELAY);
   return len;
+}
+
+void leds_process(void)
+{
+	static uint8_t state = 0;
+
+	HAL_GPIO_TogglePin(LED_STATUS_GPIO_Port, LED_STATUS_Pin);
+
+	switch (state) {
+	case 0:	/* RED */
+		np_led_set_all_RGB(30, 0, 0);
+		np_led_render();
+		state = 1;
+		break;
+	case 1:	/* GREEN */
+		np_led_set_all_RGB(0, 30, 0);
+		np_led_render();
+		state = 2;
+		break;
+	case 2:	/* BLUE */
+		np_led_set_all_RGB(0, 0, 30);
+		np_led_render();
+		state = 3;
+		break;
+	case 3:	/* WHITE */
+		np_led_set_all_RGB(25, 25, 25);
+		np_led_render();
+		state = 4;
+		break;
+	case 4:	/* YELLOW */
+		np_led_set_all_RGB(30, 20, 0);
+		np_led_render();
+		state = 5;
+		break;
+	case 5:	/* PURPLE */
+		np_led_set_all_RGB(30, 0, 30);
+		np_led_render();
+		state = 6;
+		break;
+	case 6:	/* CYAN */
+		np_led_set_all_RGB(0, 30, 30);
+		np_led_render();
+		state = 7;
+		break;
+	case 7:	/* OFF */
+		np_led_clear();
+		state = 0;
+		break;
+	default:
+		state = 0;
+		break;
+	}
 }
 
 /*
@@ -214,7 +267,8 @@ int main(void)
   printf("Quadrature Encoders initialized: Left=TIM2 (PA0/PA1), Right=TIM4 (PB6/PB7)\r\n");
   */
 
-  /* Initialize ToF Sensor (VL53L0X on I2C3 PC8/PC9) */
+  /* Initialize ToF Sensor (VL53L0X on I2C3 PC8/PC9) - commented out for NeoPixel test */
+  /*
   printf("Checking I2C3 for VL53L0X ToF sensor...\r\n");
   if (HAL_I2C_IsDeviceReady(&hi2c3, VL53L0X_DEFAULT_ADDRESS_8BIT, 2, 50) == HAL_OK) {
       printf("[ToF] Device detected at 0x29 (0x52)!\r\n");
@@ -228,8 +282,10 @@ int main(void)
   } else {
       printf("[ToF] No device responding on I2C3 (PC8/PC9)\r\n");
   }
+  */
 
-  /* Initialize RGB Color & Proximity Sensor (APDS-9960 on I2C3 PC8/PC9) */
+  /* Initialize RGB Color & Proximity Sensor (APDS-9960 on I2C3 PC8/PC9) - commented out for NeoPixel test */
+  /*
   printf("Checking I2C3 for APDS-9960 Color sensor...\r\n");
   if (HAL_I2C_IsDeviceReady(&hi2c3, APDS9960_I2C_ADDR_8BIT, 2, 50) == HAL_OK) {
       printf("[Color] Device detected at 0x39 (0x72)!\r\n");
@@ -242,14 +298,21 @@ int main(void)
   } else {
       printf("[Color] No device responding on I2C3 at 0x39 (PC8/PC9)\r\n");
   }
+  */
 
-  /* Initialize Gripper Servo (PC6 on TIM8_CH1 @ 50 Hz PWM) */
+  /* Initialize Gripper Servo (PC6 on TIM8_CH1 @ 50 Hz PWM) - commented out for NeoPixel test */
+  /*
   printf("Initializing Gripper Servo on PC6 (TIM8_CH1)...\r\n");
   if (SERVO_Init(&g_gripper_servo, &htim8, TIM_CHANNEL_1) == HAL_OK) {
       printf("[Servo] Gripper servo initialized @ 50 Hz PWM on PC6 (Released / Open)!\r\n");
   } else {
       printf("[Servo] Failed to initialize servo!\r\n");
   }
+  */
+
+  /* Initialize NeoPixel Ring (PB14 on TIM15_CH1) */
+  printf("Initializing NeoPixel Ring (12 LEDs) on PB14 (TIM15_CH1)...\r\n");
+  np_led_clear();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -257,9 +320,7 @@ int main(void)
   /*
   uint32_t last_anim_tick = 0;
   uint32_t last_mood_tick = 0;
-  */
   uint32_t last_tof_tick = 0;
-  /*
   uint32_t last_encoder_tick = 0;
   uint8_t demo_mood = (uint8_t)BMO_FACE_LIDAR_RADAR;
   */
@@ -285,7 +346,8 @@ int main(void)
     }
     */
 
-    /* Telemetry output to VCP terminal every 100 ms */
+    /* Telemetry output to VCP terminal every 100 ms (disabled for NeoPixel test) */
+    /*
     if (now - last_tof_tick >= 100) {
         last_tof_tick = now;
 
@@ -310,8 +372,10 @@ int main(void)
             printf("\r\n");
         }
     }
+    */
 
-    /* Servo Gripper Test Cycle (every 2500 ms) */
+    /* Servo Gripper Test Cycle (disabled for NeoPixel test) */
+    /*
     static uint32_t last_servo_tick = 0;
     static uint8_t servo_step = 0;
     if (now - last_servo_tick >= 2500) {
@@ -333,6 +397,14 @@ int main(void)
                 servo_step = 0;
                 break;
         }
+    }
+    */
+
+    /* NeoPixel 12-LED Ring Process (every 500 ms) */
+    static uint32_t last_led_tick = 0;
+    if (now - last_led_tick >= 500) {
+        last_led_tick = now;
+        leds_process();
     }
 
         /*
