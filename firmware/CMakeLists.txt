@@ -52,6 +52,7 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     BSP/drv8833/drv8833.c
     BSP/encoder/encoder.c
     BSP/vl53l0x/vl53l0x.c
+    BSP/servo/servo.c
 
     # BMO Application Logic
     App/bmo_screen.c
@@ -64,6 +65,7 @@ target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
     BSP/drv8833
     BSP/encoder
     BSP/vl53l0x
+    BSP/servo
     App
 )
 
