@@ -53,6 +53,7 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     BSP/encoder/encoder.c
     BSP/vl53l0x/vl53l0x.c
     BSP/apds9960/apds9960.c
+    BSP/servo/servo.c
 
     # BMO Application Logic
     App/bmo_screen.c
@@ -66,6 +67,7 @@ target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
     BSP/encoder
     BSP/vl53l0x
     BSP/apds9960
+    BSP/servo
     App
 )
 

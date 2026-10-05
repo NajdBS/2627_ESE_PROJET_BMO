@@ -33,6 +33,7 @@
 #include "encoder.h"
 #include "vl53l0x.h"
 #include "apds9960.h"
+#include "servo.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -71,6 +72,9 @@ bool g_tof_present = false;
 /* APDS-9960 RGB Color & Proximity Sensor */
 apds9960_t g_color_sensor;
 bool g_color_present = false;
+
+/* Gripper Servo (TIM8_CH1 on PC6) */
+servo_t g_gripper_servo;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -173,6 +177,8 @@ int main(void)
   MX_TIM3_Init();
   MX_TIM4_Init();
   MX_I2C3_Init();
+  MX_TIM8_Init();
+  MX_TIM16_Init();
   /* USER CODE BEGIN 2 */
   printf("\r\n========================================\r\n");
   printf("   BMO SYSTEM - ENCODER TEST BENCH      \r\n");
@@ -236,6 +242,14 @@ int main(void)
   } else {
       printf("[Color] No device responding on I2C3 at 0x39 (PC8/PC9)\r\n");
   }
+
+  /* Initialize Gripper Servo (PC6 on TIM8_CH1 @ 50 Hz PWM) */
+  printf("Initializing Gripper Servo on PC6 (TIM8_CH1)...\r\n");
+  if (SERVO_Init(&g_gripper_servo, &htim8, TIM_CHANNEL_1) == HAL_OK) {
+      printf("[Servo] Gripper servo initialized @ 50 Hz PWM on PC6 (Released / Open)!\r\n");
+  } else {
+      printf("[Servo] Failed to initialize servo!\r\n");
+  }
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -294,6 +308,30 @@ int main(void)
             }
         } else if (g_tof_present) {
             printf("\r\n");
+        }
+    }
+
+    /* Servo Gripper Test Cycle (every 2500 ms) */
+    static uint32_t last_servo_tick = 0;
+    static uint8_t servo_step = 0;
+    if (now - last_servo_tick >= 2500) {
+        last_servo_tick = now;
+        switch (servo_step) {
+            case 0:
+                printf("\r\n>>> [Gripper] Step 1: RELEASE Can (Open 0 deg / 1000 us) <<<\r\n");
+                SERVO_Release(&g_gripper_servo);
+                servo_step = 1;
+                break;
+            case 1:
+                printf("\r\n>>> [Gripper] Step 2: GRIP Can (Clamp 140 deg / 1777 us) <<<\r\n");
+                SERVO_Grip(&g_gripper_servo);
+                servo_step = 2;
+                break;
+            case 2:
+                printf("\r\n>>> [Gripper] Step 3: RELEASE Can (Open 0 deg / 1000 us) <<<\r\n");
+                SERVO_Release(&g_gripper_servo);
+                servo_step = 0;
+                break;
         }
     }
 
