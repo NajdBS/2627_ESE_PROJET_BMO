@@ -3444,7 +3444,7 @@
 		(uuid "19c23517-f2c5-4caa-be4e-d156925957b0")
 	)
 	(hierarchical_label "ENC_R_B_TIM4_CH2"
-		(shape input)
+		(shape output)
 		(at 215.9 63.5 0)
 		(effects
 			(font
@@ -3466,7 +3466,7 @@
 		(uuid "2346c666-358f-4091-a381-447b8c4275e4")
 	)
 	(hierarchical_label "ENC_R_A_TIM4_CH1"
-		(shape input)
+		(shape output)
 		(at 215.9 60.96 0)
 		(effects
 			(font
@@ -3510,7 +3510,7 @@
 		(uuid "6bb4f543-2ec8-4e09-a694-160422d4f2b4")
 	)
 	(hierarchical_label "ENC_L_B_TIM2_CH2"
-		(shape input)
+		(shape output)
 		(at 161.29 63.5 0)
 		(effects
 			(font
@@ -3532,7 +3532,7 @@
 		(uuid "c031a612-4360-4192-a8e9-cb69a2aba54a")
 	)
 	(hierarchical_label "ENC_L_A_TIM2_CH1"
-		(shape input)
+		(shape output)
 		(at 161.29 60.96 0)
 		(effects
 			(font
@@ -3921,6 +3921,17 @@
 				)
 			)
 		)
+		(property "LCSC" "C1525"
+			(at 240.03 64.77 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "2"
 			(uuid "5bf0d967-26e5-4a46-bd52-28b8e4f6afe4")
 		)
@@ -4082,6 +4093,28 @@
 				)
 			)
 		)
+		(property "JLCPCB Part #" "C157984"
+			(at 210.82 60.96 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C157984"
+			(at 210.82 60.96 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "739fccb1-4bdd-4225-9240-52f1d9a37362")
 		)
@@ -4177,7 +4210,7 @@
 				)
 			)
 		)
-		(property "JLCPCB Part #" "C76614"
+		(property "JLCPCB Part #" "C96446"
 			(at 102.87 72.39 0)
 			(hide yes)
 			(show_name no)
@@ -4310,6 +4343,17 @@
 			)
 		)
 		(property "Washable" ""
+			(at 102.87 72.39 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C96446"
 			(at 102.87 72.39 0)
 			(hide yes)
 			(show_name no)
@@ -4875,7 +4919,7 @@
 				)
 			)
 		)
-		(property "JLCPCB Part #" "C70225"
+		(property "JLCPCB Part #" "C96446"
 			(at 220.98 116.84 0)
 			(hide yes)
 			(show_name no)
@@ -5008,6 +5052,17 @@
 			)
 		)
 		(property "Washable" ""
+			(at 220.98 116.84 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C96446"
 			(at 220.98 116.84 0)
 			(hide yes)
 			(show_name no)
@@ -5334,6 +5389,28 @@
 				)
 			)
 		)
+		(property "JLCPCB Part #" "C157984"
+			(at 156.21 60.96 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C157984"
+			(at 156.21 60.96 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "f1580ae9-f38b-4711-9998-39e28a7a8d9c")
 		)
@@ -5394,7 +5471,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Resistor_SMD:R_1206_3216Metric"
+		(property "Footprint" "Resistor_SMD:R_2512_6332Metric"
 			(at 33.02 107.95 0)
 			(hide yes)
 			(show_name no)
@@ -5417,6 +5494,28 @@
 			)
 		)
 		(property "Description" "Resistor, small symbol"
+			(at 33.02 107.95 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C83749"
+			(at 33.02 107.95 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "JLCPCB Part #" "C83749"
 			(at 33.02 107.95 0)
 			(hide yes)
 			(show_name no)
@@ -5587,7 +5686,7 @@
 				)
 			)
 		)
-		(property "JLCPCB Part #" "C1524"
+		(property "JLCPCB Part #" "C15195"
 			(at 132.08 66.04 0)
 			(hide yes)
 			(show_name no)
@@ -5721,6 +5820,17 @@
 		)
 		(property "Washable" ""
 			(at 132.08 66.04 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C15195"
+			(at 132.08 66.04 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5945,6 +6055,17 @@
 			)
 		)
 		(property "Washable" ""
+			(at 187.96 66.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C1525"
 			(at 187.96 66.04 0)
 			(hide yes)
 			(show_name no)
@@ -6229,7 +6350,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "100u"
+		(property "Value" "470u"
 			(at 116.84 73.1138 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6273,7 +6394,18 @@
 				)
 			)
 		)
-		(property "JLCPCB Part #" "C22283141"
+		(property "JLCPCB Part #" "C2165185"
+			(at 114.3 72.39 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C2165185"
 			(at 114.3 72.39 0)
 			(hide yes)
 			(show_name no)
@@ -6377,6 +6509,17 @@
 				)
 			)
 		)
+		(property "LCSC" "C25744"
+			(at 110.49 90.17 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "2"
 			(uuid "523803cc-27b8-499b-be3d-2167f61d7eab")
 		)
@@ -6425,7 +6568,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "Resistor_SMD:R_1206_3216Metric"
+		(property "Footprint" "Resistor_SMD:R_2512_6332Metric"
 			(at 26.67 107.95 0)
 			(hide yes)
 			(show_name no)
@@ -6458,7 +6601,7 @@
 				)
 			)
 		)
-		(property "JLCPCB Part #" "C171371"
+		(property "JLCPCB Part #" "C83749"
 			(at 26.67 107.95 0)
 			(hide yes)
 			(show_name no)
@@ -6601,6 +6744,17 @@
 				)
 			)
 		)
+		(property "LCSC" "C83749"
+			(at 26.67 107.95 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "2513c148-5180-4209-b71e-59042ade7da5")
 		)
@@ -6650,7 +6804,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Package_SO:HTSSOP-16-1EP_4.4x5mm_P0.65mm_EP3.4x5mm_Mask2.46x2.31mm"
+		(property "Footprint" "Package_SO:HTSSOP-16-1EP_4.4x5mm_P0.65mm_EP3.4x5mm_Mask2.46x2.31mm_ThermalVias"
 			(at 85.09 113.03 0)
 			(hide yes)
 			(show_name no)
@@ -6686,6 +6840,17 @@
 			)
 		)
 		(property "JLCPCB Part #" "C50506"
+			(at 80.01 97.79 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C50506"
 			(at 80.01 97.79 0)
 			(hide yes)
 			(show_name no)
@@ -7045,6 +7210,17 @@
 				)
 			)
 		)
+		(property "LCSC" "C12530"
+			(at 77.47 72.39 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "2"
 			(uuid "155543a3-8fa9-46ab-9dcf-be38b4881b64")
 		)
@@ -7203,7 +7379,7 @@
 				)
 			)
 		)
-		(property "JLCPCB Part #" "C514175"
+		(property "JLCPCB Part #" "C2937625"
 			(at 189.23 114.3 0)
 			(hide yes)
 			(show_name no)
@@ -7336,6 +7512,17 @@
 			)
 		)
 		(property "Washable" ""
+			(at 189.23 114.3 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C2937625"
 			(at 189.23 114.3 0)
 			(hide yes)
 			(show_name no)

@@ -1941,6 +1941,172 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "Device:D_Schottky"
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 1.016)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "D"
+				(at 0 2.54 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "D_Schottky"
+				(at 0 -2.54 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "Schottky diode"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "diode Schottky"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_fp_filters" "TO-???* *_Diode_* *SingleDiode* D_*"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "D_Schottky_0_1"
+				(polyline
+					(pts
+						(xy -1.905 0.635) (xy -1.905 1.27) (xy -1.27 1.27) (xy -1.27 -1.27) (xy -0.635 -1.27) (xy -0.635 -0.635)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.27 1.27) (xy 1.27 -1.27) (xy -1.27 0) (xy 1.27 1.27)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.27 0) (xy -1.27 0)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "D_Schottky_1_1"
+				(pin passive line
+					(at -3.81 0 0)
+					(length 2.54)
+					(name "K"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 3.81 0 180)
+					(length 2.54)
+					(name "A"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "Device:L"
 			(pin_numbers
 				(hide yes)
@@ -6748,6 +6914,16 @@
 	)
 	(wire
 		(pts
+			(xy 177.8 66.04) (xy 212.09 66.04)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1e072e0d-6011-4719-9bde-8f395a524d2d")
+	)
+	(wire
+		(pts
 			(xy 40.64 179.07) (xy 54.61 179.07)
 		)
 		(stroke
@@ -7338,6 +7514,16 @@
 	)
 	(wire
 		(pts
+			(xy 212.09 66.04) (xy 213.36 66.04)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6119b287-cb93-439d-a818-1b4fed8650ef")
+	)
+	(wire
+		(pts
 			(xy 212.09 83.82) (xy 212.09 81.28)
 		)
 		(stroke
@@ -7745,16 +7931,6 @@
 			(type default)
 		)
 		(uuid "989dc3c2-1fee-48d1-bce9-2748e794d6b0")
-	)
-	(wire
-		(pts
-			(xy 177.8 66.04) (xy 220.98 66.04)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "9a3d4b4f-09da-4934-a465-06f1d759e016")
 	)
 	(wire
 		(pts
@@ -8496,6 +8672,16 @@
 		)
 		(uuid "fb76c696-eebb-4755-92a5-aae955883cb1")
 	)
+	(label "nQON"
+		(at 195.58 66.04 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "2b10e9ee-780f-47e0-9422-fd625b7df7db")
+	)
 	(label "USB_D-"
 		(at 59.69 55.88 0)
 		(effects
@@ -8717,7 +8903,7 @@
 		)
 	)
 	(hierarchical_label "FG_GPOUT"
-		(shape output)
+		(shape bidirectional)
 		(at 118.11 118.11 180)
 		(effects
 			(font
@@ -8728,7 +8914,7 @@
 		(uuid "0d35577e-57c1-4b78-9f59-be1719faff49")
 	)
 	(hierarchical_label "CHARG_SDA"
-		(shape input)
+		(shape bidirectional)
 		(at 49.53 102.87 180)
 		(effects
 			(font
@@ -8739,7 +8925,7 @@
 		(uuid "8aea6b06-0241-4fd5-99da-4b27d2972b92")
 	)
 	(hierarchical_label "CHARG_SCL"
-		(shape input)
+		(shape bidirectional)
 		(at 49.53 106.68 180)
 		(effects
 			(font
@@ -8761,7 +8947,7 @@
 		(uuid "b291ee49-c7ed-48d0-a409-db008df063ab")
 	)
 	(hierarchical_label "linear_regulator_EN"
-		(shape output)
+		(shape input)
 		(at 118.11 186.69 180)
 		(effects
 			(font
@@ -8771,8 +8957,8 @@
 		)
 		(uuid "d3d99d40-0be9-4624-8a56-585a1b2d09b0")
 	)
-	(hierarchical_label "nQON"
-		(shape output)
+	(hierarchical_label "PWR_Bouton"
+		(shape bidirectional)
 		(at 220.98 66.04 0)
 		(effects
 			(font
@@ -9150,6 +9336,17 @@
 				)
 			)
 		)
+		(property "LCSC" "C11702"
+			(at 248.92 146.05 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "30989385-4b23-468d-8bb7-bdfac17d09ad")
 		)
@@ -9233,6 +9430,17 @@
 			)
 		)
 		(property "JLCPCB Part #" "C23186"
+			(at 93.98 49.53 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C23186"
 			(at 93.98 49.53 0)
 			(hide yes)
 			(show_name no)
@@ -9457,6 +9665,17 @@
 			)
 		)
 		(property "Washable" ""
+			(at 143.51 81.28 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C25744"
 			(at 143.51 81.28 0)
 			(hide yes)
 			(show_name no)
@@ -9939,6 +10158,17 @@
 				)
 			)
 		)
+		(property "LCSC" "C2286"
+			(at 248.92 138.43 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "2"
 			(uuid "d0b43c6e-7dfd-4aa0-8a67-d56189109529")
 		)
@@ -10019,7 +10249,7 @@
 				)
 			)
 		)
-		(property "JLCPCB Part #" "C105142"
+		(property "JLCPCB Part #" "C105366"
 			(at 180.34 138.43 90)
 			(hide yes)
 			(show_name no)
@@ -10153,6 +10383,17 @@
 		)
 		(property "Washable" ""
 			(at 180.34 138.43 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C105366"
+			(at 180.34 138.43 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10546,6 +10787,17 @@
 				)
 			)
 		)
+		(property "LCSC" "C11702"
+			(at 266.7 146.05 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "179ee065-cc7e-4ff5-945e-9973364599f3")
 		)
@@ -10769,6 +11021,17 @@
 				)
 			)
 		)
+		(property "LCSC" "C1525"
+			(at 212.09 86.36 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "00122829-c2ff-4107-913c-f7fa1e4cda0e")
 		)
@@ -10931,6 +11194,17 @@
 			)
 		)
 		(property "JLCPCB Part #" "C52923"
+			(at 149.86 177.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C52923"
 			(at 149.86 177.8 0)
 			(hide yes)
 			(show_name no)
@@ -11244,6 +11518,17 @@
 				)
 			)
 		)
+		(property "LCSC" "C25744"
+			(at 148.59 48.26 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "ed598bf6-6114-41e9-af27-5d71e098621e")
 		)
@@ -11325,7 +11610,7 @@
 				)
 			)
 		)
-		(property "JLCPCB Part #" "C70225"
+		(property "JLCPCB Part #" "C96446"
 			(at 248.92 67.31 0)
 			(hide yes)
 			(show_name no)
@@ -11458,6 +11743,17 @@
 			)
 		)
 		(property "Washable" ""
+			(at 248.92 67.31 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C96446"
 			(at 248.92 67.31 0)
 			(hide yes)
 			(show_name no)
@@ -11684,6 +11980,17 @@
 			)
 		)
 		(property "Washable" ""
+			(at 66.04 160.02 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C460232"
 			(at 66.04 160.02 0)
 			(hide yes)
 			(show_name no)
@@ -11931,6 +12238,17 @@
 				)
 			)
 		)
+		(property "LCSC" "C460232"
+			(at 43.18 160.02 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "4"
 			(uuid "7f24a55e-03ef-4e34-b4c0-a808f50e5248")
 		)
@@ -12024,6 +12342,17 @@
 			)
 		)
 		(property "JLCPCB Part #" "C528617"
+			(at 157.48 124.46 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C528617"
 			(at 157.48 124.46 0)
 			(hide yes)
 			(show_name no)
@@ -12755,6 +13084,17 @@
 				)
 			)
 		)
+		(property "LCSC" "C25879"
+			(at 265.43 111.76 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "dfabdfc5-5910-4bb1-9af1-2be28ee12ba5")
 		)
@@ -13372,6 +13712,17 @@
 				)
 			)
 		)
+		(property "LCSC" "C25744"
+			(at 193.04 76.2 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "4c87c2c2-93be-4abc-b229-87e918f895fc")
 		)
@@ -13782,6 +14133,17 @@
 				)
 			)
 		)
+		(property "LCSC" "C23186"
+			(at 82.55 50.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "2"
 			(uuid "70dd1a6e-b40a-4476-af5e-e90a64ea40fc")
 		)
@@ -14086,6 +14448,17 @@
 				)
 			)
 		)
+		(property "LCSC" "C25879"
+			(at 248.92 111.76 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "e686636f-274b-4808-b879-6454c215815c")
 		)
@@ -14300,6 +14673,17 @@
 			)
 		)
 		(property "Washable" ""
+			(at 124.46 114.3 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C25744"
 			(at 124.46 114.3 0)
 			(hide yes)
 			(show_name no)
@@ -14774,6 +15158,17 @@
 				)
 			)
 		)
+		(property "LCSC" "C25741"
+			(at 40.64 173.99 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "35e3eb24-efae-484d-8216-6c00a0167fb2")
 		)
@@ -15014,7 +15409,7 @@
 				)
 			)
 		)
-		(property "JLCPCB Part #" "C162162"
+		(property "JLCPCB Part #" "C88946"
 			(at 124.46 138.43 0)
 			(hide yes)
 			(show_name no)
@@ -15157,6 +15552,17 @@
 				)
 			)
 		)
+		(property "LCSC" "C88946"
+			(at 124.46 138.43 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "7b72cd36-2ed5-4c5b-9be4-37ada93a8f38")
 		)
@@ -15204,7 +15610,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Package_DFN_QFN:Texas_RTW_WQFN-24-1EP_4x4mm_P0.5mm_EP2.7x2.7mm"
+		(property "Footprint" "Package_DFN_QFN:Texas_RTW_WQFN-24-1EP_4x4mm_P0.5mm_EP2.7x2.7mm_ThermalVias"
 			(at 167.64 87.884 0)
 			(hide yes)
 			(show_name no)
@@ -15238,6 +15644,17 @@
 			)
 		)
 		(property "JLCPCB Part #" "C181475"
+			(at 167.64 58.42 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C181475"
 			(at 167.64 58.42 0)
 			(hide yes)
 			(show_name no)
@@ -15531,6 +15948,17 @@
 			)
 		)
 		(property "Washable" ""
+			(at 191.77 124.46 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C25744"
 			(at 191.77 124.46 0)
 			(hide yes)
 			(show_name no)
@@ -15847,6 +16275,17 @@
 		)
 		(property "Washable" ""
 			(at 265.43 104.14 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C84269"
+			(at 265.43 104.14 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -16239,6 +16678,17 @@
 				)
 			)
 		)
+		(property "LCSC" "C52923"
+			(at 205.74 121.92 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "762c25c0-71d6-4ff4-8641-39509c897d1b")
 		)
@@ -16454,6 +16904,17 @@
 		)
 		(property "Washable" ""
 			(at 219.71 86.36 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C72443"
+			(at 219.71 86.36 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -16766,6 +17227,17 @@
 				)
 			)
 		)
+		(property "LCSC" "C25744"
+			(at 130.81 97.79 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "2"
 			(uuid "a0db2f42-edcd-4cdf-8afc-4f731db47fd8")
 		)
@@ -16848,6 +17320,17 @@
 			)
 		)
 		(property "JLCPCB Part #" "C52923"
+			(at 119.38 175.26 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C52923"
 			(at 119.38 175.26 0)
 			(hide yes)
 			(show_name no)
@@ -17016,7 +17499,7 @@
 				)
 			)
 		)
-		(property "JLCPCB Part #" "C82219"
+		(property "JLCPCB Part #" "C77012"
 			(at 187.96 44.45 90)
 			(hide yes)
 			(show_name no)
@@ -17150,6 +17633,17 @@
 		)
 		(property "Washable" ""
 			(at 187.96 44.45 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C77012"
+			(at 187.96 44.45 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -17655,7 +18149,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
 			(at 201.93 48.5648 0)
 			(hide yes)
 			(show_name no)
@@ -17688,7 +18182,7 @@
 				)
 			)
 		)
-		(property "JLCPCB Part #" "C318563"
+		(property "JLCPCB Part #" "C19666"
 			(at 198.12 49.53 0)
 			(hide yes)
 			(show_name no)
@@ -17821,6 +18315,17 @@
 			)
 		)
 		(property "Washable" ""
+			(at 198.12 49.53 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C19666"
 			(at 198.12 49.53 0)
 			(hide yes)
 			(show_name no)
@@ -18135,6 +18640,17 @@
 				)
 			)
 		)
+		(property "LCSC" "C25117"
+			(at 137.16 57.15 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "fe2ac02a-515f-4d04-b9c8-f5c1b116d664")
 		)
@@ -18360,6 +18876,17 @@
 				)
 			)
 		)
+		(property "LCSC" "C25867"
+			(at 81.28 90.17 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "33f5083f-b2f8-48e1-8cd3-d7ddfa47dce7")
 		)
@@ -18440,7 +18967,18 @@
 				)
 			)
 		)
-		(property "JLCPCB Part #" "C2765186"
+		(property "JLCPCB Part #" "C3020560"
+			(at 39.37 55.88 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C3020560"
 			(at 39.37 55.88 0)
 			(hide yes)
 			(show_name no)
@@ -18732,7 +19270,7 @@
 				)
 			)
 		)
-		(property "JLCPCB Part #" "C70225"
+		(property "JLCPCB Part #" "C96446"
 			(at 236.22 46.99 0)
 			(hide yes)
 			(show_name no)
@@ -18865,6 +19403,17 @@
 			)
 		)
 		(property "Washable" ""
+			(at 236.22 46.99 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C96446"
 			(at 236.22 46.99 0)
 			(hide yes)
 			(show_name no)
@@ -19127,7 +19676,7 @@
 				)
 			)
 		)
-		(property "JLCPCB Parts #" ""
+		(property "LCSC" "C7519"
 			(at 71.12 55.88 0)
 			(hide yes)
 			(show_name no)
@@ -19232,7 +19781,7 @@
 				)
 			)
 		)
-		(property "JLCPCB Part #" "C54769875"
+		(property "JLCPCB Part #" "C480516"
 			(at 219.71 138.43 0)
 			(hide yes)
 			(show_name no)
@@ -19365,6 +19914,17 @@
 			)
 		)
 		(property "Washable" ""
+			(at 219.71 138.43 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C480516"
 			(at 219.71 138.43 0)
 			(hide yes)
 			(show_name no)
@@ -19458,7 +20018,7 @@
 				)
 			)
 		)
-		(property "JLCPCB Part #" "C72203"
+		(property "JLCPCB Part #" "C12530"
 			(at 135.89 138.43 0)
 			(hide yes)
 			(show_name no)
@@ -19591,6 +20151,17 @@
 			)
 		)
 		(property "Washable" ""
+			(at 135.89 138.43 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C12530"
 			(at 135.89 138.43 0)
 			(hide yes)
 			(show_name no)
@@ -19816,6 +20387,17 @@
 			)
 		)
 		(property "Washable" ""
+			(at 92.71 90.17 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C25867"
 			(at 92.71 90.17 0)
 			(hide yes)
 			(show_name no)
@@ -20065,7 +20647,7 @@
 				)
 			)
 		)
-		(property "JLCPCB Part #" "C70225"
+		(property "JLCPCB Part #" "C96446"
 			(at 255.27 67.31 0)
 			(hide yes)
 			(show_name no)
@@ -20198,6 +20780,17 @@
 			)
 		)
 		(property "Washable" ""
+			(at 255.27 67.31 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C96446"
 			(at 255.27 67.31 0)
 			(hide yes)
 			(show_name no)
@@ -20301,7 +20894,7 @@
 				)
 			)
 		)
-		(property "JLCPCB Part #" "C99289"
+		(property "JLCPCB Part #" "C12624"
 			(at 248.92 104.14 90)
 			(hide yes)
 			(show_name no)
@@ -20435,6 +21028,17 @@
 		)
 		(property "Washable" ""
 			(at 248.92 104.14 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C12624"
+			(at 248.92 104.14 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -20685,7 +21289,7 @@
 				)
 			)
 		)
-		(property "JLCPCB Part #" "C70225"
+		(property "JLCPCB Part #" "C96446"
 			(at 123.19 46.99 0)
 			(hide yes)
 			(show_name no)
@@ -20828,6 +21432,17 @@
 				)
 			)
 		)
+		(property "LCSC" "C96446"
+			(at 123.19 46.99 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "a20c7f3e-790f-4398-9410-4c9aac927747")
 		)
@@ -20907,7 +21522,18 @@
 				)
 			)
 		)
-		(property "JLCPCB Part #" " C51118"
+		(property "JLCPCB Part #" "C51118"
+			(at 138.43 173.99 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C51118"
 			(at 138.43 173.99 0)
 			(hide yes)
 			(show_name no)
@@ -21166,7 +21792,7 @@
 				)
 			)
 		)
-		(property "JLCPCB Part #" "C70225"
+		(property "JLCPCB Part #" "C96446"
 			(at 226.06 46.99 0)
 			(hide yes)
 			(show_name no)
@@ -21299,6 +21925,17 @@
 			)
 		)
 		(property "Washable" ""
+			(at 226.06 46.99 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C96446"
 			(at 226.06 46.99 0)
 			(hide yes)
 			(show_name no)
@@ -21523,6 +22160,17 @@
 			)
 		)
 		(property "Washable" ""
+			(at 107.95 44.45 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C52923"
 			(at 107.95 44.45 0)
 			(hide yes)
 			(show_name no)
@@ -21761,6 +22409,17 @@
 				)
 			)
 		)
+		(property "LCSC" "C155524"
+			(at 140.97 91.44 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "84d898f9-e75c-4c19-8e23-965501c3701f")
 		)
@@ -21923,7 +22582,7 @@
 				)
 			)
 		)
-		(property "JLCPCB Part #" "C25138"
+		(property "JLCPCB Part #" "C25076"
 			(at 124.46 91.44 90)
 			(hide yes)
 			(show_name no)
@@ -22066,6 +22725,17 @@
 				)
 			)
 		)
+		(property "LCSC" "C25076"
+			(at 124.46 91.44 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "2"
 			(uuid "91a1dd7d-236c-47bc-8395-5926fa57fe15")
 		)
@@ -22076,6 +22746,109 @@
 			(project "BMO"
 				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/a118be83-9452-4230-9073-78ab810a1c4b"
 					(reference "R16")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:D_Schottky")
+		(at 217.17 66.04 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "eb4ce204-d9ec-4825-9990-f190acd2dd09")
+		(property "Reference" "D7"
+			(at 214.63 63.5 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "BAT54WS"
+			(at 213.36 69.85 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Diode_SMD:D_SOD-323"
+			(at 217.17 66.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 217.17 66.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Schottky diode"
+			(at 217.17 66.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C124205"
+			(at 217.17 66.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "JLCPCB Part #" "C124205"
+			(at 217.17 66.04 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "93ac0963-5746-444d-8cf2-24e52145ac41")
+		)
+		(pin "2"
+			(uuid "f4cc8db2-3d5d-4b77-8dd0-8262cf4ecb98")
+		)
+		(instances
+			(project "BMO"
+				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/a118be83-9452-4230-9073-78ab810a1c4b"
+					(reference "D7")
 					(unit 1)
 				)
 			)
@@ -22281,6 +23054,17 @@
 			)
 		)
 		(property "Washable" ""
+			(at 184.15 82.55 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C25744"
 			(at 184.15 82.55 0)
 			(hide yes)
 			(show_name no)
@@ -22595,6 +23379,17 @@
 				)
 			)
 		)
+		(property "LCSC" "C177033"
+			(at 54.61 140.97 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "2"
 			(uuid "6079ff58-eebb-4b81-bcc0-d4b64d80243f")
 		)
@@ -22813,6 +23608,17 @@
 			)
 		)
 		(property "Washable" ""
+			(at 69.85 90.17 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C25900"
 			(at 69.85 90.17 0)
 			(hide yes)
 			(show_name no)
@@ -23218,6 +24024,17 @@
 				)
 			)
 		)
+		(property "LCSC" "C2286"
+			(at 266.7 138.43 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "2"
 			(uuid "39eec459-2e06-41aa-8723-36e172b9ccbe")
 		)
@@ -23443,6 +24260,17 @@
 				)
 			)
 		)
+		(property "LCSC" "C25741"
+			(at 68.58 175.26 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "5caef4e5-e5af-49ea-a403-b5b46a109699")
 		)
@@ -23569,7 +24397,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Inductor_SMD:L_1008_2520Metric"
+		(property "Footprint" "Inductor_SMD:L_APV_ANR4020"
 			(at 201.93 40.64 0)
 			(hide yes)
 			(show_name no)
@@ -23602,7 +24430,7 @@
 				)
 			)
 		)
-		(property "JLCPCB Part #" "C167447"
+		(property "JLCPCB Part #" "C7497071"
 			(at 201.93 40.64 90)
 			(hide yes)
 			(show_name no)
@@ -23736,6 +24564,17 @@
 		)
 		(property "Washable" ""
 			(at 201.93 40.64 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C7497071"
+			(at 201.93 40.64 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)

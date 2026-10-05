@@ -713,6 +713,24 @@
           "label": "Actuator Color",
           "name": "Actuator Color",
           "show": false
+        },
+        {
+          "group_by": false,
+          "label": "LCSC Part Number",
+          "name": "LCSC Part Number",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "LCSC Parts Number",
+          "name": "LCSC Parts Number",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "LCSC",
+          "name": "LCSC",
+          "show": false
         }
       ],
       "filter_string": "",
@@ -763,7 +781,7 @@
         "uuid": "509804e7-65e7-46e6-80ed-6cdb4037dc07"
       }
     ],
-    "used_designators": "J1-13,#FLG1-10,R1-32,#PWR1-110,#PWR123,#PWR128-130,#PWR290,C1-45,F1,FB1,TP1-9,U1-8,D1-5,L1-4,Q1-3,Lidar1,TOF2-3,SW1-3,JP1-3,H1-4,Y1",
+    "used_designators": "J1-14,#FLG1-10,R1-36,#PWR1-123,#PWR128-130,#PWR290,C1-45,F1,FB1,TP1-9,U1-8,D1-6,L1-4,Q1-3,Lidar1,TOF2-3,SW1-3,JP1-3,H1-4,Y1",
     "variants": []
   },
   "sheets": [
