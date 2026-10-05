@@ -32,6 +32,7 @@
 #include "drv8833.h"
 #include "encoder.h"
 #include "vl53l0x.h"
+#include "apds9960.h"
 #include "servo.h"
 /* USER CODE END Includes */
 
@@ -67,6 +68,10 @@ encoder_t g_enc_right;
 /* VL53L0X Distance Sensor */
 vl53l0x_t g_tof;
 bool g_tof_present = false;
+
+/* APDS-9960 RGB Color & Proximity Sensor */
+apds9960_t g_color_sensor;
+bool g_color_present = false;
 
 /* Gripper Servo (TIM8_CH1 on PC6) */
 servo_t g_gripper_servo;
@@ -224,6 +229,20 @@ int main(void)
       printf("[ToF] No device responding on I2C3 (PC8/PC9)\r\n");
   }
 
+  /* Initialize RGB Color & Proximity Sensor (APDS-9960 on I2C3 PC8/PC9) */
+  printf("Checking I2C3 for APDS-9960 Color sensor...\r\n");
+  if (HAL_I2C_IsDeviceReady(&hi2c3, APDS9960_I2C_ADDR_8BIT, 2, 50) == HAL_OK) {
+      printf("[Color] Device detected at 0x39 (0x72)!\r\n");
+      if (APDS9960_Init(&g_color_sensor, &hi2c3)) {
+          g_color_present = true;
+          printf("[Color] APDS-9960 initialized (RGBC + Proximity enabled)!\r\n");
+      } else {
+          printf("[Color] APDS-9960 init failed (ID mismatch or config error)!\r\n");
+      }
+  } else {
+      printf("[Color] No device responding on I2C3 at 0x39 (PC8/PC9)\r\n");
+  }
+
   /* Initialize Gripper Servo (PC6 on TIM8_CH1 @ 50 Hz PWM) */
   printf("Initializing Gripper Servo on PC6 (TIM8_CH1)...\r\n");
   if (SERVO_Init(&g_gripper_servo, &htim8, TIM_CHANNEL_1) == HAL_OK) {
@@ -273,10 +292,22 @@ int main(void)
         if (g_tof_present) {
             uint16_t dist_mm = VL53L0X_ReadDistanceContinuous(&g_tof, NULL);
             if (dist_mm != 65535) {
-                printf("[ToF VL53L0X] Distance: %4u mm (%4.1f cm)\r\n", dist_mm, (float)dist_mm / 10.0f);
+                printf("[ToF] Distance: %4u mm (%4.1f cm) | ", dist_mm, (float)dist_mm / 10.0f);
             } else {
-                printf("[ToF VL53L0X] Out of range / Timeout\r\n");
+                printf("[ToF] Out of range / Timeout        | ");
             }
+        }
+
+        if (g_color_present) {
+            apds9960_data_t cdata;
+            if (APDS9960_ReadData(&g_color_sensor, &cdata)) {
+                bmo_can_color_t color = APDS9960_ClassifyColor(&cdata);
+                printf("[Color] Clear:%5u | R:%5u | G:%5u | B:%5u | Prox:%3u => [%s]\r\n",
+                       cdata.clear, cdata.red, cdata.green, cdata.blue,
+                       cdata.proximity, APDS9960_ColorToString(color));
+            }
+        } else if (g_tof_present) {
+            printf("\r\n");
         }
     }
 
