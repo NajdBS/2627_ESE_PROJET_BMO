@@ -306,7 +306,7 @@ void MX_TIM15_Init(void)
     Error_Handler();
   }
   sConfigOC.OCMode = TIM_OCMODE_PWM1;
-  sConfigOC.Pulse = 35;
+  sConfigOC.Pulse = 0;
   sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
   sConfigOC.OCNPolarity = TIM_OCNPOLARITY_HIGH;
   sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
@@ -488,8 +488,8 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* tim_baseHandle)
     hdma_tim15_ch1.Init.PeriphInc = DMA_PINC_DISABLE;
     hdma_tim15_ch1.Init.MemInc = DMA_MINC_ENABLE;
     hdma_tim15_ch1.Init.PeriphDataAlignment = DMA_PDATAALIGN_HALFWORD;
-    hdma_tim15_ch1.Init.MemDataAlignment = DMA_MDATAALIGN_HALFWORD;
-    hdma_tim15_ch1.Init.Mode = DMA_NORMAL;
+    hdma_tim15_ch1.Init.MemDataAlignment = DMA_MDATAALIGN_BYTE;
+    hdma_tim15_ch1.Init.Mode = DMA_CIRCULAR;
     hdma_tim15_ch1.Init.Priority = DMA_PRIORITY_LOW;
     if (HAL_DMA_Init(&hdma_tim15_ch1) != HAL_OK)
     {
