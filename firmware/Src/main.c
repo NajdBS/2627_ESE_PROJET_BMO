@@ -27,14 +27,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include <stdio.h>
-#include "bmo_screen.h"
-#include "ydlidar_x2.h"
-#include "drv8833.h"
-#include "encoder.h"
-#include "vl53l0x.h"
-#include "apds9960.h"
-#include "servo.h"
-#include "neopixel.h"
+#include "bsp.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -55,27 +48,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-uint8_t display_present = 0;
-ydlidar_x2_t g_lidar;
-
-/* DRV8833 Motors */
-drv8833_t g_motor_left;
-drv8833_t g_motor_right;
-
-/* Quadrature Encoders */
-encoder_t g_enc_left;
-encoder_t g_enc_right;
-
-/* VL53L0X Distance Sensor */
-vl53l0x_t g_tof;
-bool g_tof_present = false;
-
-/* APDS-9960 RGB Color & Proximity Sensor */
-apds9960_t g_color_sensor;
-bool g_color_present = false;
-
-/* Gripper Servo (TIM8_CH1 on PC6) */
-servo_t g_gripper_servo;
+/* Global hardware is managed via g_bsp (defined in bsp.h) */
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -232,98 +205,16 @@ int main(void)
   MX_I2C3_Init();
   MX_TIM8_Init();
   MX_TIM16_Init();
+  MX_I2C1_Init();
   /* USER CODE BEGIN 2 */
-  printf("\r\n========================================\r\n");
-  printf("   BMO SYSTEM - ENCODER TEST BENCH      \r\n");
-  printf("========================================\r\n");
-
-  /*
-  YDLIDAR_X2_Init(&g_lidar, &huart1);
-
-  HAL_TIM_PWM_Start(&htim15, TIM_CHANNEL_1);
-  __HAL_TIM_SET_COMPARE(&htim15, TIM_CHANNEL_1, 35);
-  printf("YDLIDAR X2 Motor PWM started on PB14 (TIM15_CH1) @ 10 kHz, 35%% Duty\r\n");
-
-  if (HAL_OK == HAL_I2C_IsDeviceReady(&hi2c2, SSD1306_I2C_ADDR, 3, 1000)) {
-  	display_present = 1;
-  	printf("BMO OLED Display initialized on I2C2\r\n");
-  	BMO_Screen_Init();
-  	BMO_Screen_SetFace(BMO_FACE_LIDAR_RADAR);
-  } else {
-  	printf("BMO OLED Display not detected on I2C2\r\n");
-  }
-
-  DRV8833_Init(&g_motor_left, &htim3, TIM_CHANNEL_1, TIM_CHANNEL_2, false);
-  DRV8833_Init(&g_motor_right, &htim3, TIM_CHANNEL_3, TIM_CHANNEL_4, true);
-  DRV8833_Coast(&g_motor_left);
-  DRV8833_Coast(&g_motor_right);
-  printf("DRV8833 Motors initialized on TIM3 (CH1..CH4) @ 20 kHz PWM\r\n");
-  */
-
-  /* Initialize Quadrature Encoders (TIM2 32-bit & TIM4 16-bit) */
-  /*
-  Encoder_Init(&g_enc_left, &htim2, ENCODER_DEFAULT_CPR_WHEEL, ENCODER_DEFAULT_WHEEL_DIAM_MM, false);
-  Encoder_Init(&g_enc_right, &htim4, ENCODER_DEFAULT_CPR_WHEEL, ENCODER_DEFAULT_WHEEL_DIAM_MM, true);
-  printf("Quadrature Encoders initialized: Left=TIM2 (PA0/PA1), Right=TIM4 (PB6/PB7)\r\n");
-  */
-
-  /* Initialize ToF Sensor (VL53L0X on I2C3 PC8/PC9) - commented out for NeoPixel test */
-  /*
-  printf("Checking I2C3 for VL53L0X ToF sensor...\r\n");
-  if (HAL_I2C_IsDeviceReady(&hi2c3, VL53L0X_DEFAULT_ADDRESS_8BIT, 2, 50) == HAL_OK) {
-      printf("[ToF] Device detected at 0x29 (0x52)!\r\n");
-      if (VL53L0X_Init(&g_tof, &hi2c3)) {
-          VL53L0X_StartContinuous(&g_tof, 0);
-          g_tof_present = true;
-          printf("[ToF] VL53L0X initialized & continuous ranging started!\r\n");
-      } else {
-          printf("[ToF] VL53L0X init failed!\r\n");
-      }
-  } else {
-      printf("[ToF] No device responding on I2C3 (PC8/PC9)\r\n");
-  }
-  */
-
-  /* Initialize RGB Color & Proximity Sensor (APDS-9960 on I2C3 PC8/PC9) - commented out for NeoPixel test */
-  /*
-  printf("Checking I2C3 for APDS-9960 Color sensor...\r\n");
-  if (HAL_I2C_IsDeviceReady(&hi2c3, APDS9960_I2C_ADDR_8BIT, 2, 50) == HAL_OK) {
-      printf("[Color] Device detected at 0x39 (0x72)!\r\n");
-      if (APDS9960_Init(&g_color_sensor, &hi2c3)) {
-          g_color_present = true;
-          printf("[Color] APDS-9960 initialized (RGBC + Proximity enabled)!\r\n");
-      } else {
-          printf("[Color] APDS-9960 init failed (ID mismatch or config error)!\r\n");
-      }
-  } else {
-      printf("[Color] No device responding on I2C3 at 0x39 (PC8/PC9)\r\n");
-  }
-  */
-
-  /* Initialize Gripper Servo (PC6 on TIM8_CH1 @ 50 Hz PWM) - commented out for NeoPixel test */
-  /*
-  printf("Initializing Gripper Servo on PC6 (TIM8_CH1)...\r\n");
-  if (SERVO_Init(&g_gripper_servo, &htim8, TIM_CHANNEL_1) == HAL_OK) {
-      printf("[Servo] Gripper servo initialized @ 50 Hz PWM on PC6 (Released / Open)!\r\n");
-  } else {
-      printf("[Servo] Failed to initialize servo!\r\n");
-  }
-  */
-
-  /* Initialize NeoPixel Ring (PB14 on TIM15_CH1) */
-  printf("Initializing NeoPixel Ring (12 LEDs) on PB14 (TIM15_CH1)...\r\n");
-  np_led_clear();
+  BSP_Init();
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  /*
-  uint32_t last_anim_tick = 0;
-  uint32_t last_mood_tick = 0;
-  uint32_t last_tof_tick = 0;
-  uint32_t last_encoder_tick = 0;
-  uint8_t demo_mood = (uint8_t)BMO_FACE_LIDAR_RADAR;
-  */
+  uint32_t last_led_tick = 0;
+  uint32_t last_imu_tick = 0;
+  uint32_t last_imu_print_tick = 0;
 
   while (1)
   {
@@ -332,119 +223,26 @@ int main(void)
     /* USER CODE BEGIN 3 */
     uint32_t now = HAL_GetTick();
 
-    /*
-    YDLIDAR_X2_Process(&g_lidar);
-    */
+    /* MPU-6050 IMU integration loop @ 50 Hz (dt = 20 ms) */
+    if (g_bsp.imu_ok && (now - last_imu_tick >= 20)) {
+        float dt = (float)(now - last_imu_tick) / 1000.0f;
+        last_imu_tick = now;
+        BSP_Update(dt);
 
-    /* Periodic encoder update (every 50 ms) */
-    /*
-    if (now - last_encoder_tick >= 50) {
-        float dt = (float)(now - last_encoder_tick) / 1000.0f;
-        last_encoder_tick = now;
-        Encoder_Update(&g_enc_left, dt);
-        Encoder_Update(&g_enc_right, dt);
-    }
-    */
-
-    /* Telemetry output to VCP terminal every 100 ms (disabled for NeoPixel test) */
-    /*
-    if (now - last_tof_tick >= 100) {
-        last_tof_tick = now;
-
-        if (g_tof_present) {
-            uint16_t dist_mm = VL53L0X_ReadDistanceContinuous(&g_tof, NULL);
-            if (dist_mm != 65535) {
-                printf("[ToF] Distance: %4u mm (%4.1f cm) | ", dist_mm, (float)dist_mm / 10.0f);
-            } else {
-                printf("[ToF] Out of range / Timeout        | ");
-            }
-        }
-
-        if (g_color_present) {
-            apds9960_data_t cdata;
-            if (APDS9960_ReadData(&g_color_sensor, &cdata)) {
-                bmo_can_color_t color = APDS9960_ClassifyColor(&cdata);
-                printf("[Color] Clear:%5u | R:%5u | G:%5u | B:%5u | Prox:%3u => [%s]\r\n",
-                       cdata.clear, cdata.red, cdata.green, cdata.blue,
-                       cdata.proximity, APDS9960_ColorToString(color));
-            }
-        } else if (g_tof_present) {
-            printf("\r\n");
+        if (now - last_imu_print_tick >= 200) {
+            last_imu_print_tick = now;
+            printf("[IMU] Yaw: %7.2f deg | Rate: %6.2f deg/s | Accel[g]: X=%5.2f Y=%5.2f Z=%5.2f | T: %.1f C\r\n",
+                   g_bsp.imu.yaw, (g_bsp.imu.gyro_z - g_bsp.imu.gyro_z_offset),
+                   g_bsp.imu.accel_x, g_bsp.imu.accel_y, g_bsp.imu.accel_z,
+                   g_bsp.imu.temperature);
         }
     }
-    */
-
-    /* Servo Gripper Test Cycle (disabled for NeoPixel test) */
-    /*
-    static uint32_t last_servo_tick = 0;
-    static uint8_t servo_step = 0;
-    if (now - last_servo_tick >= 2500) {
-        last_servo_tick = now;
-        switch (servo_step) {
-            case 0:
-                printf("\r\n>>> [Gripper] Step 1: RELEASE Can (Open 0 deg / 1000 us) <<<\r\n");
-                SERVO_Release(&g_gripper_servo);
-                servo_step = 1;
-                break;
-            case 1:
-                printf("\r\n>>> [Gripper] Step 2: GRIP Can (Clamp 140 deg / 1777 us) <<<\r\n");
-                SERVO_Grip(&g_gripper_servo);
-                servo_step = 2;
-                break;
-            case 2:
-                printf("\r\n>>> [Gripper] Step 3: RELEASE Can (Open 0 deg / 1000 us) <<<\r\n");
-                SERVO_Release(&g_gripper_servo);
-                servo_step = 0;
-                break;
-        }
-    }
-    */
 
     /* NeoPixel 12-LED Ring Process (every 500 ms) */
-    static uint32_t last_led_tick = 0;
-    if (now - last_led_tick >= 500) {
+    if (g_bsp.neopixel_ok && (now - last_led_tick >= 500)) {
         last_led_tick = now;
         leds_process();
     }
-
-        /*
-        if (display_present) {
-            uint16_t min_dist = 0xFFFF;
-            uint16_t min_angle = 0;
-            for (uint16_t a = 0; a < 360; a++) {
-                uint16_t d = g_lidar.distances[a];
-                if (d >= 120 && d < min_dist) {
-                    min_dist = d;
-                    min_angle = a;
-                }
-            }
-            uint16_t fwd = YDLIDAR_X2_GetDistance(&g_lidar, 0);
-            uint16_t rgt = YDLIDAR_X2_GetDistance(&g_lidar, 90);
-            uint16_t bck = YDLIDAR_X2_GetDistance(&g_lidar, 180);
-            uint16_t lft = YDLIDAR_X2_GetDistance(&g_lidar, 270);
-
-            BMO_Screen_SetLidarData(g_lidar.scan_frequency_hz, fwd, rgt, bck, lft, min_dist, min_angle);
-        }
-        */
-
-    /*
-    if (display_present) {
-    	if (now - last_anim_tick >= 40) {
-    		last_anim_tick = now;
-    		BMO_Screen_Update(now);
-    	}
-
-    	if (now - last_mood_tick >= 5000) {
-    		last_mood_tick = now;
-    		demo_mood = (demo_mood + 1) % 8;
-    		BMO_Screen_SetFace((bmo_face_t)demo_mood);
-
-    		if (demo_mood == BMO_FACE_TELEMETRY) {
-    			BMO_Screen_SetTelemetry(3.92f, 0, "LIDAR 6Hz");
-    		}
-    	}
-    }
-    */
   }
   /* USER CODE END 3 */
 }
