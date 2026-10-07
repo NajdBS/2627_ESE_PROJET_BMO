@@ -7458,6 +7458,16 @@
 	)
 	(wire
 		(pts
+			(xy 58.42 36.83) (xy 58.42 40.64)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7846b2b3-49ca-4627-865a-c22abc25404d")
+	)
+	(wire
+		(pts
 			(xy 81.28 82.55) (xy 81.28 85.09)
 		)
 		(stroke
@@ -21233,6 +21243,86 @@
 			(project "BMO"
 				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/a118be83-9452-4230-9073-78ab810a1c4b"
 					(reference "U5")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 58.42 36.83 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "d7ab7229-507d-4ee6-ab06-e5279dba14b5")
+		(property "Reference" "TP11"
+			(at 63.5 36.8299 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "TestPoint"
+			(at 63.5 38.0999 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "TestPoint:TestPoint_Pad_D1.5mm"
+			(at 58.42 41.91 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 58.42 41.91 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "test point"
+			(at 58.42 36.83 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "d26aadea-3565-44c5-a701-264cc8cfdca5")
+		)
+		(instances
+			(project "BMO"
+				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/a118be83-9452-4230-9073-78ab810a1c4b"
+					(reference "TP11")
 					(unit 1)
 				)
 			)

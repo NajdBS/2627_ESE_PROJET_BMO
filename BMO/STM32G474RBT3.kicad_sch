@@ -360,6 +360,129 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "Connector:TestPoint"
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 0.762)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "TP"
+				(at 0 6.858 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "TestPoint"
+				(at 0 5.08 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 5.08 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 5.08 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "test point"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "test point tp"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_fp_filters" "Pin* Test*"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "TestPoint_0_1"
+				(circle
+					(center 0 3.302)
+					(radius 0.762)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "TestPoint_1_1"
+				(pin passive line
+					(at 0 0 90)
+					(length 2.54)
+					(name "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "Connector_Generic:Conn_01x10"
 			(pin_names
 				(offset 1.016)
@@ -4494,7 +4617,7 @@
 			(embedded_fonts no)
 		)
 	)
-	(text "Buzzer PB12, LED de pince PC7 : à câbler"
+	(text "Buzzer PB5 (TIM17_CH1) sur J1 broche 8, LED de pince PC7 : à câbler"
 		(exclude_from_sim no)
 		(at 187.198 34.29 0)
 		(effects
@@ -4537,7 +4660,7 @@
 		)
 		(uuid "7771e6e2-ff84-4fa5-9a45-7fe6b374b4ab")
 	)
-	(text "ADC : PB11, PB12, PB13, PB15, PC0, PC1"
+	(text "ADC : PB11, PB12, PB13, PB15, PC1"
 		(exclude_from_sim no)
 		(at 187.198 31.75 0)
 		(effects
@@ -4582,6 +4705,12 @@
 		(uuid "09c47c24-6181-4ffa-933d-07f30c60e209")
 	)
 	(junction
+		(at 105.41 31.75)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "0c04c8f9-5745-42b8-bb5b-eb0b60298a26")
+	)
+	(junction
 		(at 87.63 189.23)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -4624,6 +4753,12 @@
 		(uuid "3144effd-dd16-4886-88f3-951ddb51184b")
 	)
 	(junction
+		(at 53.34 39.37)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "34e8872c-6613-4236-8990-0610546f80ed")
+	)
+	(junction
 		(at 92.71 31.75)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -4634,6 +4769,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "39c8d6b4-2440-48bb-8f95-b0a235236d73")
+	)
+	(junction
+		(at 53.34 31.75)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "3ea18338-cbe5-4300-8f3f-9212af19d96a")
 	)
 	(junction
 		(at 91.44 53.34)
@@ -4774,6 +4915,16 @@
 	(no_connect
 		(at 109.22 118.11)
 		(uuid "abbc3ce9-5ab1-4547-becf-80e895a19e46")
+	)
+	(wire
+		(pts
+			(xy 45.72 38.1) (xy 45.72 39.37)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "00c99089-c187-450c-b654-d07de6046955")
 	)
 	(wire
 		(pts
@@ -5364,6 +5515,16 @@
 			(type default)
 		)
 		(uuid "5038958e-3f94-41bd-b33c-da678b215700")
+	)
+	(wire
+		(pts
+			(xy 45.72 33.02) (xy 45.72 31.75)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "505ec00a-a1f1-4b0a-ad72-d252b9827c59")
 	)
 	(wire
 		(pts
@@ -6255,6 +6416,16 @@
 		)
 		(uuid "c12e51be-43e7-4090-82d2-272a0bee92cc")
 	)
+	(wire
+		(pts
+			(xy 45.72 31.75) (xy 53.34 31.75)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c1e22bf7-0d0d-4d44-b003-df044a07b573")
+	)
 	(polyline
 		(pts
 			(xy 13.97 173.99) (xy 176.53 173.99)
@@ -6314,6 +6485,16 @@
 			(type default)
 		)
 		(uuid "cab25728-9767-41a5-be2b-8e7438aba207")
+	)
+	(wire
+		(pts
+			(xy 45.72 39.37) (xy 53.34 39.37)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "cc8a2c06-d858-4731-b739-e22123ffbb20")
 	)
 	(wire
 		(pts
@@ -6487,6 +6668,16 @@
 	)
 	(wire
 		(pts
+			(xy 105.41 27.94) (xy 105.41 31.75)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e565a16b-8422-4b66-8668-f7839e677356")
+	)
+	(wire
+		(pts
 			(xy 215.9 58.42) (xy 200.66 58.42)
 		)
 		(stroke
@@ -6595,7 +6786,7 @@
 		)
 		(uuid "0184b1cc-4610-4b02-b08d-fbe3179e93d3")
 	)
-	(label "EXT_PC0"
+	(label "BUZZER_TIM17_CH1"
 		(at 200.66 63.5 180)
 		(effects
 			(font
@@ -6825,13 +7016,13 @@
 		)
 		(uuid "70aee0f6-6375-4374-a8d0-7bedeaf257c9")
 	)
-	(label "EXT_PC0"
-		(at 60.96 92.71 180)
+	(label "BUZZER_TIM17_CH1"
+		(at 143.51 125.73 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
-			(justify right bottom)
+			(justify left bottom)
 		)
 		(uuid "7a657d5a-eb18-47a6-90ca-0d34c472f033")
 	)
@@ -7156,12 +7347,12 @@
 	)
 	(hierarchical_label "MOT_nFAULT"
 		(shape input)
-		(at 143.51 125.73 0)
+		(at 60.96 92.71 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
-			(justify left)
+			(justify right)
 		)
 		(uuid "5f978509-9584-4b9b-81c7-44944715378a")
 	)
@@ -9842,6 +10033,109 @@
 	)
 	(symbol
 		(lib_id "Device:C_Small")
+		(at 45.72 35.56 180)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "643e0aa3-cc0a-4f23-b1df-e841df8b26c7")
+		(property "Reference" "C45"
+			(at 48.26 34.2835 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "100n"
+			(at 48.26 36.8235 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+			(at 45.72 35.56 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 45.72 35.56 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Unpolarized capacitor, small symbol"
+			(at 45.72 35.56 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "JLCPCB Part #" "C1525"
+			(at 45.72 35.56 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C1525"
+			(at 45.72 35.56 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "2"
+			(uuid "e54e3d9c-c8e0-4176-a2c9-c61ae5fe9bcb")
+		)
+		(pin "1"
+			(uuid "cfdb3bb9-9c5e-44b8-82f3-23f5361a7285")
+		)
+		(instances
+			(project "BMO"
+				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/6ae9c4a4-c173-43ed-93f8-54a31d5275c1"
+					(reference "C45")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C_Small")
 		(at 43.18 72.39 180)
 		(unit 1)
 		(body_style 1)
@@ -10817,6 +11111,86 @@
 			(project "BMO"
 				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/6ae9c4a4-c173-43ed-93f8-54a31d5275c1"
 					(reference "R4")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 105.41 27.94 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "91dc1e1c-2c81-47e3-8220-df97d6ce31e9")
+		(property "Reference" "TP10"
+			(at 110.49 27.9399 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "TestPoint"
+			(at 110.49 29.2099 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "TestPoint:TestPoint_Pad_D1.5mm"
+			(at 105.41 33.02 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 105.41 33.02 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "test point"
+			(at 105.41 27.94 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "f630ec42-08b3-4436-bc15-c6f7dc884f3e")
+		)
+		(instances
+			(project "BMO"
+				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/6ae9c4a4-c173-43ed-93f8-54a31d5275c1"
+					(reference "TP10")
 					(unit 1)
 				)
 			)
