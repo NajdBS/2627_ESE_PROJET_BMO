@@ -1116,184 +1116,6 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "Device:C_Polarized_Small"
-			(pin_numbers
-				(hide yes)
-			)
-			(pin_names
-				(offset 0.254)
-				(hide yes)
-			)
-			(exclude_from_sim no)
-			(in_bom yes)
-			(on_board yes)
-			(in_pos_files yes)
-			(duplicate_pin_numbers_are_jumpers no)
-			(property "Reference" "C"
-				(at 0.254 1.778 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(justify left)
-				)
-			)
-			(property "Value" "C_Polarized_Small"
-				(at 0.254 -2.032 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(justify left)
-				)
-			)
-			(property "Footprint" ""
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Datasheet" ""
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Description" "Polarized capacitor, small symbol"
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "ki_keywords" "cap capacitor"
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "ki_fp_filters" "CP_*"
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(symbol "C_Polarized_Small_0_1"
-				(rectangle
-					(start -1.524 0.6858)
-					(end 1.524 0.3048)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(rectangle
-					(start -1.524 -0.3048)
-					(end 1.524 -0.6858)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type outline)
-					)
-				)
-				(polyline
-					(pts
-						(xy -1.27 1.524) (xy -0.762 1.524)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy -1.016 1.27) (xy -1.016 1.778)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-			)
-			(symbol "C_Polarized_Small_1_1"
-				(pin passive line
-					(at 0 2.54 270)
-					(length 1.8542)
-					(name ""
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 0 -2.54 90)
-					(length 1.8542)
-					(name ""
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-			)
-			(embedded_fonts no)
-		)
 		(symbol "Device:C_Small"
 			(pin_numbers
 				(hide yes)
@@ -2622,12 +2444,6 @@
 		(uuid "60e87dcc-46eb-4ab5-9d4c-ea22d3a22b69")
 	)
 	(junction
-		(at 173.99 91.44)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "76300eb0-9790-40a3-b538-376cec65b8a7")
-	)
-	(junction
 		(at 44.45 82.55)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -2658,7 +2474,7 @@
 		(uuid "b580e1de-a287-4917-9c7a-b2213c45ebc8")
 	)
 	(no_connect
-		(at 247.65 55.88)
+		(at 255.27 55.88)
 		(uuid "faeaf2da-04ea-4fee-bb52-616a5fa2e2bc")
 	)
 	(no_connect
@@ -2817,7 +2633,7 @@
 	)
 	(wire
 		(pts
-			(xy 173.99 91.44) (xy 173.99 93.98)
+			(xy 173.99 90.17) (xy 173.99 93.98)
 		)
 		(stroke
 			(width 0)
@@ -2864,16 +2680,6 @@
 			(type default)
 		)
 		(uuid "3e3125ba-4084-4426-a243-f9709c209301")
-	)
-	(wire
-		(pts
-			(xy 173.99 91.44) (xy 184.15 91.44)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "43e019d7-549d-4362-a0b8-13b4efdacd89")
 	)
 	(wire
 		(pts
@@ -3037,7 +2843,7 @@
 	)
 	(wire
 		(pts
-			(xy 241.3 53.34) (xy 247.65 53.34)
+			(xy 241.3 53.34) (xy 255.27 53.34)
 		)
 		(stroke
 			(width 0)
@@ -3094,16 +2900,6 @@
 			(type default)
 		)
 		(uuid "980ca276-dec8-4eb0-a5db-873c2f8ef679")
-	)
-	(wire
-		(pts
-			(xy 173.99 90.17) (xy 173.99 91.44)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "9d08e4ff-b3de-4746-9658-ded2ec7f681d")
 	)
 	(wire
 		(pts
@@ -3207,7 +3003,7 @@
 	)
 	(wire
 		(pts
-			(xy 217.17 48.26) (xy 247.65 48.26)
+			(xy 217.17 48.26) (xy 255.27 48.26)
 		)
 		(stroke
 			(width 0)
@@ -3327,7 +3123,17 @@
 	)
 	(wire
 		(pts
-			(xy 241.3 50.8) (xy 247.65 50.8)
+			(xy 247.65 43.18) (xy 255.27 43.18)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d1dd73ba-8902-4f50-a1ff-87f1b9f4e9d4")
+	)
+	(wire
+		(pts
+			(xy 241.3 50.8) (xy 255.27 50.8)
 		)
 		(stroke
 			(width 0)
@@ -3447,7 +3253,7 @@
 	)
 	(wire
 		(pts
-			(xy 236.22 45.72) (xy 247.65 45.72)
+			(xy 236.22 45.72) (xy 255.27 45.72)
 		)
 		(stroke
 			(width 0)
@@ -3728,6 +3534,99 @@
 		(uuid "fdf87f52-de28-4b91-815c-f93825e5445d")
 	)
 	(symbol
+		(lib_id "Connector_Generic:Conn_01x06")
+		(at 156.21 45.72 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "0903bbd1-3015-45b5-a2be-c7be4a96cb97")
+		(property "Reference" "J5"
+			(at 155.194 56.642 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "COULEUR_I2C"
+			(at 152.146 58.674 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Connector_JST:JST_XH_S6B-XH-A_1x06_P2.50mm_Horizontal"
+			(at 156.21 45.72 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 156.21 45.72 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Generic connector, single row, 01x06, script generated (kicad-library-utils/schlib/autogen/connector/)"
+			(at 156.21 45.72 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "6"
+			(uuid "af6b2251-4118-4c17-a9e0-d7c7d116b07a")
+		)
+		(pin "1"
+			(uuid "ed9cc6ec-c2b3-4cc6-829a-565acb391fa1")
+		)
+		(pin "2"
+			(uuid "1aec4adb-b701-4567-93ec-f2977d5c36a9")
+		)
+		(pin "3"
+			(uuid "88018855-0a78-4762-bc5c-b181aca43678")
+		)
+		(pin "4"
+			(uuid "c72a6c54-81fa-41b2-9382-ba22859b5af4")
+		)
+		(pin "5"
+			(uuid "7a1f4c71-c9ec-436b-bae3-213b981ed489")
+		)
+		(instances
+			(project "BMO"
+				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/c0555228-78be-4774-98c7-4b68c52803f7"
+					(reference "J5")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Sensor_Motion:MPU-6050")
 		(at 64.77 74.93 0)
 		(unit 1)
@@ -3908,7 +3807,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "0c499774-e54f-4a77-a7c6-007905ad0567")
-		(property "Reference" "#PWR054"
+		(property "Reference" "#PWR061"
 			(at 271.78 55.88 0)
 			(hide yes)
 			(show_name no)
@@ -3968,7 +3867,7 @@
 		(instances
 			(project "BMO"
 				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/c0555228-78be-4774-98c7-4b68c52803f7"
-					(reference "#PWR054")
+					(reference "#PWR061")
 					(unit 1)
 				)
 			)
@@ -3985,7 +3884,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "0c75a71c-4274-49dd-a5a7-f76498cbe158")
-		(property "Reference" "#PWR043"
+		(property "Reference" "#PWR045"
 			(at 143.51 161.29 0)
 			(hide yes)
 			(show_name no)
@@ -4045,7 +3944,7 @@
 		(instances
 			(project "BMO"
 				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/c0555228-78be-4774-98c7-4b68c52803f7"
-					(reference "#PWR043")
+					(reference "#PWR045")
 					(unit 1)
 				)
 			)
@@ -4063,7 +3962,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "0efae40e-9c8e-413c-9f94-64d246d457a8")
-		(property "Reference" "C21"
+		(property "Reference" "C23"
 			(at 270.51 106.6862 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4149,7 +4048,7 @@
 		(instances
 			(project "BMO"
 				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/c0555228-78be-4774-98c7-4b68c52803f7"
-					(reference "C21")
+					(reference "C23")
 					(unit 1)
 				)
 			)
@@ -4167,7 +4066,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "109d3ee9-237a-4657-ab73-b75befb71baa")
-		(property "Reference" "#PWR038"
+		(property "Reference" "#PWR036"
 			(at 82.55 168.91 0)
 			(hide yes)
 			(show_name no)
@@ -4227,7 +4126,7 @@
 		(instances
 			(project "BMO"
 				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/c0555228-78be-4774-98c7-4b68c52803f7"
-					(reference "#PWR038")
+					(reference "#PWR036")
 					(unit 1)
 				)
 			)
@@ -4245,7 +4144,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "1145a28c-3be8-4274-a7b5-aa3b4d3e570d")
-		(property "Reference" "#PWR0121"
+		(property "Reference" "#PWR049"
 			(at 161.29 106.68 0)
 			(hide yes)
 			(show_name no)
@@ -4306,7 +4205,7 @@
 		(instances
 			(project "BMO"
 				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/c0555228-78be-4774-98c7-4b68c52803f7"
-					(reference "#PWR0121")
+					(reference "#PWR049")
 					(unit 1)
 				)
 			)
@@ -4323,7 +4222,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "12306bb8-19b1-4d1a-b877-5984528c40ff")
-		(property "Reference" "#PWR048"
+		(property "Reference" "#PWR058"
 			(at 236.22 41.91 0)
 			(hide yes)
 			(show_name no)
@@ -4384,7 +4283,7 @@
 		(instances
 			(project "BMO"
 				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/c0555228-78be-4774-98c7-4b68c52803f7"
-					(reference "#PWR048")
+					(reference "#PWR058")
 					(unit 1)
 				)
 			)
@@ -4402,7 +4301,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "12878961-45a6-4185-8de5-dd8456a91b94")
-		(property "Reference" "#PWR047"
+		(property "Reference" "#PWR059"
 			(at 236.22 104.14 0)
 			(hide yes)
 			(show_name no)
@@ -4462,7 +4361,7 @@
 		(instances
 			(project "BMO"
 				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/c0555228-78be-4774-98c7-4b68c52803f7"
-					(reference "#PWR047")
+					(reference "#PWR059")
 					(unit 1)
 				)
 			)
@@ -4572,6 +4471,99 @@
 		)
 	)
 	(symbol
+		(lib_id "Connector_Generic:Conn_01x06")
+		(at 134.62 167.64 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "1553cbbd-02af-4b69-927c-367609d13cc3")
+		(property "Reference" "J4"
+			(at 133.604 178.562 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "TOF2_VL53L0X"
+			(at 130.556 180.594 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Connector_JST:JST_XH_S6B-XH-A_1x06_P2.50mm_Horizontal"
+			(at 134.62 167.64 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 134.62 167.64 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Generic connector, single row, 01x06, script generated (kicad-library-utils/schlib/autogen/connector/)"
+			(at 134.62 167.64 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "6"
+			(uuid "4ee46851-92c8-48f9-8335-6f274c5f1e39")
+		)
+		(pin "1"
+			(uuid "8fa190de-c1a4-49b0-9d93-73bfa253c996")
+		)
+		(pin "2"
+			(uuid "4a14927b-70af-45f7-84a7-4426a7afde1b")
+		)
+		(pin "3"
+			(uuid "f62264bc-b11c-4e6b-8acf-9bb401d3c561")
+		)
+		(pin "4"
+			(uuid "fce8aab0-a9c7-4b0e-aef6-f42e8046d6ab")
+		)
+		(pin "5"
+			(uuid "61584538-fe36-4e00-9a1f-4ace8405fab2")
+		)
+		(instances
+			(project "BMO"
+				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/c0555228-78be-4774-98c7-4b68c52803f7"
+					(reference "J4")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:GND")
 		(at 92.71 85.09 0)
 		(unit 1)
@@ -4582,7 +4574,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "15d4f4a9-9739-477b-9c01-306edcef78d3")
-		(property "Reference" "#PWR036"
+		(property "Reference" "#PWR038"
 			(at 92.71 85.09 0)
 			(hide yes)
 			(show_name no)
@@ -4642,7 +4634,7 @@
 		(instances
 			(project "BMO"
 				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/c0555228-78be-4774-98c7-4b68c52803f7"
-					(reference "#PWR036")
+					(reference "#PWR038")
 					(unit 1)
 				)
 			)
@@ -4660,7 +4652,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "167ba046-5c9d-45d6-bd6d-a672954600ac")
-		(property "Reference" "#PWR053"
+		(property "Reference" "#PWR060"
 			(at 271.78 48.26 0)
 			(hide yes)
 			(show_name no)
@@ -4720,7 +4712,7 @@
 		(instances
 			(project "BMO"
 				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/c0555228-78be-4774-98c7-4b68c52803f7"
-					(reference "#PWR053")
+					(reference "#PWR060")
 					(unit 1)
 				)
 			)
@@ -4737,7 +4729,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "1dcb57b4-a997-49eb-81f1-c07c1b86707c")
-		(property "Reference" "#PWR040"
+		(property "Reference" "#PWR047"
 			(at 146.05 40.64 0)
 			(hide yes)
 			(show_name no)
@@ -4797,7 +4789,7 @@
 		(instances
 			(project "BMO"
 				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/c0555228-78be-4774-98c7-4b68c52803f7"
-					(reference "#PWR040")
+					(reference "#PWR047")
 					(unit 1)
 				)
 			)
@@ -4918,7 +4910,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "22155256-1817-42e1-a503-1c61b0464f81")
-		(property "Reference" "C43"
+		(property "Reference" "C18"
 			(at 121.92 100.3362 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5004,7 +4996,7 @@
 		(instances
 			(project "BMO"
 				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/c0555228-78be-4774-98c7-4b68c52803f7"
-					(reference "C43")
+					(reference "C18")
 					(unit 1)
 				)
 			)
@@ -5175,7 +5167,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "2c66e6a4-7715-43d9-a599-a9c43bfd2339")
-		(property "Reference" "R35"
+		(property "Reference" "R9"
 			(at 165.735 107.95 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5261,7 +5253,7 @@
 		(instances
 			(project "BMO"
 				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/c0555228-78be-4774-98c7-4b68c52803f7"
-					(reference "R35")
+					(reference "R9")
 					(unit 1)
 				)
 			)
@@ -5278,7 +5270,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "2cf57835-5eb6-4a96-94af-c86b5e5e5821")
-		(property "Reference" "C15"
+		(property "Reference" "C16"
 			(at 79.375 85.09 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5364,7 +5356,7 @@
 		(instances
 			(project "BMO"
 				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/c0555228-78be-4774-98c7-4b68c52803f7"
-					(reference "C15")
+					(reference "C16")
 					(unit 1)
 				)
 			)
@@ -5381,7 +5373,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "30000ad8-aa78-45a5-bf0f-301c3fce5a30")
-		(property "Reference" "#PWR051"
+		(property "Reference" "#PWR057"
 			(at 234.95 142.24 0)
 			(hide yes)
 			(show_name no)
@@ -5441,7 +5433,7 @@
 		(instances
 			(project "BMO"
 				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/c0555228-78be-4774-98c7-4b68c52803f7"
-					(reference "#PWR051")
+					(reference "#PWR057")
 					(unit 1)
 				)
 			)
@@ -5458,7 +5450,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "314bd554-dda1-4186-a428-b903a32d236b")
-		(property "Reference" "C16"
+		(property "Reference" "C17"
 			(at 95.25 81.28 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5544,7 +5536,7 @@
 		(instances
 			(project "BMO"
 				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/c0555228-78be-4774-98c7-4b68c52803f7"
-					(reference "C16")
+					(reference "C17")
 					(unit 1)
 				)
 			)
@@ -5561,7 +5553,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "363504c9-8fb3-440c-b6d8-e7e5e06367f5")
-		(property "Reference" "#PWR037"
+		(property "Reference" "#PWR035"
 			(at 82.55 161.29 0)
 			(hide yes)
 			(show_name no)
@@ -5621,7 +5613,7 @@
 		(instances
 			(project "BMO"
 				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/c0555228-78be-4774-98c7-4b68c52803f7"
-					(reference "#PWR037")
+					(reference "#PWR035")
 					(unit 1)
 				)
 			)
@@ -5638,7 +5630,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "3958d03f-6369-455b-8f1d-ffe717c7935c")
-		(property "Reference" "#PWR052"
+		(property "Reference" "#PWR056"
 			(at 217.17 156.21 0)
 			(hide yes)
 			(show_name no)
@@ -5699,7 +5691,7 @@
 		(instances
 			(project "BMO"
 				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/c0555228-78be-4774-98c7-4b68c52803f7"
-					(reference "#PWR052")
+					(reference "#PWR056")
 					(unit 1)
 				)
 			)
@@ -5717,7 +5709,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "3aa09f11-6339-431a-a788-e201dad96dc5")
-		(property "Reference" "#PWR055"
+		(property "Reference" "#PWR062"
 			(at 273.05 109.22 0)
 			(hide yes)
 			(show_name no)
@@ -5777,15 +5769,15 @@
 		(instances
 			(project "BMO"
 				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/c0555228-78be-4774-98c7-4b68c52803f7"
-					(reference "#PWR055")
+					(reference "#PWR062")
 					(unit 1)
 				)
 			)
 		)
 	)
 	(symbol
-		(lib_id "Connector_Generic:Conn_01x06")
-		(at 73.66 167.64 0)
+		(lib_id "Connector_Generic:Conn_01x03")
+		(at 179.07 110.49 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -5794,9 +5786,9 @@
 		(in_pos_files yes)
 		(dnp no)
 		(fields_autoplaced yes)
-		(uuid "3e090bfe-a58c-40bd-86ef-9ed1871c94b7")
-		(property "Reference" "J3"
-			(at 76.2 167.6399 0)
+		(uuid "3fb3c8d8-969d-4843-9f32-54a46c3d69d9")
+		(property "Reference" "J6"
+			(at 181.61 109.2199 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5806,8 +5798,8 @@
 				(justify left)
 			)
 		)
-		(property "Value" "TOF1_VL53L0X"
-			(at 76.2 170.1799 0)
+		(property "Value" "NEOPIXEL"
+			(at 181.61 111.7599 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5817,8 +5809,8 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Connector_PinSocket_2.54mm:PinSocket_1x06_P2.54mm_Vertical"
-			(at 73.66 167.64 0)
+		(property "Footprint" "Connector_JST:JST_XH_S3B-XH-A-1_1x03_P2.50mm_Horizontal"
+			(at 179.07 110.49 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5829,7 +5821,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 73.66 167.64 0)
+			(at 179.07 110.49 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5839,8 +5831,8 @@
 				)
 			)
 		)
-		(property "Description" "Generic connector, single row, 01x06, script generated (kicad-library-utils/schlib/autogen/connector/)"
-			(at 73.66 167.64 0)
+		(property "Description" "Generic connector, single row, 01x03, script generated (kicad-library-utils/schlib/autogen/connector/)"
+			(at 179.07 110.49 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5849,51 +5841,20 @@
 					(size 1.27 1.27)
 				)
 			)
-		)
-		(property "JLCPCB Part #" "C40877"
-			(at 73.66 167.64 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "LCSC" "C40877"
-			(at 73.66 167.64 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "3043414e-230a-4702-b393-f1928e2abb97")
-		)
-		(pin "5"
-			(uuid "c129f1e6-ca04-4003-9287-335fda551a6b")
 		)
 		(pin "2"
-			(uuid "d8f73f24-fc94-4741-b1e9-4d4dae9d04f3")
+			(uuid "bbd3351c-fddb-4bf6-b507-edc3002b49d3")
+		)
+		(pin "1"
+			(uuid "9e398e00-21bb-408f-b4fa-58e94a511894")
 		)
 		(pin "3"
-			(uuid "7095addb-dde4-406c-8960-d172604184e7")
-		)
-		(pin "6"
-			(uuid "4a20f49b-f96f-4976-b00f-63ae8dbb81d0")
-		)
-		(pin "4"
-			(uuid "83c6c186-5267-480e-88b9-42c3b5eea304")
+			(uuid "53a447ad-a65c-4779-951c-db438634d41b")
 		)
 		(instances
 			(project "BMO"
 				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/c0555228-78be-4774-98c7-4b68c52803f7"
-					(reference "J3")
+					(reference "J6")
 					(unit 1)
 				)
 			)
@@ -5910,7 +5871,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "47197570-cb55-422a-a610-cf0d22d993aa")
-		(property "Reference" "#PWR033"
+		(property "Reference" "#PWR034"
 			(at 74.93 52.07 0)
 			(hide yes)
 			(show_name no)
@@ -5970,7 +5931,7 @@
 		(instances
 			(project "BMO"
 				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/c0555228-78be-4774-98c7-4b68c52803f7"
-					(reference "#PWR033")
+					(reference "#PWR034")
 					(unit 1)
 				)
 			)
@@ -5987,7 +5948,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "47a5423d-cb99-4270-b26a-9a6ef48f5f83")
-		(property "Reference" "#PWR041"
+		(property "Reference" "#PWR048"
 			(at 146.05 45.72 0)
 			(hide yes)
 			(show_name no)
@@ -6047,7 +6008,7 @@
 		(instances
 			(project "BMO"
 				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/c0555228-78be-4774-98c7-4b68c52803f7"
-					(reference "#PWR041")
+					(reference "#PWR048")
 					(unit 1)
 				)
 			)
@@ -6065,7 +6026,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "49708e35-2c3e-44e1-9220-83503b473181")
-		(property "Reference" "#PWR044"
+		(property "Reference" "#PWR046"
 			(at 143.51 168.91 0)
 			(hide yes)
 			(show_name no)
@@ -6125,123 +6086,7 @@
 		(instances
 			(project "BMO"
 				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/c0555228-78be-4774-98c7-4b68c52803f7"
-					(reference "#PWR044")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Connector_Generic:Conn_01x06")
-		(at 252.73 48.26 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "4e95ae19-d457-46f2-8b6a-bad2c759a395")
-		(property "Reference" "J6"
-			(at 255.27 48.2599 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "BLE"
-			(at 255.27 50.7999 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Connector_PinSocket_2.54mm:PinSocket_1x06_P2.54mm_Vertical"
-			(at 252.73 48.26 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 252.73 48.26 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Generic connector, single row, 01x06, script generated (kicad-library-utils/schlib/autogen/connector/)"
-			(at 252.73 48.26 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "JLCPCB Part #" "C40877"
-			(at 252.73 48.26 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "LCSC" "C40877"
-			(at 252.73 48.26 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "6257c874-b71c-4874-bcc3-8f13a36141f4")
-		)
-		(pin "5"
-			(uuid "0395b884-6a84-4a3a-98ad-5dc18f1dad17")
-		)
-		(pin "2"
-			(uuid "8e3c4543-880d-42f4-ac50-4fa3709b1cc2")
-		)
-		(pin "3"
-			(uuid "a7338311-4187-4d5e-b689-3e758168fad8")
-		)
-		(pin "6"
-			(uuid "d9c5da07-a156-4d65-a476-a347a3004584")
-		)
-		(pin "4"
-			(uuid "a62824c7-0009-4003-89c0-3f3e5b25095e")
-		)
-		(instances
-			(project "BMO"
-				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/c0555228-78be-4774-98c7-4b68c52803f7"
-					(reference "J6")
+					(reference "#PWR046")
 					(unit 1)
 				)
 			)
@@ -6259,7 +6104,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "5b0cac65-e06e-4e53-b8fb-d64c26a67d87")
-		(property "Reference" "#PWR0119"
+		(property "Reference" "#PWR042"
 			(at 129.54 128.27 0)
 			(hide yes)
 			(show_name no)
@@ -6320,7 +6165,7 @@
 		(instances
 			(project "BMO"
 				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/c0555228-78be-4774-98c7-4b68c52803f7"
-					(reference "#PWR0119")
+					(reference "#PWR042")
 					(unit 1)
 				)
 			)
@@ -6337,7 +6182,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "5b48881d-c953-4e3a-9f54-7d7f8629e101")
-		(property "Reference" "#PWR049"
+		(property "Reference" "#PWR054"
 			(at 217.17 68.58 0)
 			(hide yes)
 			(show_name no)
@@ -6397,7 +6242,7 @@
 		(instances
 			(project "BMO"
 				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/c0555228-78be-4774-98c7-4b68c52803f7"
-					(reference "#PWR049")
+					(reference "#PWR054")
 					(unit 1)
 				)
 			)
@@ -6415,7 +6260,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "618fb636-007e-481c-9270-1ae6d7d1383d")
-		(property "Reference" "#PWR0120"
+		(property "Reference" "#PWR044"
 			(at 138.43 106.68 0)
 			(hide yes)
 			(show_name no)
@@ -6476,7 +6321,7 @@
 		(instances
 			(project "BMO"
 				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/c0555228-78be-4774-98c7-4b68c52803f7"
-					(reference "#PWR0120")
+					(reference "#PWR044")
 					(unit 1)
 				)
 			)
@@ -6560,6 +6405,94 @@
 		)
 	)
 	(symbol
+		(lib_id "Connector_Generic:Conn_01x04")
+		(at 252.73 144.78 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "68af9724-0218-4855-973e-0f41ad2ebdaf")
+		(property "Reference" "J8"
+			(at 255.27 144.7799 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "OLED_I2C"
+			(at 255.27 147.3199 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Connector_JST:JST_XH_S4B-XH-A_1x04_P2.50mm_Horizontal"
+			(at 252.73 144.78 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 252.73 144.78 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Generic connector, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)"
+			(at 252.73 144.78 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "4"
+			(uuid "76bcd8f6-8ccb-464a-8a36-f8da8613f07c")
+		)
+		(pin "2"
+			(uuid "bee9ee02-dbb0-42cc-87fa-9fc2b6315c0a")
+		)
+		(pin "3"
+			(uuid "8c2f2af7-d53b-40ea-8a73-94783b0ebcae")
+		)
+		(pin "1"
+			(uuid "99613d0b-4cdf-4d53-bea6-71c8a7757974")
+		)
+		(instances
+			(project "BMO"
+				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/c0555228-78be-4774-98c7-4b68c52803f7"
+					(reference "J8")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "74xGxx:74AHCT1G125")
 		(at 134.62 110.49 0)
 		(unit 1)
@@ -6571,7 +6504,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "6f0a581c-c552-4587-a7b7-9719afcbcdb4")
-		(property "Reference" "U8"
+		(property "Reference" "U3"
 			(at 147.32 104.0698 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6664,7 +6597,7 @@
 		(instances
 			(project "BMO"
 				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/c0555228-78be-4774-98c7-4b68c52803f7"
-					(reference "U8")
+					(reference "U3")
 					(unit 1)
 				)
 			)
@@ -6681,7 +6614,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "786731bd-80de-41cd-887a-6f57c5578f70")
-		(property "Reference" "#PWR034"
+		(property "Reference" "#PWR033"
 			(at 68.58 166.37 0)
 			(hide yes)
 			(show_name no)
@@ -6741,7 +6674,7 @@
 		(instances
 			(project "BMO"
 				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/c0555228-78be-4774-98c7-4b68c52803f7"
-					(reference "#PWR034")
+					(reference "#PWR033")
 					(unit 1)
 				)
 			)
@@ -6759,7 +6692,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "7a1e6d41-3da0-4d95-89f1-2ed70ab30352")
-		(property "Reference" "#PWR0123"
+		(property "Reference" "#PWR051"
 			(at 173.99 128.27 0)
 			(hide yes)
 			(show_name no)
@@ -6820,7 +6753,7 @@
 		(instances
 			(project "BMO"
 				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/c0555228-78be-4774-98c7-4b68c52803f7"
-					(reference "#PWR0123")
+					(reference "#PWR051")
 					(unit 1)
 				)
 			)
@@ -6837,7 +6770,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "7ad93114-c461-4c4b-8bcb-5b30b13085c6")
-		(property "Reference" "#PWR046"
+		(property "Reference" "#PWR053"
 			(at 176.53 49.53 0)
 			(hide yes)
 			(show_name no)
@@ -6897,7 +6830,7 @@
 		(instances
 			(project "BMO"
 				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/c0555228-78be-4774-98c7-4b68c52803f7"
-					(reference "#PWR046")
+					(reference "#PWR053")
 					(unit 1)
 				)
 			)
@@ -6905,7 +6838,7 @@
 	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x06")
-		(at 156.21 45.72 0)
+		(at 260.35 48.26 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -6913,9 +6846,9 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "823772b8-cf05-4c8c-afd4-724baa93ecde")
-		(property "Reference" "J4"
-			(at 158.75 45.72 0)
+		(uuid "7e6f6b49-f657-480a-847b-26bd19ff116f")
+		(property "Reference" "J9"
+			(at 259.334 59.182 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -6925,8 +6858,8 @@
 				(justify left)
 			)
 		)
-		(property "Value" "COULEUR_I2C"
-			(at 158.75 48.26 0)
+		(property "Value" "Conn_01x06"
+			(at 256.286 61.214 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -6936,8 +6869,8 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Connector_PinSocket_2.54mm:PinSocket_1x06_P2.54mm_Vertical"
-			(at 156.21 45.72 0)
+		(property "Footprint" "Connector_JST:JST_XH_S6B-XH-A_1x06_P2.50mm_Horizontal"
+			(at 260.35 48.26 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6948,7 +6881,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 156.21 45.72 0)
+			(at 260.35 48.26 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6958,8 +6891,8 @@
 				)
 			)
 		)
-		(property "Description" "Generic connector, single row, 01x06"
-			(at 156.21 45.72 0)
+		(property "Description" "Generic connector, single row, 01x06, script generated (kicad-library-utils/schlib/autogen/connector/)"
+			(at 260.35 48.26 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6968,158 +6901,29 @@
 					(size 1.27 1.27)
 				)
 			)
-		)
-		(property "JLCPCB Part #" "C40877"
-			(at 156.21 45.72 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "LCSC" "C40877"
-			(at 156.21 45.72 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "f5862467-d24f-440f-b4d1-0701f1a2d7d8")
-		)
-		(pin "2"
-			(uuid "1940af8e-1999-48aa-b555-125af8e7bc93")
-		)
-		(pin "3"
-			(uuid "074e0160-345f-46fc-8e0b-266306b2af3c")
-		)
-		(pin "4"
-			(uuid "6b22751e-e772-42dd-bfb2-82506d47b1e4")
-		)
-		(pin "5"
-			(uuid "ed5749d1-1fc5-4be0-86ce-daf584a16bbb")
 		)
 		(pin "6"
-			(uuid "2b30e67f-44a3-49b2-8191-485d2ed9fe9d")
-		)
-		(instances
-			(project "BMO"
-				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/c0555228-78be-4774-98c7-4b68c52803f7"
-					(reference "J4")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Connector_Generic:Conn_01x03")
-		(at 179.07 110.49 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "8640481c-55da-4206-a7fe-b93097cbccd4")
-		(property "Reference" "J14"
-			(at 181.61 109.2199 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "NEOPIXEL"
-			(at 181.61 111.7599 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Connector_JST:JST_XH_B3B-XH-A_1x03_P2.50mm_Vertical"
-			(at 179.07 110.49 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 179.07 110.49 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Generic connector, single row, 01x03, script generated (kicad-library-utils/schlib/autogen/connector/)"
-			(at 179.07 110.49 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "LCSC" "C2908601"
-			(at 179.07 110.49 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "JLCPCB Part #" "C2908601"
-			(at 179.07 110.49 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "3"
-			(uuid "fbf460cc-dc3f-43d2-927a-691f40451621")
+			(uuid "5607bf26-cdf6-4f06-83c0-7c735bdfe98a")
 		)
 		(pin "1"
-			(uuid "522ba3b3-eadf-407d-812e-4c363aef792a")
+			(uuid "9278cd87-0cc6-41bd-971d-c34777f5fcb5")
 		)
 		(pin "2"
-			(uuid "09ad6d8e-c585-42a8-b5e6-c56767c9b2d1")
+			(uuid "fa60d254-26ce-4e41-8b73-1fbb0cdddbde")
+		)
+		(pin "3"
+			(uuid "44c8491a-8d66-4d40-8a84-678846cd6074")
+		)
+		(pin "4"
+			(uuid "36aa30a3-3fa7-4774-bfe8-d1cf3ffce5b8")
+		)
+		(pin "5"
+			(uuid "8a99f0de-18c0-4202-bd50-66ad712e5ffd")
 		)
 		(instances
 			(project "BMO"
 				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/c0555228-78be-4774-98c7-4b68c52803f7"
-					(reference "J14")
+					(reference "J9")
 					(unit 1)
 				)
 			)
@@ -7137,7 +6941,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "881e688c-b814-45d4-be0f-cf438db7bbc6")
-		(property "Reference" "C18"
+		(property "Reference" "C19"
 			(at 146.05 158.7562 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7223,7 +7027,7 @@
 		(instances
 			(project "BMO"
 				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/c0555228-78be-4774-98c7-4b68c52803f7"
-					(reference "C18")
+					(reference "C19")
 					(unit 1)
 				)
 			)
@@ -7241,7 +7045,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "9251955d-df0a-4b15-b264-b30f2715f4d2")
-		(property "Reference" "#PWR056"
+		(property "Reference" "#PWR063"
 			(at 273.05 116.84 0)
 			(hide yes)
 			(show_name no)
@@ -7301,7 +7105,7 @@
 		(instances
 			(project "BMO"
 				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/c0555228-78be-4774-98c7-4b68c52803f7"
-					(reference "#PWR056")
+					(reference "#PWR063")
 					(unit 1)
 				)
 			)
@@ -7319,7 +7123,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "9ac579f8-7191-4a78-bdfa-d48588b69bed")
-		(property "Reference" "#PWR030"
+		(property "Reference" "#PWR029"
 			(at 48.26 190.5 0)
 			(hide yes)
 			(show_name no)
@@ -7379,7 +7183,7 @@
 		(instances
 			(project "BMO"
 				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/c0555228-78be-4774-98c7-4b68c52803f7"
-					(reference "#PWR030")
+					(reference "#PWR029")
 					(unit 1)
 				)
 			)
@@ -7475,7 +7279,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "a5e824db-62fc-489f-9c4c-5bc2178e7015")
-		(property "Reference" "#PWR0118"
+		(property "Reference" "#PWR041"
 			(at 129.54 93.98 0)
 			(hide yes)
 			(show_name no)
@@ -7535,7 +7339,7 @@
 		(instances
 			(project "BMO"
 				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/c0555228-78be-4774-98c7-4b68c52803f7"
-					(reference "#PWR0118")
+					(reference "#PWR041")
 					(unit 1)
 				)
 			)
@@ -7552,7 +7356,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "ab8121ea-2b54-49b8-83d5-cb7cb335d57b")
-		(property "Reference" "#PWR035"
+		(property "Reference" "#PWR037"
 			(at 87.63 87.63 0)
 			(hide yes)
 			(show_name no)
@@ -7612,194 +7416,7 @@
 		(instances
 			(project "BMO"
 				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/c0555228-78be-4774-98c7-4b68c52803f7"
-					(reference "#PWR035")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GND")
-		(at 184.15 96.52 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "b240d816-3734-41d5-ae9b-fc482a533f75")
-		(property "Reference" "#PWR0201"
-			(at 184.15 96.52 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "GND"
-			(at 184.15 101.6 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 184.15 96.52 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 184.15 96.52 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 184.15 96.52 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "19ff1774-b674-4d7f-bfdb-e2f293a20806")
-		)
-		(instances
-			(project "BMO"
-				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/c0555228-78be-4774-98c7-4b68c52803f7"
-					(reference "#PWR0201")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Connector_Generic:Conn_01x04")
-		(at 252.73 144.78 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "b51c0839-91af-4ae7-895d-b4fe56ab1718")
-		(property "Reference" "J8"
-			(at 255.27 144.7799 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "OLED_I2C"
-			(at 255.27 147.3199 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Connector_PinSocket_2.54mm:PinSocket_1x04_P2.54mm_Vertical"
-			(at 252.73 144.78 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 252.73 144.78 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Generic connector, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)"
-			(at 252.73 144.78 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "JLCPCB Part #" "C2718488"
-			(at 252.73 144.78 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "LCSC" "C2718488"
-			(at 252.73 144.78 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "3"
-			(uuid "1daafb8a-b2a0-4d46-aaac-48885c04a2e4")
-		)
-		(pin "2"
-			(uuid "4c178599-965c-418e-8cd9-c78f1fe63fc6")
-		)
-		(pin "4"
-			(uuid "ba829d8e-f621-470c-8fe8-b1046050c84a")
-		)
-		(pin "1"
-			(uuid "ec45ff77-21b1-44f7-b830-27f11a13fc5a")
-		)
-		(instances
-			(project "BMO"
-				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/c0555228-78be-4774-98c7-4b68c52803f7"
-					(reference "J8")
+					(reference "#PWR037")
 					(unit 1)
 				)
 			)
@@ -7816,7 +7433,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "c415f454-abaf-4414-b330-d413632b5b34")
-		(property "Reference" "#PWR042"
+		(property "Reference" "#PWR043"
 			(at 129.54 166.37 0)
 			(hide yes)
 			(show_name no)
@@ -7876,7 +7493,7 @@
 		(instances
 			(project "BMO"
 				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/c0555228-78be-4774-98c7-4b68c52803f7"
-					(reference "#PWR042")
+					(reference "#PWR043")
 					(unit 1)
 				)
 			)
@@ -7894,7 +7511,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "c9c8c679-6ba2-4d15-a93d-838da5d179ca")
-		(property "Reference" "C17"
+		(property "Reference" "C15"
 			(at 85.09 158.7562 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7980,7 +7597,7 @@
 		(instances
 			(project "BMO"
 				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/c0555228-78be-4774-98c7-4b68c52803f7"
-					(reference "C17")
+					(reference "C15")
 					(unit 1)
 				)
 			)
@@ -7998,7 +7615,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "cc0a55cc-af82-4e21-ac8d-87e880c98ebf")
-		(property "Reference" "C44"
+		(property "Reference" "C20"
 			(at 163.83 96.5135 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8084,123 +7701,7 @@
 		(instances
 			(project "BMO"
 				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/c0555228-78be-4774-98c7-4b68c52803f7"
-					(reference "C44")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Connector_Generic:Conn_01x06")
-		(at 134.62 167.64 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "cc3e517d-697a-4893-a3aa-e2850c2dfc1f")
-		(property "Reference" "J5"
-			(at 137.16 167.6399 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "TOF2_VL53L0X"
-			(at 137.16 170.1799 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Connector_PinSocket_2.54mm:PinSocket_1x06_P2.54mm_Vertical"
-			(at 134.62 167.64 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 134.62 167.64 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Generic connector, single row, 01x06, script generated (kicad-library-utils/schlib/autogen/connector/)"
-			(at 134.62 167.64 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "JLCPCB Part #" "C40877"
-			(at 134.62 167.64 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "LCSC" "C40877"
-			(at 134.62 167.64 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "6abb23c3-79ec-4aaa-8805-89535a18d301")
-		)
-		(pin "5"
-			(uuid "ad30a370-0a97-4807-b899-4a6353171ba6")
-		)
-		(pin "2"
-			(uuid "3d087958-976c-4dae-94b8-807f29954e35")
-		)
-		(pin "3"
-			(uuid "a4d7da57-4f28-42ab-af83-5609978967a9")
-		)
-		(pin "6"
-			(uuid "45ade6e8-122f-413e-bffb-ff6651d2df5a")
-		)
-		(pin "4"
-			(uuid "448bcde5-869d-4fda-a97d-dc7d62ee3175")
-		)
-		(instances
-			(project "BMO"
-				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/c0555228-78be-4774-98c7-4b68c52803f7"
-					(reference "J5")
+					(reference "C20")
 					(unit 1)
 				)
 			)
@@ -8218,7 +7719,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "cc6bf0f4-b2be-46d3-80a8-1dd16e300994")
-		(property "Reference" "#PWR050"
+		(property "Reference" "#PWR055"
 			(at 217.17 127 0)
 			(hide yes)
 			(show_name no)
@@ -8278,7 +7779,7 @@
 		(instances
 			(project "BMO"
 				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/c0555228-78be-4774-98c7-4b68c52803f7"
-					(reference "#PWR050")
+					(reference "#PWR055")
 					(unit 1)
 				)
 			)
@@ -8296,7 +7797,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "d65276a4-d1bb-4b25-a462-3696607d4199")
-		(property "Reference" "#PWR0117"
+		(property "Reference" "#PWR040"
 			(at 119.38 110.49 0)
 			(hide yes)
 			(show_name no)
@@ -8357,7 +7858,7 @@
 		(instances
 			(project "BMO"
 				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/c0555228-78be-4774-98c7-4b68c52803f7"
-					(reference "#PWR0117")
+					(reference "#PWR040")
 					(unit 1)
 				)
 			)
@@ -8375,7 +7876,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "d736d3d0-38da-453b-a300-2b9db199b21a")
-		(property "Reference" "#PWR0122"
+		(property "Reference" "#PWR050"
 			(at 173.99 93.98 0)
 			(hide yes)
 			(show_name no)
@@ -8435,7 +7936,7 @@
 		(instances
 			(project "BMO"
 				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/c0555228-78be-4774-98c7-4b68c52803f7"
-					(reference "#PWR0122")
+					(reference "#PWR050")
 					(unit 1)
 				)
 			)
@@ -8453,7 +7954,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "e44f1dde-8219-4587-af7d-38d48d8237de")
-		(property "Reference" "C20"
+		(property "Reference" "C22"
 			(at 274.32 45.7262 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8539,7 +8040,7 @@
 		(instances
 			(project "BMO"
 				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/c0555228-78be-4774-98c7-4b68c52803f7"
-					(reference "C20")
+					(reference "C22")
 					(unit 1)
 				)
 			)
@@ -8556,7 +8057,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "e89be8fb-9300-4e34-bf7f-5fa2563568be")
-		(property "Reference" "#PWR045"
+		(property "Reference" "#PWR052"
 			(at 176.53 44.45 0)
 			(hide yes)
 			(show_name no)
@@ -8616,7 +8117,7 @@
 		(instances
 			(project "BMO"
 				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/c0555228-78be-4774-98c7-4b68c52803f7"
-					(reference "#PWR045")
+					(reference "#PWR052")
 					(unit 1)
 				)
 			)
@@ -8633,7 +8134,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(fields_autoplaced yes)
-		(uuid "ee8999ff-3803-435d-b01c-ea0ac64fbbd7")
+		(uuid "efca66fd-4527-42ed-86d6-1a3a49f3d9bc")
 		(property "Reference" "J7"
 			(at 255.27 107.9499 0)
 			(show_name no)
@@ -8656,7 +8157,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Connector_JST:JST_XH_B5B-XH-A_1x05_P2.50mm_Vertical"
+		(property "Footprint" "Connector_JST:JST_XH_S5B-XH-A-1_1x05_P2.50mm_Horizontal"
 			(at 252.73 109.22 0)
 			(hide yes)
 			(show_name no)
@@ -8689,150 +8190,25 @@
 				)
 			)
 		)
-		(property "JLCPCB Part #" "C157991"
-			(at 252.73 109.22 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "LCSC" "C157991"
-			(at 252.73 109.22 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
 		(pin "1"
-			(uuid "0593cec0-b778-43a4-9e0d-c8f3050d7cc4")
+			(uuid "ef71e9a0-f6b3-417e-9862-70eac10daed8")
 		)
 		(pin "3"
-			(uuid "29fbfd5f-eeff-4fc9-b746-d3c7897bc7f4")
-		)
-		(pin "4"
-			(uuid "99b410d6-191c-4fce-8d0b-5399228a7570")
+			(uuid "bd4e6cb3-d75f-4227-9d7f-cf92f2138809")
 		)
 		(pin "5"
-			(uuid "7cf430fc-7bf7-4cbc-811b-ea78c13b1ab1")
+			(uuid "e731e43d-7057-4fc9-9fa0-64de1bd186e1")
 		)
 		(pin "2"
-			(uuid "9532a4b4-8257-4bea-aad1-b90ac2d05985")
+			(uuid "681e7bac-54c5-4815-a305-8de8bc737728")
+		)
+		(pin "4"
+			(uuid "0b282010-aaa5-4ba3-b448-efcebf55cb55")
 		)
 		(instances
 			(project "BMO"
 				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/c0555228-78be-4774-98c7-4b68c52803f7"
 					(reference "J7")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:C_Polarized_Small")
-		(at 184.15 93.98 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "f5235ac7-8843-4d4a-95cd-a5926276ac97")
-		(property "Reference" "C45"
-			(at 186.69 92.71 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "470u"
-			(at 186.69 95.25 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Capacitor_SMD:CP_Elec_10x10"
-			(at 184.15 93.98 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 184.15 93.98 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Polarized capacitor, small symbol"
-			(at 184.15 93.98 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "LCSC" "C2165185"
-			(at 184.15 93.98 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "JLCPCB Part #" "C2165185"
-			(at 184.15 93.98 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "79b12ff6-119b-4a76-b3f0-d464fa4bb0c8")
-		)
-		(pin "2"
-			(uuid "d7ea0be4-cf6a-4b21-aef0-9c8ba29f7e74")
-		)
-		(instances
-			(project "BMO"
-				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/c0555228-78be-4774-98c7-4b68c52803f7"
-					(reference "C45")
 					(unit 1)
 				)
 			)
@@ -8849,7 +8225,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "f6a38d63-5628-4cf3-b51d-1bb3b84d300a")
-		(property "Reference" "C19"
+		(property "Reference" "C21"
 			(at 178.308 45.72 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8935,7 +8311,7 @@
 		(instances
 			(project "BMO"
 				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/c0555228-78be-4774-98c7-4b68c52803f7"
-					(reference "C19")
+					(reference "C21")
 					(unit 1)
 				)
 			)
@@ -8952,7 +8328,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "fc74a8a2-e7c5-452e-874c-e243c1068061")
-		(property "Reference" "#PWR029"
+		(property "Reference" "#PWR030"
 			(at 54.61 52.07 0)
 			(hide yes)
 			(show_name no)
@@ -9012,7 +8388,100 @@
 		(instances
 			(project "BMO"
 				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/c0555228-78be-4774-98c7-4b68c52803f7"
-					(reference "#PWR029")
+					(reference "#PWR030")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector_Generic:Conn_01x06")
+		(at 73.66 167.64 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "feb81bfa-b30d-4a93-ac66-01f9b0dfc9e8")
+		(property "Reference" "J3"
+			(at 72.644 178.562 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "TOF1_VL53L0X"
+			(at 69.596 180.594 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Connector_JST:JST_XH_S6B-XH-A_1x06_P2.50mm_Horizontal"
+			(at 73.66 167.64 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 73.66 167.64 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Generic connector, single row, 01x06, script generated (kicad-library-utils/schlib/autogen/connector/)"
+			(at 73.66 167.64 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "6"
+			(uuid "b964fe2d-444b-4c40-9ce3-efee829615c7")
+		)
+		(pin "1"
+			(uuid "78530ded-9f81-48f6-bf26-a60989111282")
+		)
+		(pin "2"
+			(uuid "07ecca40-b49d-4981-880d-1c46b13b029e")
+		)
+		(pin "3"
+			(uuid "a6262513-38d9-4cdd-9cbd-4727efdae8dd")
+		)
+		(pin "4"
+			(uuid "e28117bd-1d7b-4be2-b42b-b57fe6acd2b7")
+		)
+		(pin "5"
+			(uuid "b25c1710-cdbd-4015-ad53-e0bc062bf5d2")
+		)
+		(instances
+			(project "BMO"
+				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/c0555228-78be-4774-98c7-4b68c52803f7"
+					(reference "J3")
 					(unit 1)
 				)
 			)

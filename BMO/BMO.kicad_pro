@@ -69,7 +69,13 @@
           "thermal_relief_spoke_width": 0.5
         }
       },
-      "diff_pair_dimensions": [],
+      "diff_pair_dimensions": [
+        {
+          "gap": 0.0,
+          "via_gap": 0.0,
+          "width": 0.0
+        }
+      ],
       "drc_exclusions": [],
       "meta": {
         "version": 2
@@ -153,7 +159,7 @@
         "min_text_height": 0.8,
         "min_text_thickness": 0.08,
         "min_through_hole_diameter": 0.3,
-        "min_track_width": 0.2,
+        "min_track_width": 0.0,
         "min_via_annular_width": 0.1,
         "min_via_diameter": 0.5,
         "solder_mask_to_copper_clearance": 0.0,
@@ -203,7 +209,9 @@
           "td_width_to_size_filter_ratio": 0.9
         }
       ],
-      "track_widths": [],
+      "track_widths": [
+        0.0
+      ],
       "tuning_pattern_settings": {
         "diff_pair_defaults": {
           "corner_radius_percentage": 80,
@@ -230,7 +238,12 @@
           "spacing": 0.6
         }
       },
-      "via_dimensions": [],
+      "via_dimensions": [
+        {
+          "diameter": 0.0,
+          "drill": 0.0
+        }
+      ],
       "zones_allow_external_fillets": false
     },
     "ipc2581": {
@@ -781,7 +794,7 @@
         "uuid": "509804e7-65e7-46e6-80ed-6cdb4037dc07"
       }
     ],
-    "used_designators": "J1-14,#FLG1-10,R1-36,#PWR1-123,#PWR128-130,#PWR290,C1-45,F1,FB1,TP1-9,U1-8,D1-6,L1-4,Q1-3,Lidar1,TOF2-3,SW1-3,JP1-3,H1-4,Y1",
+    "used_designators": "J1-17,#FLG1-10,R1-36,#PWR1-123,#PWR128-130,#PWR290,C1-45,F1,FB1,TP1-9,U1-8,D1-6,L1-4,Q1-3,Lidar1,TOF2-3,SW1-3,JP1-3,H1-4,Y1",
     "variants": []
   },
   "sheets": [
