@@ -59,6 +59,8 @@ void Error_Handler(void);
 /* Private defines -----------------------------------------------------------*/
 #define LED_STATUS_Pin GPIO_PIN_5
 #define LED_STATUS_GPIO_Port GPIOA
+#define BUZZER_PWM_Pin GPIO_PIN_5
+#define BUZZER_PWM_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
 

@@ -107,6 +107,16 @@ bool BSP_Init(void)
     g_bsp.lidar_ok = true;
     printf("[BSP] YDLIDAR X2 (UART1): OK\r\n");
 
+    /* 10. Passive Buzzer (PB5 on TIM17_CH1) */
+    if (BUZZER_Init(&g_bsp.buzzer, &htim17, TIM_CHANNEL_1)) {
+        g_bsp.buzzer_ok = true;
+        printf("[BSP] Passive Buzzer (PB5 on TIM17_CH1): OK\r\n");
+        /* Play cheerful BMO boot chime! */
+        BUZZER_PlaySound(&g_bsp.buzzer, BMO_SOUND_BOOT);
+    } else {
+        printf("[BSP] Passive Buzzer: Init failed\r\n");
+    }
+
     printf("========================================\r\n\r\n");
     return true;
 }
@@ -116,5 +126,10 @@ void BSP_Update(float dt_seconds)
     /* High-rate IMU heading integration */
     if (g_bsp.imu_ok) {
         MPU6050_Update(&g_bsp.imu, dt_seconds);
+    }
+
+    /* Advance buzzer non-blocking sound sequencer */
+    if (g_bsp.buzzer_ok) {
+        BUZZER_Process(&g_bsp.buzzer, HAL_GetTick());
     }
 }
