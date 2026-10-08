@@ -24,15 +24,17 @@
 #include "apds9960.h"
 #include "mpu6050.h"
 #include "ydlidar_x2.h"
+#include "buzzer.h"
 
 /**
   * @brief Global BMO Hardware Handle
   */
 typedef struct {
-    /* Actuators */
+    /* Actuators & Audio */
     drv8833_t    motor_left;
     drv8833_t    motor_right;
     servo_t      gripper;
+    buzzer_t     buzzer;
 
     /* Sensors */
     encoder_t    enc_left;
@@ -52,6 +54,7 @@ typedef struct {
     bool tof_ok;
     bool color_ok;
     bool lidar_ok;
+    bool buzzer_ok;
 } bsp_t;
 
 /* Global BSP instance */

@@ -56,6 +56,7 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     BSP/servo/servo.c
     BSP/neopixel/neopixel.c
     BSP/mpu6050/mpu6050.c
+    BSP/buzzer/buzzer.c
     BSP/bsp.c
 
     # BMO Application Logic
@@ -74,6 +75,7 @@ target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
     BSP/servo
     BSP/neopixel
     BSP/mpu6050
+    BSP/buzzer
     App
 )
 
