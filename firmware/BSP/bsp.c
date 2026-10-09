@@ -157,6 +157,27 @@ bool BSP_Init(void)
         printf("[BSP] Passive Buzzer: Init failed\r\n");
     }
 
+    /* 11. BQ27220 Single-Cell Fuel Gauge (I2C1 PA15/PB9 @ 0x55) */
+    if (BQ27220_Init(&g_bsp.fuel_gauge, &hi2c1) == HAL_OK) {
+        g_bsp.fuel_gauge_ok = true;
+        printf("[BSP] BQ27220 Fuel Gauge (I2C1 0x55): OK (SOC: %u%%, %u mV)\r\n",
+               g_bsp.fuel_gauge.soc_percent,
+               g_bsp.fuel_gauge.voltage_mv);
+    } else {
+        printf("[BSP] BQ27220 Fuel Gauge (I2C1 0x55): Not detected\r\n");
+    }
+
+    /* 12. BQ25896 / BQ25895 Fast Charger & 5V Boost (I2C1 PA15/PB9 @ 0x6B / 0x6A) */
+    if (BQ25896_Init(&g_bsp.charger, &hi2c1) == HAL_OK) {
+        g_bsp.charger_ok = true;
+        printf("[BSP] BQ25896 Charger (I2C1 0x%02X): OK (VBUS: %u mV, VBAT: %u mV)\r\n",
+               g_bsp.charger.i2c_addr >> 1,
+               g_bsp.charger.vbus_mv,
+               g_bsp.charger.vbat_mv);
+    } else {
+        printf("[BSP] BQ25896 Charger (I2C1): Not detected\r\n");
+    }
+
     printf("========================================\r\n\r\n");
     return true;
 }

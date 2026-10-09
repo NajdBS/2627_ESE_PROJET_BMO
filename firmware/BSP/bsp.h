@@ -25,6 +25,8 @@
 #include "mpu6050.h"
 #include "ydlidar_x2.h"
 #include "buzzer.h"
+#include "bq27220.h"
+#include "bq25896.h"
 
 /**
   * @brief Global BMO Hardware Handle
@@ -35,6 +37,10 @@ typedef struct {
     drv8833_t    motor_right;
     servo_t      gripper;
     buzzer_t     buzzer;
+
+    /* Power Management */
+    bq27220_t    fuel_gauge;
+    bq25896_t    charger;
 
     /* Sensors */
     encoder_t    enc_left;
@@ -59,6 +65,8 @@ typedef struct {
     bool color_ok;
     bool lidar_ok;
     bool buzzer_ok;
+    bool fuel_gauge_ok;
+    bool charger_ok;
 } bsp_t;
 
 /* Global BSP instance */
