@@ -357,6 +357,35 @@ int main(void)
         leds_process();
     }
     */
+
+    /* Power Telemetry (BQ27220 Fuel Gauge & BQ25896 Charger) every 1000 ms */
+    /*
+    static uint32_t last_power_tick = 0;
+    if (now - last_power_tick >= 1000) {
+        last_power_tick = now;
+        if (g_bsp.fuel_gauge_ok) {
+            BQ27220_Update(&g_bsp.fuel_gauge);
+            printf("[Power] BQ27220 Fuel Gauge -> SOC: %3u%% | V: %4u mV | I: %5d mA | T: %4.1f C | Rem: %4u mAh\r\n",
+                   g_bsp.fuel_gauge.soc_percent,
+                   g_bsp.fuel_gauge.voltage_mv,
+                   g_bsp.fuel_gauge.current_ma,
+                   g_bsp.fuel_gauge.temperature_c,
+                   g_bsp.fuel_gauge.remaining_capacity_mah);
+        }
+        if (g_bsp.charger_ok) {
+            BQ25896_Update(&g_bsp.charger);
+            const char *chrg_str = (g_bsp.charger.charge_status == BQ_CHRG_DONE) ? "DONE" :
+                                   (g_bsp.charger.charge_status == BQ_CHRG_FAST_CHARGE) ? "FAST" :
+                                   (g_bsp.charger.charge_status == BQ_CHRG_PRECHARGE) ? "PRE" : "IDLE";
+            printf("[Power] BQ25896 Charger    -> VBUS: %4u mV | VBAT: %4u mV | Ichg: %4u mA | Chg: %s | PG: %d\r\n",
+                   g_bsp.charger.vbus_mv,
+                   g_bsp.charger.vbat_mv,
+                   g_bsp.charger.ichg_ma,
+                   chrg_str,
+                   g_bsp.charger.power_good);
+        }
+    }
+    */
   }
   /* USER CODE END 3 */
 }
