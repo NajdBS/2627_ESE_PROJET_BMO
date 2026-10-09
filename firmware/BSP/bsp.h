@@ -40,7 +40,9 @@ typedef struct {
     encoder_t    enc_left;
     encoder_t    enc_right;
     mpu6050_t    imu;
-    vl53l0x_t    tof;
+    vl53l0x_t    tof_left;
+    vl53l0x_t    tof_right;
+    /* vl53l0x_t    tof_center; */  /* Optional 3rd Center ToF (XSHUT on EXT_PB13 -> 0x32) */
     apds9960_t   color;
     ydlidar_x2_t lidar;
 
@@ -51,7 +53,9 @@ typedef struct {
     bool gripper_ok;
     bool neopixel_ok;
     bool imu_ok;
-    bool tof_ok;
+    bool tof_left_ok;
+    bool tof_right_ok;
+    /* bool tof_center_ok; */       /* Optional 3rd Center ToF status */
     bool color_ok;
     bool lidar_ok;
     bool buzzer_ok;

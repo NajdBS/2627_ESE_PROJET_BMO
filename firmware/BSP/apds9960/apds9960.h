@@ -64,22 +64,22 @@
  * @brief Classified can color detected by BMO
  */
 typedef enum {
-    BMO_CAN_COLOR_NONE = 0,     /**< Pas de canette ou trop sombre */
-    BMO_CAN_COLOR_RED,          /**< Canette ROUGE */
-    BMO_CAN_COLOR_GREEN,        /**< Canette VERTE */
-    BMO_CAN_COLOR_BLUE,         /**< Canette BLEUE */
-    BMO_CAN_COLOR_UNKNOWN       /**< Objet détecté mais couleur incertaine */
+    BMO_CAN_COLOR_NONE = 0,     /**< No can detected or ambient dark */
+    BMO_CAN_COLOR_RED,          /**< RED can detected */
+    BMO_CAN_COLOR_GREEN,        /**< GREEN can detected */
+    BMO_CAN_COLOR_BLUE,         /**< BLUE can detected */
+    BMO_CAN_COLOR_UNKNOWN       /**< Object detected with uncertain color */
 } bmo_can_color_t;
 
 /**
  * @brief Raw measurement data structure
  */
 typedef struct {
-    uint16_t red;               /**< Intensité canal Rouge (0..65535) */
-    uint16_t green;             /**< Intensité canal Vert (0..65535) */
-    uint16_t blue;              /**< Intensité canal Bleu (0..65535) */
-    uint16_t clear;             /**< Intensité canal Clair (0..65535) */
-    uint8_t  proximity;         /**< Proximité infrarouge (0..255) */
+    uint16_t red;               /**< Red channel intensity (0..65535) */
+    uint16_t green;             /**< Green channel intensity (0..65535) */
+    uint16_t blue;              /**< Blue channel intensity (0..65535) */
+    uint16_t clear;             /**< Clear channel intensity (0..65535) */
+    uint8_t  proximity;         /**< Infrared proximity (0..255) */
 } apds9960_data_t;
 
 /**

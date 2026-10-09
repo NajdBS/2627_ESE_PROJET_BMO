@@ -184,7 +184,7 @@ void HAL_I2C_MspInit(I2C_HandleTypeDef* i2cHandle)
     PB8-BOOT0     ------> I2C1_SCL
     PB9     ------> I2C1_SDA
     */
-    GPIO_InitStruct.Pin = GPIO_PIN_8|GPIO_PIN_9;
+    GPIO_InitStruct.Pin = BAT_SCL_Pin|BAT_SDA_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_OD;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -217,7 +217,7 @@ void HAL_I2C_MspInit(I2C_HandleTypeDef* i2cHandle)
     PA8     ------> I2C2_SDA
     PA9     ------> I2C2_SCL
     */
-    GPIO_InitStruct.Pin = GPIO_PIN_8|GPIO_PIN_9;
+    GPIO_InitStruct.Pin = OLED_SDA_Pin|OLED_SCL_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_OD;
     GPIO_InitStruct.Pull = GPIO_PULLUP;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -274,7 +274,7 @@ void HAL_I2C_MspInit(I2C_HandleTypeDef* i2cHandle)
     PC8     ------> I2C3_SCL
     PC9     ------> I2C3_SDA
     */
-    GPIO_InitStruct.Pin = GPIO_PIN_8|GPIO_PIN_9;
+    GPIO_InitStruct.Pin = SENS_SCL_Pin|SENS_SDA_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_OD;
     GPIO_InitStruct.Pull = GPIO_PULLUP;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -304,9 +304,9 @@ void HAL_I2C_MspDeInit(I2C_HandleTypeDef* i2cHandle)
     PB8-BOOT0     ------> I2C1_SCL
     PB9     ------> I2C1_SDA
     */
-    HAL_GPIO_DeInit(GPIOB, GPIO_PIN_8);
+    HAL_GPIO_DeInit(BAT_SCL_GPIO_Port, BAT_SCL_Pin);
 
-    HAL_GPIO_DeInit(GPIOB, GPIO_PIN_9);
+    HAL_GPIO_DeInit(BAT_SDA_GPIO_Port, BAT_SDA_Pin);
 
   /* USER CODE BEGIN I2C1_MspDeInit 1 */
 
@@ -324,9 +324,9 @@ void HAL_I2C_MspDeInit(I2C_HandleTypeDef* i2cHandle)
     PA8     ------> I2C2_SDA
     PA9     ------> I2C2_SCL
     */
-    HAL_GPIO_DeInit(GPIOA, GPIO_PIN_8);
+    HAL_GPIO_DeInit(OLED_SDA_GPIO_Port, OLED_SDA_Pin);
 
-    HAL_GPIO_DeInit(GPIOA, GPIO_PIN_9);
+    HAL_GPIO_DeInit(OLED_SCL_GPIO_Port, OLED_SCL_Pin);
 
     /* I2C2 DMA DeInit */
     HAL_DMA_DeInit(i2cHandle->hdmatx);
@@ -350,9 +350,9 @@ void HAL_I2C_MspDeInit(I2C_HandleTypeDef* i2cHandle)
     PC8     ------> I2C3_SCL
     PC9     ------> I2C3_SDA
     */
-    HAL_GPIO_DeInit(GPIOC, GPIO_PIN_8);
+    HAL_GPIO_DeInit(SENS_SCL_GPIO_Port, SENS_SCL_Pin);
 
-    HAL_GPIO_DeInit(GPIOC, GPIO_PIN_9);
+    HAL_GPIO_DeInit(SENS_SDA_GPIO_Port, SENS_SDA_Pin);
 
   /* USER CODE BEGIN I2C3_MspDeInit 1 */
 
