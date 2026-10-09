@@ -77,18 +77,58 @@ bool BSP_Init(void)
         printf("[BSP] MPU-6050 IMU (I2C3 0x68): Not detected\r\n");
     }
 
-    /* 7. VL53L0X ToF Distance Sensor (I2C3 PC8/PC9) */
+    /* 7. VL53L0X ToF Distance Sensors (Shutdown all sensors initially) */
+    HAL_GPIO_WritePin(XSHUT_TOF_L_GPIO_Port, XSHUT_TOF_L_Pin, GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(XSHUT_TOF_R_GPIO_Port, XSHUT_TOF_R_Pin, GPIO_PIN_RESET);
+    /* HAL_GPIO_WritePin(EXT_PB13_GPIO_Port, EXT_PB13_Pin, GPIO_PIN_RESET); */ /* Optional 3rd Center ToF shutdown */
+    HAL_Delay(10);
+
+    /* Wake up Left ToF */
+    HAL_GPIO_WritePin(XSHUT_TOF_L_GPIO_Port, XSHUT_TOF_L_Pin, GPIO_PIN_SET);
+    HAL_Delay(10);
     if (HAL_I2C_IsDeviceReady(&hi2c3, VL53L0X_DEFAULT_ADDRESS_8BIT, 2, 50) == HAL_OK) {
-        if (VL53L0X_Init(&g_bsp.tof, &hi2c3)) {
-            VL53L0X_StartContinuous(&g_bsp.tof, 0);
-            g_bsp.tof_ok = true;
-            printf("[BSP] VL53L0X ToF Distance (I2C3 0x29): OK\r\n");
-        } else {
-            printf("[BSP] VL53L0X ToF: Init failed\r\n");
+        if (VL53L0X_Init(&g_bsp.tof_left, &hi2c3)) {
+            VL53L0X_SetAddress(&g_bsp.tof_left, VL53L0X_ADDR_LEFT_8BIT);
+            VL53L0X_StartContinuous(&g_bsp.tof_left, 0);
+            g_bsp.tof_left_ok = true;
+            printf("[BSP] VL53L0X ToF Left  (XSHUT_TOF_L -> 0x30): OK\r\n");
         }
-    } else {
-        printf("[BSP] VL53L0X ToF (I2C3 0x29): Not detected\r\n");
     }
+    if (!g_bsp.tof_left_ok) {
+        printf("[BSP] VL53L0X ToF Left  (XSHUT_TOF_L -> 0x30): Not detected\r\n");
+    }
+
+    /* Wake up Right ToF */
+    HAL_GPIO_WritePin(XSHUT_TOF_R_GPIO_Port, XSHUT_TOF_R_Pin, GPIO_PIN_SET);
+    HAL_Delay(10);
+    if (HAL_I2C_IsDeviceReady(&hi2c3, VL53L0X_DEFAULT_ADDRESS_8BIT, 2, 50) == HAL_OK) {
+        if (VL53L0X_Init(&g_bsp.tof_right, &hi2c3)) {
+            VL53L0X_SetAddress(&g_bsp.tof_right, VL53L0X_ADDR_RIGHT_8BIT);
+            VL53L0X_StartContinuous(&g_bsp.tof_right, 0);
+            g_bsp.tof_right_ok = true;
+            printf("[BSP] VL53L0X ToF Right (XSHUT_TOF_R -> 0x31): OK\r\n");
+        }
+    }
+    if (!g_bsp.tof_right_ok) {
+        printf("[BSP] VL53L0X ToF Right (XSHUT_TOF_R -> 0x31): Not detected\r\n");
+    }
+
+    /* Optional 3rd Center ToF (EXT_PB13 -> 0x32) - Uncomment to activate */
+    /*
+    HAL_GPIO_WritePin(EXT_PB13_GPIO_Port, EXT_PB13_Pin, GPIO_PIN_SET);
+    HAL_Delay(10);
+    if (HAL_I2C_IsDeviceReady(&hi2c3, VL53L0X_DEFAULT_ADDRESS_8BIT, 2, 50) == HAL_OK) {
+        if (VL53L0X_Init(&g_bsp.tof_center, &hi2c3)) {
+            VL53L0X_SetAddress(&g_bsp.tof_center, VL53L0X_ADDR_CENTER_8BIT);
+            VL53L0X_StartContinuous(&g_bsp.tof_center, 0);
+            g_bsp.tof_center_ok = true;
+            printf("[BSP] VL53L0X ToF Center (PB13 -> 0x32): OK\r\n");
+        }
+    }
+    if (!g_bsp.tof_center_ok) {
+        printf("[BSP] VL53L0X ToF Center (PB13 -> 0x32): Not detected\r\n");
+    }
+    */
 
     /* 8. APDS-9960 RGB Color & Proximity Sensor (I2C3 PC8/PC9) */
     if (HAL_I2C_IsDeviceReady(&hi2c3, APDS9960_I2C_ADDR_8BIT, 2, 50) == HAL_OK) {

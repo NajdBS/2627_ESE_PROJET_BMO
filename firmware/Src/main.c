@@ -207,14 +207,15 @@ int main(void)
   MX_TIM16_Init();
   MX_I2C1_Init();
   MX_TIM17_Init();
+  MX_USART3_UART_Init();
   /* USER CODE BEGIN 2 */
   BSP_Init();
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  uint32_t last_buzzer_demo_tick = 0;
-  uint8_t buzzer_step = 0;
+  /* uint32_t last_buzzer_demo_tick = 0; */
+  /* uint8_t buzzer_step = 0; */
 
   while (1)
   {
@@ -223,10 +224,69 @@ int main(void)
     /* USER CODE BEGIN 3 */
     uint32_t now = HAL_GetTick();
 
+    /* Status LED heartbeat (500 ms) */
+    static uint32_t last_led_heartbeat = 0;
+    if (now - last_led_heartbeat >= 500) {
+        last_led_heartbeat = now;
+        HAL_GPIO_TogglePin(LED_STATUS_GPIO_Port, LED_STATUS_Pin);
+    }
+
     /* BSP Background Tasks (IMU integration, Buzzer melody sequencer) */
     BSP_Update(0.01f);
 
-    /* Buzzer Melody Demo: Cycle through BMO sound effects every 2.5 seconds */
+    /* Dual VL53L0X ToF Distance Sensors loop (every 100 ms) */
+    static uint32_t last_tof_tick = 0;
+    if (now - last_tof_tick >= 100) {
+        last_tof_tick = now;
+
+        uint16_t dist_left = 65535;
+        uint16_t dist_right = 65535;
+
+        if (g_bsp.tof_left_ok) {
+            dist_left = VL53L0X_ReadDistanceContinuous(&g_bsp.tof_left, NULL);
+        }
+        if (g_bsp.tof_right_ok) {
+            dist_right = VL53L0X_ReadDistanceContinuous(&g_bsp.tof_right, NULL);
+        }
+
+        printf("[ToF Dual] Left (0x30): ");
+        if (g_bsp.tof_left_ok && dist_left < 8190) {
+            printf("%4u mm", dist_left);
+        } else if (!g_bsp.tof_left_ok) {
+            printf("DISCON ");
+        } else {
+            printf(" OUT   ");
+        }
+
+        printf("  |  Right (0x31): ");
+        if (g_bsp.tof_right_ok && dist_right < 8190) {
+            printf("%4u mm", dist_right);
+        } else if (!g_bsp.tof_right_ok) {
+            printf("DISCON ");
+        } else {
+            printf(" OUT   ");
+        }
+
+        // Optional 3rd Center ToF (EXT_PB13 -> 0x32) - Uncomment to test
+        /*
+        uint16_t dist_center = 65535;
+        if (g_bsp.tof_center_ok) {
+            dist_center = VL53L0X_ReadDistanceContinuous(&g_bsp.tof_center, NULL);
+        }
+        printf("  |  Center (0x32): ");
+        if (g_bsp.tof_center_ok && dist_center < 8190) {
+            printf("%4u mm", dist_center);
+        } else if (!g_bsp.tof_center_ok) {
+            printf("DISCON ");
+        } else {
+            printf(" OUT   ");
+        }
+        */
+        printf("\r\n");
+    }
+
+    /* Buzzer Melody Demo: Cycle through BMO sound effects (commented out for ToF test) */
+    /*
     if (g_bsp.buzzer_ok && (now - last_buzzer_demo_tick >= 2500)) {
         last_buzzer_demo_tick = now;
 
@@ -268,6 +328,7 @@ int main(void)
             break;
         }
     }
+    */
 
     /* MPU-6050 IMU integration loop (commented for buzzer test) */
     /*

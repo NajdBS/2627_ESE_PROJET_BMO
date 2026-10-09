@@ -14,6 +14,12 @@
 
 #define VL53L0X_DEFAULT_ADDRESS_8BIT  0x52
 #define VL53L0X_DEFAULT_ADDRESS_7BIT  0x29
+#define VL53L0X_ADDR_LEFT_7BIT        0x30
+#define VL53L0X_ADDR_LEFT_8BIT        (0x30 << 1)  /* 0x60 */
+#define VL53L0X_ADDR_RIGHT_7BIT       0x31
+#define VL53L0X_ADDR_RIGHT_8BIT       (0x31 << 1)  /* 0x62 */
+#define VL53L0X_ADDR_CENTER_7BIT      0x32
+#define VL53L0X_ADDR_CENTER_8BIT      (0x32 << 1)  /* 0x64 */
 #define VL53L0X_DEFAULT_TIMEOUT_MS    500
 
 /**
