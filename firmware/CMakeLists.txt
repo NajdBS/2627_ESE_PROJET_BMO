@@ -59,6 +59,7 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     BSP/buzzer/buzzer.c
     BSP/bq27220/bq27220.c
     BSP/bq25896/bq25896.c
+    BSP/ble/ble.c
     BSP/bsp.c
 
     # BMO Application Logic
@@ -80,6 +81,7 @@ target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
     BSP/buzzer
     BSP/bq27220
     BSP/bq25896
+    BSP/ble
     App
 )
 
