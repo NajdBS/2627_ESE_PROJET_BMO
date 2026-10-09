@@ -27,6 +27,7 @@
 #include "buzzer.h"
 #include "bq27220.h"
 #include "bq25896.h"
+#include "ble.h"
 
 /**
   * @brief Global BMO Hardware Handle
@@ -41,6 +42,9 @@ typedef struct {
     /* Power Management */
     bq27220_t    fuel_gauge;
     bq25896_t    charger;
+
+    /* Wireless Communication */
+    ble_t        ble;
 
     /* Sensors */
     encoder_t    enc_left;
@@ -67,6 +71,7 @@ typedef struct {
     bool buzzer_ok;
     bool fuel_gauge_ok;
     bool charger_ok;
+    bool ble_ok;
 } bsp_t;
 
 /* Global BSP instance */

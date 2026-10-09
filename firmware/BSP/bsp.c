@@ -178,6 +178,14 @@ bool BSP_Init(void)
         printf("[BSP] BQ25896 Charger (I2C1): Not detected\r\n");
     }
 
+    /* 13. Bluetooth Low Energy (USART3 PC10/PC11 @ 115200 + PA10 BLE_EN) */
+    if (BLE_Init(&g_bsp.ble, &huart3, BLE_EN_GPIO_Port, BLE_EN_Pin) == HAL_OK) {
+        g_bsp.ble_ok = true;
+        printf("[BSP] Bluetooth BLE (USART3 @ 115200, PA10 EN): OK\r\n");
+    } else {
+        printf("[BSP] Bluetooth BLE (USART3): Init failed\r\n");
+    }
+
     printf("========================================\r\n\r\n");
     return true;
 }
@@ -192,5 +200,17 @@ void BSP_Update(float dt_seconds)
     /* Advance buzzer non-blocking sound sequencer */
     if (g_bsp.buzzer_ok) {
         BUZZER_Process(&g_bsp.buzzer, HAL_GetTick());
+    }
+}
+
+/**
+  * @brief  Route UART RX complete events to appropriate peripheral drivers.
+  */
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+    if (huart->Instance == USART3) {
+        if (g_bsp.ble_ok) {
+            BLE_RxCallback(&g_bsp.ble);
+        }
     }
 }

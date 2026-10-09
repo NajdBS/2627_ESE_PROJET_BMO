@@ -386,6 +386,47 @@ int main(void)
         }
     }
     */
+
+    /* Bluetooth Low Energy command parser */
+    /*
+    if (g_bsp.ble_ok && BLE_HasCommand(&g_bsp.ble)) {
+        char cmd_str[BLE_CMD_MAX_LEN] = {0};
+        ble_command_type_t cmd_type = BLE_GetCommand(&g_bsp.ble, cmd_str, sizeof(cmd_str));
+
+        printf("[BLE RX] Command received: '%s'\r\n", cmd_str);
+
+        switch (cmd_type) {
+            case BLE_CMD_START:
+                printf("[BLE] >> MATCH START triggered via Bluetooth! <<\r\n");
+                if (g_bsp.buzzer_ok) {
+                    BUZZER_PlaySound(&g_bsp.buzzer, BMO_SOUND_MATCH_START);
+                }
+                BLE_SendString(&g_bsp.ble, "ACK:MATCH_START\r\n");
+                break;
+
+            case BLE_CMD_STOP:
+                printf("[BLE] >> EMERGENCY STOP triggered via Bluetooth! <<\r\n");
+                if (g_bsp.motors_ok) {
+                    DRV8833_Brake(&g_bsp.motor_left);
+                    DRV8833_Brake(&g_bsp.motor_right);
+                }
+                if (g_bsp.buzzer_ok) {
+                    BUZZER_PlaySound(&g_bsp.buzzer, BMO_SOUND_ERROR);
+                }
+                BLE_SendString(&g_bsp.ble, "ACK:EMERGENCY_STOP\r\n");
+                break;
+
+            case BLE_CMD_RESET:
+                printf("[BLE] >> RESET command received <<\r\n");
+                BLE_SendString(&g_bsp.ble, "ACK:RESET_OK\r\n");
+                break;
+
+            default:
+                BLE_SendPrintf(&g_bsp.ble, "ERR:UNKNOWN_CMD[%s]\r\n", cmd_str);
+                break;
+        }
+    }
+    */
   }
   /* USER CODE END 3 */
 }
