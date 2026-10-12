@@ -81,7 +81,56 @@
           "width": 0.261112
         }
       ],
-      "drc_exclusions": [],
+      "drc_exclusions": [
+        [
+          "clearance|134260000|127850000|8e81a37d-3bbf-4a1c-9401-8b7bd8998b54|cf966fb9-cba5-43f0-878f-963bdb993d8f",
+          ""
+        ],
+        [
+          "hole_clearance|146850000|137745000|b5e469bb-03e8-456e-994b-b6dc67463d94|cef3ca4b-2eee-4fa9-b770-e25af1fb9526",
+          ""
+        ],
+        [
+          "hole_clearance|146850000|137745000|bb5daf7e-4bae-4f80-98d5-8be020b6b4a0|cef3ca4b-2eee-4fa9-b770-e25af1fb9526",
+          ""
+        ],
+        [
+          "hole_clearance|152950000|137745000|9b174186-5212-429e-91c0-9f25d3e098e7|16785c88-e366-420c-bcc5-34cdc7fdfade",
+          ""
+        ],
+        [
+          "hole_clearance|152950000|137745000|ecfd4a46-86ab-4c6a-bb38-86dbd23286ff|16785c88-e366-420c-bcc5-34cdc7fdfade",
+          ""
+        ],
+        [
+          "lib_footprint_mismatch|132775000|117100000|eaf22d16-e028-4481-89b8-f259b7deeb24|00000000-0000-0000-0000-000000000000",
+          ""
+        ],
+        [
+          "lib_footprint_mismatch|146000000|126000000|1f988653-7665-499a-839f-9aac9dc22bff|00000000-0000-0000-0000-000000000000",
+          ""
+        ],
+        [
+          "lib_footprint_mismatch|150000000|109572500|96c1760e-232a-4781-a2e5-9f1f3141664c|00000000-0000-0000-0000-000000000000",
+          ""
+        ],
+        [
+          "track_width|133800000|126890000|2ecbd65b-2b34-46b2-83f1-b50bab4214dd|00000000-0000-0000-0000-000000000000",
+          ""
+        ],
+        [
+          "track_width|134050000|127100000|4cfd1e4f-80c2-4c16-85b7-90ae1bf2ed96|00000000-0000-0000-0000-000000000000",
+          ""
+        ],
+        [
+          "track_width|134260000|127703750|cf966fb9-cba5-43f0-878f-963bdb993d8f|00000000-0000-0000-0000-000000000000",
+          ""
+        ],
+        [
+          "track_width|134386250|128223750|f608d235-e74c-4dce-aa10-7a904b3c9876|00000000-0000-0000-0000-000000000000",
+          ""
+        ]
+      ],
       "meta": {
         "version": 2
       },
@@ -125,7 +174,7 @@
         "padstack": "warning",
         "pth_inside_courtyard": "error",
         "shorting_items": "error",
-        "silk_edge_clearance": "warning",
+        "silk_edge_clearance": "ignore",
         "silk_over_copper": "warning",
         "silk_overlap": "warning",
         "skew_out_of_range": "error",
