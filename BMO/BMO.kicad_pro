@@ -83,7 +83,7 @@
       ],
       "drc_exclusions": [
         [
-          "clearance|134260000|127850000|8e81a37d-3bbf-4a1c-9401-8b7bd8998b54|cf966fb9-cba5-43f0-878f-963bdb993d8f",
+          "clearance|134260000|127850000|cf966fb9-cba5-43f0-878f-963bdb993d8f|d6926538-54f9-4dfe-94ab-128ff5e6a225",
           ""
         ],
         [
@@ -799,7 +799,7 @@
     "last_paths": {
       "idf": "",
       "netlist": "",
-      "plot": "",
+      "plot": "FAB/Gerber/",
       "specctra_dsn": "",
       "step": "",
       "vrml": ""
@@ -829,7 +829,7 @@
       "fields_ordered": [
         {
           "group_by": false,
-          "label": "Reference",
+          "label": "Designator",
           "name": "Reference",
           "show": true
         },
@@ -837,11 +837,11 @@
           "group_by": false,
           "label": "Qty",
           "name": "${QUANTITY}",
-          "show": true
+          "show": false
         },
         {
           "group_by": true,
-          "label": "Value",
+          "label": "Comment",
           "name": "Value",
           "show": true
         },
