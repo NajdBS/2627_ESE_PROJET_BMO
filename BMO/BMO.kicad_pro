@@ -40,8 +40,8 @@
         "other_text_upright": false,
         "pads": {
           "drill": 0.0,
-          "height": 0.245,
-          "width": 0.245
+          "height": 0.2,
+          "width": 0.2
         },
         "silk_line_width": 0.1,
         "silk_text_italic": false,
@@ -812,7 +812,7 @@
       "method": 0,
       "sort_order": 0
     },
-    "bom_export_filename": "${PROJECTNAME}.csv",
+    "bom_export_filename": "BMO_BOM.csv",
     "bom_fmt_presets": [],
     "bom_fmt_settings": {
       "field_delimiter": ",",
@@ -1056,7 +1056,7 @@
         "uuid": "509804e7-65e7-46e6-80ed-6cdb4037dc07"
       }
     ],
-    "used_designators": "J1-17,#FLG1-10,R1-36,#PWR1-123,#PWR128-130,#PWR290,C1-45,F1,FB1,TP1-9,U1-8,D1-6,L1-4,Q1-3,Lidar1,TOF2-3,SW1-3,JP1-3,H1-4,Y1",
+    "used_designators": "J1-17,#FLG1-10,R1-36,#PWR1-123,#PWR128-130,#PWR290,5V1,C1-45,F1,FB1,TP1-9,U1-8,D1-6,L1-4,3V1,Q1-3,Lidar1,TOF2-3,SW1-3,JP1-3,H1-4,Y1,3V3A1,SYS1,VBAT1,VBUS1",
     "variants": []
   },
   "sheets": [

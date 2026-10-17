@@ -7654,7 +7654,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "072faf52-34c6-4aa1-b48f-22d283996c46")
-		(property "Reference" "C10"
+		(property "Reference" "C11"
 			(at 231.902 102.87 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7773,7 +7773,7 @@
 		(instances
 			(project "BMO"
 				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/6ae9c4a4-c173-43ed-93f8-54a31d5275c1"
-					(reference "C10")
+					(reference "C11")
 					(unit 1)
 				)
 			)
@@ -8177,7 +8177,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "12464c75-61ff-4602-983f-74564bf325f8")
-		(property "Reference" "C8"
+		(property "Reference" "C9"
 			(at 88.9 34.2835 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8296,7 +8296,7 @@
 		(instances
 			(project "BMO"
 				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/6ae9c4a4-c173-43ed-93f8-54a31d5275c1"
-					(reference "C8")
+					(reference "C9")
 					(unit 1)
 				)
 			)
@@ -8933,7 +8933,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "1e754701-2aeb-486c-a3b3-9cca32cf89a8")
-		(property "Reference" "C5"
+		(property "Reference" "C6"
 			(at 64.77 34.2835 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9052,7 +9052,7 @@
 		(instances
 			(project "BMO"
 				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/6ae9c4a4-c173-43ed-93f8-54a31d5275c1"
-					(reference "C5")
+					(reference "C6")
 					(unit 1)
 				)
 			)
@@ -9147,7 +9147,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "30dd9bbf-44d7-45b6-b7c9-c050e2fbc043")
-		(property "Reference" "C9"
+		(property "Reference" "C10"
 			(at 113.03 34.2835 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9266,7 +9266,7 @@
 		(instances
 			(project "BMO"
 				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/6ae9c4a4-c173-43ed-93f8-54a31d5275c1"
-					(reference "C9")
+					(reference "C10")
 					(unit 1)
 				)
 			)
@@ -9358,7 +9358,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(in_pos_files yes)
-		(dnp yes)
+		(dnp no)
 		(uuid "3eadb421-453b-4c82-91b3-ceca3d616e38")
 		(property "Reference" "R1"
 			(at 188.722 136.906 0)
@@ -9729,7 +9729,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "436410d2-51ea-4720-8b0a-6949625453ee")
-		(property "Reference" "C7"
+		(property "Reference" "C8"
 			(at 81.28 34.2835 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9848,7 +9848,7 @@
 		(instances
 			(project "BMO"
 				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/6ae9c4a4-c173-43ed-93f8-54a31d5275c1"
-					(reference "C7")
+					(reference "C8")
 					(unit 1)
 				)
 			)
@@ -9944,7 +9944,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "45de1042-2cc4-4d85-8f1a-f804a8d61a97")
-		(property "Reference" "C11"
+		(property "Reference" "C12"
 			(at 259.588 102.87 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10063,7 +10063,7 @@
 		(instances
 			(project "BMO"
 				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/6ae9c4a4-c173-43ed-93f8-54a31d5275c1"
-					(reference "C11")
+					(reference "C12")
 					(unit 1)
 				)
 			)
@@ -10505,7 +10505,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "643e0aa3-cc0a-4f23-b1df-e841df8b26c7")
-		(property "Reference" "C45"
+		(property "Reference" "C4"
 			(at 48.26 34.2835 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10624,7 +10624,7 @@
 		(instances
 			(project "BMO"
 				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/6ae9c4a4-c173-43ed-93f8-54a31d5275c1"
-					(reference "C45")
+					(reference "C4")
 					(unit 1)
 				)
 			)
@@ -11789,7 +11789,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "91dc1e1c-2c81-47e3-8220-df97d6ce31e9")
-		(property "Reference" "TP10"
+		(property "Reference" "3V3A1"
 			(at 110.49 27.9399 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11884,7 +11884,7 @@
 		(instances
 			(project "BMO"
 				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/6ae9c4a4-c173-43ed-93f8-54a31d5275c1"
-					(reference "TP10")
+					(reference "3V3A1")
 					(unit 1)
 				)
 			)
@@ -13253,7 +13253,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "c3890ac2-819f-4ea3-b114-5efcd730a63a")
-		(property "Reference" "C12"
+		(property "Reference" "C13"
 			(at 269.748 102.87 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -13372,7 +13372,7 @@
 		(instances
 			(project "BMO"
 				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/6ae9c4a4-c173-43ed-93f8-54a31d5275c1"
-					(reference "C12")
+					(reference "C13")
 					(unit 1)
 				)
 			)
@@ -13466,7 +13466,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "c7c8a224-c313-4fe0-a332-ee750b8dabe6")
-		(property "Reference" "C4"
+		(property "Reference" "C5"
 			(at 55.88 34.2835 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -13585,7 +13585,7 @@
 		(instances
 			(project "BMO"
 				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/6ae9c4a4-c173-43ed-93f8-54a31d5275c1"
-					(reference "C4")
+					(reference "C5")
 					(unit 1)
 				)
 			)
@@ -13976,7 +13976,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "d8fda21d-d07a-4483-9b0e-55d7ebcc1a47")
-		(property "Reference" "C6"
+		(property "Reference" "C7"
 			(at 73.66 34.2835 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -14095,7 +14095,7 @@
 		(instances
 			(project "BMO"
 				(path "/509804e7-65e7-46e6-80ed-6cdb4037dc07/6ae9c4a4-c173-43ed-93f8-54a31d5275c1"
-					(reference "C6")
+					(reference "C7")
 					(unit 1)
 				)
 			)
@@ -14379,7 +14379,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(in_pos_files yes)
-		(dnp yes)
+		(dnp no)
 		(uuid "ef908bc6-b440-4d7f-a0c1-e19c4eb24aae")
 		(property "Reference" "R3"
 			(at 195.834 136.652 0)
