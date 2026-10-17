@@ -1,4 +1,4 @@
-/**
+﻿/**
   ******************************************************************************
   * @file    ble.h
   * @brief   Bluetooth Low Energy (BLE) module driver for BMO Robot
@@ -12,9 +12,6 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 #define BLE_RX_BUFFER_SIZE  64
 #define BLE_CMD_MAX_LEN     64
@@ -111,8 +108,5 @@ HAL_StatusTypeDef BLE_SendPrintf(ble_t *dev, const char *fmt, ...);
   */
 void BLE_RxCallback(ble_t *dev);
 
-#ifdef __cplusplus
-}
-#endif
 
 #endif /* BLE_H */

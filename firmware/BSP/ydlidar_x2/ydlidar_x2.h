@@ -1,4 +1,4 @@
-/**
+﻿/**
   ******************************************************************************
   * @file           : ydlidar_x2.h
   * @brief          : YDLIDAR X2 driver using circular UART DMA reception.
@@ -8,9 +8,6 @@
 #ifndef BSP_YDLIDAR_X2_H_
 #define BSP_YDLIDAR_X2_H_
 
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 #include "main.h"
 #include "usart.h"
@@ -89,8 +86,5 @@ uint8_t YDLIDAR_X2_IsNewScanReady(ydlidar_x2_t *lidar);
   */
 void YDLIDAR_X2_ClearDistances(ydlidar_x2_t *lidar);
 
-#ifdef __cplusplus
-}
-#endif
 
 #endif /* BSP_YDLIDAR_X2_H_ */

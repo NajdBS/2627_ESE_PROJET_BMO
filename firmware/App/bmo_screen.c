@@ -1,5 +1,8 @@
 #include "bmo_screen.h"
 #include "bmo_bitmaps.h"
+#include "bsp.h"
+#include "ssd1306.h"
+#include "ssd1306_fonts.h"
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
@@ -41,11 +44,10 @@ void BMO_Screen_SetLidarData(float scan_hz, uint16_t fwd_mm, uint16_t rgt_mm, ui
 }
 
 void BMO_Screen_Init(void) {
-    ssd1306_Init();
-    ssd1306_Fill(Black);
-    ssd1306_UpdateScreen();
+    current_face = BMO_FACE_NORMAL;
     last_blink_time = 0;
     is_blinking = 0;
+    look_offset = 0;
 }
 
 void BMO_Screen_SetFace(bmo_face_t face) {
@@ -236,6 +238,6 @@ void BMO_Screen_Update(uint32_t now_ms) {
             break;
     }
 
-    /* Start asynchronous non-blocking DMA transfer to OLED */
-    ssd1306_UpdateScreen_DMA();
+    /* Request asynchronous refresh from bsp_display_task (run-to-completion) */
+    bsp_oled_show();
 }

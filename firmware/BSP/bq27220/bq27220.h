@@ -1,4 +1,4 @@
-/**
+﻿/**
   ******************************************************************************
   * @file    bq27220.h
   * @brief   Driver for Texas Instruments BQ27220 Single-Cell Fuel Gauge
@@ -12,9 +12,6 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 /**
   * @brief BQ27220 7-bit and 8-bit I2C addresses
@@ -40,14 +37,22 @@ extern "C" {
 #define BQ27220_CMD_CYCLE_COUNT     0x2A
 #define BQ27220_CMD_SOC             0x2C
 #define BQ27220_CMD_SOH             0x2E
+#define BQ27220_CMD_OPERATION_STAT  0x3A
 #define BQ27220_CMD_DESIGN_CAP      0x3C
 
 /**
-  * @brief Control Subcommands
+  * @brief BatteryStatus() (0x0A) Flag Bits (TRM Â§2.6 / Q5.7)
   */
-#define BQ27220_SUBCMD_STATUS       0x0000
-#define BQ27220_SUBCMD_DEV_NUM      0x0001
-#define BQ27220_SUBCMD_FW_VER       0x0002
+#define BQ27220_STATUS_DSG          (1U << 0) /* Discharging */
+#define BQ27220_STATUS_SYSDWN       (1U << 1) /* System Down threshold reached (3150 mV) */
+#define BQ27220_STATUS_TDA          (1U << 2) /* Terminate Discharge Alarm (3200 mV / 6%) */
+#define BQ27220_STATUS_FC           (1U << 9) /* Fully Charged */
+
+/**
+  * @brief Voltage Thresholds from Course TD2 (Q4.4)
+  */
+#define BQ27220_TERMINATE_DISCHARGE_MV  3200
+#define BQ27220_SYSTEM_DOWN_MV          3150
 
 /**
   * @brief BQ27220 Device Handle
@@ -59,68 +64,22 @@ typedef struct {
     uint16_t           soc_percent;
     uint16_t           remaining_capacity_mah;
     uint16_t           full_capacity_mah;
+    uint16_t           design_capacity_mah;
+    uint16_t           battery_status;
     float              temperature_c;
+    bool               terminate_discharge;
+    bool               sys_down;
     bool               initialized;
 } bq27220_t;
 
-/**
-  * @brief  Initialize the BQ27220 Fuel Gauge.
-  * @param  dev: Pointer to BQ27220 structure handle.
-  * @param  hi2c: Pointer to STM32 I2C hardware handle.
-  * @retval HAL_OK on successful communication and detection.
-  */
 HAL_StatusTypeDef BQ27220_Init(bq27220_t *dev, I2C_HandleTypeDef *hi2c);
-
-/**
-  * @brief  Read the cell voltage in millivolts.
-  * @param  dev: Pointer to BQ27220 structure handle.
-  * @param  voltage_mv: Pointer to store measured voltage (mV).
-  * @retval HAL_StatusTypeDef
-  */
 HAL_StatusTypeDef BQ27220_ReadVoltage(bq27220_t *dev, uint16_t *voltage_mv);
-
-/**
-  * @brief  Read the instantaneous battery current in milliamperes.
-  *         Positive indicates charging, negative indicates discharging.
-  * @param  dev: Pointer to BQ27220 structure handle.
-  * @param  current_ma: Pointer to store measured current (mA).
-  * @retval HAL_StatusTypeDef
-  */
 HAL_StatusTypeDef BQ27220_ReadCurrent(bq27220_t *dev, int16_t *current_ma);
-
-/**
-  * @brief  Read the State-of-Charge (SOC) in percent (0 - 100%).
-  * @param  dev: Pointer to BQ27220 structure handle.
-  * @param  soc_pct: Pointer to store battery SOC (%).
-  * @retval HAL_StatusTypeDef
-  */
 HAL_StatusTypeDef BQ27220_ReadSOC(bq27220_t *dev, uint16_t *soc_pct);
-
-/**
-  * @brief  Read the remaining battery capacity in mAh.
-  * @param  dev: Pointer to BQ27220 structure handle.
-  * @param  rem_cap_mah: Pointer to store remaining capacity (mAh).
-  * @retval HAL_StatusTypeDef
-  */
 HAL_StatusTypeDef BQ27220_ReadRemainingCapacity(bq27220_t *dev, uint16_t *rem_cap_mah);
-
-/**
-  * @brief  Read the battery temperature in degrees Celsius.
-  * @param  dev: Pointer to BQ27220 structure handle.
-  * @param  temp_c: Pointer to store temperature in Celsius.
-  * @retval HAL_StatusTypeDef
-  */
 HAL_StatusTypeDef BQ27220_ReadTemperature(bq27220_t *dev, float *temp_c);
-
-/**
-  * @brief  Update all battery telemetry parameters at once.
-  * @param  dev: Pointer to BQ27220 structure handle.
-  * @retval HAL_StatusTypeDef
-  */
+HAL_StatusTypeDef BQ27220_ReadBatteryStatus(bq27220_t *dev, uint16_t *status_flags);
 HAL_StatusTypeDef BQ27220_Update(bq27220_t *dev);
 
-#ifdef __cplusplus
-}
-#endif
 
 #endif /* BQ27220_H */

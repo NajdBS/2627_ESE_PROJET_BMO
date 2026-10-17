@@ -1,13 +1,8 @@
-#ifndef __BMO_SCREEN_H__
+﻿#ifndef __BMO_SCREEN_H__
 #define __BMO_SCREEN_H__
 
 #include <stdint.h>
-#include "ssd1306.h"
-#include "ssd1306_fonts.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 /*
  * BMO Facial Expression States
@@ -24,7 +19,7 @@ typedef enum {
     BMO_FACE_LIDAR_RADAR   /* Real-time 2D mini-radar & distance display */
 } bmo_face_t;
 
-/* Initialize OLED display controller and clear frame buffer */
+/* Initialize BMO screen state (OLED hardware is initialized by bsp_init_display) */
 void BMO_Screen_Init(void);
 
 /* Set the current facial expression */
@@ -40,14 +35,10 @@ void BMO_Screen_SetTelemetry(float vbat, uint8_t cans, const char* state_str);
 void BMO_Screen_SetLidarData(float scan_hz, uint16_t fwd_mm, uint16_t rgt_mm, uint16_t bck_mm, uint16_t lft_mm, uint16_t min_mm, uint16_t min_deg);
 
 /*
- * Main display refresh and animation loop.
- * Updates eye positions, handles blinking timing, and triggers DMA transfer.
- * Returns immediately if a background DMA transfer is already in progress.
+ * Render current BMO face into the framebuffer and request a non-blocking
+ * refresh from bsp_display_task via bsp_oled_show().
  */
 void BMO_Screen_Update(uint32_t now_ms);
 
-#ifdef __cplusplus
-}
-#endif
 
 #endif /* __BMO_SCREEN_H__ */

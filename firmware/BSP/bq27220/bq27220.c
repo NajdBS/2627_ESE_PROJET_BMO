@@ -57,6 +57,9 @@ HAL_StatusTypeDef BQ27220_Init(bq27220_t *dev, I2C_HandleTypeDef *hi2c)
         return HAL_ERROR;
     }
 
+    /* Read configured DesignCapacity() (0x3C) */
+    (void)BQ27220_ReadWord(dev, BQ27220_CMD_DESIGN_CAP, &dev->design_capacity_mah);
+
     dev->initialized = true;
     (void)BQ27220_Update(dev);
 
@@ -117,6 +120,19 @@ HAL_StatusTypeDef BQ27220_ReadTemperature(bq27220_t *dev, float *temp_c)
     return status;
 }
 
+HAL_StatusTypeDef BQ27220_ReadBatteryStatus(bq27220_t *dev, uint16_t *status_flags)
+{
+    HAL_StatusTypeDef status = BQ27220_ReadWord(dev, BQ27220_CMD_BAT_STATUS, status_flags);
+    if (status == HAL_OK && dev) {
+        dev->battery_status = *status_flags;
+        dev->sys_down = ((*status_flags & BQ27220_STATUS_SYSDWN) != 0U) ||
+                        (dev->voltage_mv > 0U && dev->voltage_mv <= BQ27220_SYSTEM_DOWN_MV);
+        dev->terminate_discharge = ((*status_flags & BQ27220_STATUS_TDA) != 0U) ||
+                                   (dev->voltage_mv > 0U && dev->voltage_mv <= BQ27220_TERMINATE_DISCHARGE_MV);
+    }
+    return status;
+}
+
 HAL_StatusTypeDef BQ27220_Update(bq27220_t *dev)
 {
     if (!dev || !dev->initialized) {
@@ -127,12 +143,13 @@ HAL_StatusTypeDef BQ27220_Update(bq27220_t *dev)
     int16_t  sval16 = 0;
     float    temp = 0.0f;
 
-    BQ27220_ReadVoltage(dev, &val16);
-    BQ27220_ReadCurrent(dev, &sval16);
-    BQ27220_ReadSOC(dev, &val16);
-    BQ27220_ReadRemainingCapacity(dev, &val16);
-    BQ27220_ReadWord(dev, BQ27220_CMD_FCC, &dev->full_capacity_mah);
-    BQ27220_ReadTemperature(dev, &temp);
+    (void)BQ27220_ReadVoltage(dev, &val16);
+    (void)BQ27220_ReadCurrent(dev, &sval16);
+    (void)BQ27220_ReadSOC(dev, &val16);
+    (void)BQ27220_ReadRemainingCapacity(dev, &val16);
+    (void)BQ27220_ReadWord(dev, BQ27220_CMD_FCC, &dev->full_capacity_mah);
+    (void)BQ27220_ReadTemperature(dev, &temp);
+    (void)BQ27220_ReadBatteryStatus(dev, &val16);
 
     return HAL_OK;
 }

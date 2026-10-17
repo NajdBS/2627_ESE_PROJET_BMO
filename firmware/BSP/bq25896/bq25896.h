@@ -1,4 +1,4 @@
-/**
+﻿/**
   ******************************************************************************
   * @file    bq25896.h
   * @brief   Driver for Texas Instruments BQ25896 / BQ25895 Fast Charger & 5V Boost
@@ -12,9 +12,6 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 /**
   * @brief BQ25896 and BQ25895 I2C 7-bit addresses
@@ -50,6 +47,17 @@ extern "C" {
 #define BQ25896_REG14               0x14 /* Device Revision / Part Number */
 
 /**
+  * @brief Configuration Constants for Samsung INR18650-35E (3400 mAh)
+  */
+#define BQ25896_CFG_REG02_ADC_1HZ   0x5D /* CONV_RATE=1 (1s continuous ADC), BOOST_FREQ=1.5MHz */
+#define BQ25896_CFG_REG03_DEFAULT   0x5A /* WD_RST=1, OTG_CONFIG=0, CHG_CONFIG=1, SYS_MIN=3.5V */
+#define BQ25896_CFG_REG04_ICHG      0x1A /* ICHG = 1664 mA (26 * 64 mA, ~0.49C) */
+#define BQ25896_CFG_REG05_PRE_TERM  0x52 /* IPRECHG = 384 mA, ITERM = 192 mA */
+#define BQ25896_CFG_REG06_VREG      0x5A /* VREG = 4.192 V, BATLOWV = 3.0 V, VRECHG = 100 mV */
+#define BQ25896_CFG_REG09_SHIP_DLY  0x6C /* TMR2X_EN=1, BATFET_DIS=1, BATFET_DLY=1 (10-15s), BATFET_RST_EN=1 */
+#define BQ25896_CFG_REG0A_BOOST     0x72 /* BOOSTV = 4.998 V, BOOST_LIM = 1.2 A */
+
+/**
   * @brief Status Bit Definitions
   */
 typedef enum {
@@ -72,72 +80,29 @@ typedef enum {
 typedef struct {
     I2C_HandleTypeDef  *hi2c;
     uint8_t             i2c_addr;
+    uint8_t             dev_rev;
     bq_vbus_status_t    vbus_status;
     bq_charge_status_t  charge_status;
     bool                power_good;
+    uint8_t             fault_latched;
+    uint8_t             fault_current;
     uint16_t            vbat_mv;
+    uint16_t            vsys_mv;
     uint16_t            vbus_mv;
     uint16_t            ichg_ma;
     bool                boost_enabled;
+    bool                charging_enabled;
     bool                initialized;
 } bq25896_t;
 
-/**
-  * @brief  Initialize the BQ25896 / BQ25895 Charger IC.
-  *         Auto-probes for address 0x6B (BQ25896) or 0x6A (BQ25895).
-  * @param  dev: Pointer to device structure.
-  * @param  hi2c: Pointer to STM32 I2C handle.
-  * @retval HAL_OK on successful initialization.
-  */
 HAL_StatusTypeDef BQ25896_Init(bq25896_t *dev, I2C_HandleTypeDef *hi2c);
-
-/**
-  * @brief  Enable or disable USB OTG 5V Boost Mode (supplies 5V to LiDAR/motors).
-  * @param  dev: Pointer to device structure.
-  * @param  enable: true to enable 5V boost, false to disable.
-  * @retval HAL_StatusTypeDef
-  */
 HAL_StatusTypeDef BQ25896_SetBoostMode(bq25896_t *dev, bool enable);
-
-/**
-  * @brief  Enable or disable battery charging.
-  * @param  dev: Pointer to device structure.
-  * @param  enable: true to allow charging, false to inhibit.
-  * @retval HAL_StatusTypeDef
-  */
 HAL_StatusTypeDef BQ25896_SetCharging(bq25896_t *dev, bool enable);
-
-/**
-  * @brief  Disable internal I2C Watchdog to prevent unexpected register resets.
-  * @param  dev: Pointer to device structure.
-  * @retval HAL_StatusTypeDef
-  */
 HAL_StatusTypeDef BQ25896_DisableWatchdog(bq25896_t *dev);
-
-/**
-  * @brief  Reset the internal I2C Watchdog timer.
-  * @param  dev: Pointer to device structure.
-  * @retval HAL_StatusTypeDef
-  */
 HAL_StatusTypeDef BQ25896_ResetWatchdog(bq25896_t *dev);
-
-/**
-  * @brief  Set input current limit in mA (e.g. 500, 1500, 2000, 3000 mA).
-  * @param  dev: Pointer to device structure.
-  * @param  current_ma: Current limit in mA.
-  * @retval HAL_StatusTypeDef
-  */
 HAL_StatusTypeDef BQ25896_SetInputCurrentLimit(bq25896_t *dev, uint16_t current_ma);
-
-/**
-  * @brief  Poll and update telemetry status (VBUS, Charging state, ADC).
-  * @param  dev: Pointer to device structure.
-  * @retval HAL_StatusTypeDef
-  */
+HAL_StatusTypeDef BQ25896_EnterShipMode(bq25896_t *dev);
 HAL_StatusTypeDef BQ25896_Update(bq25896_t *dev);
 
-#ifdef __cplusplus
-}
-#endif
 
 #endif /* BQ25896_H */

@@ -15,7 +15,8 @@ void ssd1306_WriteCommand(uint8_t byte) {
 }
 
 // Send data
-void ssd1306_WriteData(uint8_t* buffer, size_t buff_size) {
+// Weak: can be overridden by the user (e.g. DMA transfer in bsp.c)
+__weak void ssd1306_WriteData(uint8_t* buffer, size_t buff_size) {
     HAL_I2C_Mem_Write(&SSD1306_I2C_PORT, SSD1306_I2C_ADDR, 0x40, 1, buffer, buff_size, HAL_MAX_DELAY);
 }
 
@@ -161,8 +162,12 @@ void ssd1306_Init(void) {
     // Clear screen
     ssd1306_Fill(Black);
     
-    // Flush buffer to screen
-    ssd1306_UpdateScreen();
+    /*
+     * Flush buffer to screen is deferred to bsp_display_task once the
+     * FreeRTOS scheduler starts, because ssd1306_WriteData() is overridden
+     * in bsp.c with DMA + ulTaskNotifyTake().
+     */
+    /* ssd1306_UpdateScreen(); */
     
     // Set default values for screen object
     SSD1306.CurrentX = 0;
@@ -192,48 +197,13 @@ void ssd1306_UpdateScreen(void) {
     }
 }
 
-static volatile uint8_t ssd1306_dma_busy = 0;
-
 uint8_t ssd1306_IsBusy(void) {
-    return ssd1306_dma_busy;
+    return 0;
 }
 
-#if defined(SSD1306_USE_I2C)
-/* Asynchronous non-blocking DMA screen refresh */
 void ssd1306_UpdateScreen_DMA(void) {
-    if (ssd1306_dma_busy) {
-        return;
-    }
-
-    // Set Column Address: 0 to 127
-    ssd1306_WriteCommand(0x21);
-    ssd1306_WriteCommand(0x00 + SSD1306_X_OFFSET_LOWER);
-    ssd1306_WriteCommand(0x7F + SSD1306_X_OFFSET_LOWER);
-
-    // Set Page Address: 0 to (HEIGHT/8 - 1)
-    ssd1306_WriteCommand(0x22);
-    ssd1306_WriteCommand(0x00);
-    ssd1306_WriteCommand((SSD1306_HEIGHT / 8) - 1);
-
-    // Launch DMA transmission (1024 bytes in background)
-    ssd1306_dma_busy = 1;
-    if (HAL_I2C_Mem_Write_DMA(&SSD1306_I2C_PORT, SSD1306_I2C_ADDR, 0x40, 1, SSD1306_Buffer, SSD1306_BUFFER_SIZE) != HAL_OK) {
-        ssd1306_dma_busy = 0;
-    }
+    ssd1306_UpdateScreen();
 }
-
-void HAL_I2C_MemTxCpltCallback(I2C_HandleTypeDef *hi2c) {
-    if (hi2c->Instance == SSD1306_I2C_PORT.Instance) {
-        ssd1306_dma_busy = 0;
-    }
-}
-
-void HAL_I2C_ErrorCallback(I2C_HandleTypeDef *hi2c) {
-    if (hi2c->Instance == SSD1306_I2C_PORT.Instance) {
-        ssd1306_dma_busy = 0;
-    }
-}
-#endif
 
 
 /*

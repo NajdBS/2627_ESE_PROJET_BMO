@@ -60,10 +60,13 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     BSP/bq27220/bq27220.c
     BSP/bq25896/bq25896.c
     BSP/ble/ble.c
+    BSP/debounce.c
     BSP/bsp.c
 
     # BMO Application Logic
     App/bmo_screen.c
+    App/app_timers.c
+    App/app.c
 )
 
 # Add include paths
