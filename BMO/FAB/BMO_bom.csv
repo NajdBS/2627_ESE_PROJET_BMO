@@ -26,7 +26,7 @@ NEOPIXEL,J6,Connector_JST:JST_XH_S3B-XH-A-1_1x03_P2.50mm_Horizontal,C163036
 LIDAR_X2,J7,Connector_JST:JST_XH_S5B-XH-A-1_1x05_P2.50mm_Horizontal,C163038
 OLED_I2C,J8,Connector_JST:JST_XH_S4B-XH-A_1x04_P2.50mm_Horizontal,C157925
 Conn_01x06,"J9,J13,J15",Connector_JST:JST_XH_S6B-XH-A_1x06_P2.50mm_Horizontal,C157919
-USB_C_Receptacle_USB2.0_16P,J10,Connector_USB:USB_C_Receptacle_GCT_USB4105-xx-A_16P_TopMnt_Horizontal,C3020560
+USB_C_Receptacle_USB2.0_16P,J10,Connector_USB:USB_C_Receptacle_GCT_USB4105-xx-A_16P_TopMnt_Horizontal,C5184243
 BAT,J11,Connector_JST:JST_XH_S2B-XH-A-1_1x02_P2.50mm_Horizontal,C163035
 ON/OFF,J12,Connector_JST:JST_XH_S2B-XH-A-1_1x02_P2.50mm_Horizontal,C163035
 SERVO,J14,Connector_JST:JST_XH_S3B-XH-A-1_1x03_P2.50mm_Horizontal,C163036
