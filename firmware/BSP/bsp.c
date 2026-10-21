@@ -314,6 +314,7 @@ void bsp_init_display(unsigned int task_priority) {
      * merge into a single refresh (only the latest framebuffer state matters) */
     ctx->display_request = xSemaphoreCreateBinary();
     configASSERT(ctx->display_request != NULL);
+    vQueueAddToRegistry(ctx->display_request, "display request");
 
     BaseType_t ok = xTaskCreate(bsp_display_task, "DISPLAY", BSP_DISPLAY_STACK_DEPTH,
             NULL, task_priority, &ctx->display_task);

@@ -66,6 +66,7 @@ void app_init(unsigned int task_priority) {
     /* Objet actif : la file et la tache sont creees par l'objet lui-meme */
     app.events = xQueueCreate(APP_EVENT_QUEUE_LENGTH, sizeof(app_event_t));
     configASSERT(app.events != NULL);
+    vQueueAddToRegistry(app.events, "APP events");
 
     BaseType_t ok = xTaskCreate(app_task, "APP", APP_TASK_STACK_DEPTH,
             NULL, task_priority, &app.task);

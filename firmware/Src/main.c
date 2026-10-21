@@ -33,6 +33,7 @@
 #include "task.h"
 #include "bsp.h"
 #include "app.h"
+#include "stats.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -121,6 +122,7 @@ int main(void)
   MX_I2C1_Init();
   MX_TIM17_Init();
   MX_USART3_UART_Init();
+  MX_TIM7_Init();
   /* USER CODE BEGIN 2 */
   printf("\r\n===== BMO RTOS =====\r\n");
 
@@ -129,10 +131,16 @@ int main(void)
   bsp_init(3);          /* entrees & capteurs : courte, bloque souvent : la plus prioritaire */
   bsp_init_display(1);  /* affichage OLED : long, peu urgent (avant app_init) */
   app_init(2);          /* objet actif : cree sa file et sa tache */
+  // stats_init(1);     /* statistiques : decommenter pour afficher Heap/Stack/CPU toutes les 1s */
 
   printf("... All tasks are created\r\n");
 
   vTaskStartScheduler();
+
+  /* vTaskStartScheduler() ne retourne jamais... sauf si le tas FreeRTOS est
+   * trop petit pour creer les taches Idle (et timer) : on ne doit pas continuer. */
+  printf("Failed starting the scheduler (FreeRTOS heap too small?)\r\n");
+  Error_Handler();
   /* USER CODE END 2 */
 
   /* Call init function for freertos objects (in cmsis_os2.c) */

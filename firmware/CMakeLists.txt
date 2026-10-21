@@ -67,6 +67,7 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     App/bmo_screen.c
     App/app_timers.c
     App/app.c
+    stats/stats.c
 )
 
 # Add include paths
@@ -86,6 +87,7 @@ target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
     BSP/bq25896
     BSP/ble
     App
+    stats
 )
 
 # Add project symbols (macros)

@@ -51,6 +51,10 @@
 #if defined(__ICCARM__) || defined(__CC_ARM) || defined(__GNUC__)
   #include <stdint.h>
   extern uint32_t SystemCoreClock;
+/* USER CODE BEGIN 0 */
+  extern void configureTimerForRunTimeStats(void);
+  extern unsigned long getRunTimeCounterValue(void);
+/* USER CODE END 0 */
 #endif
 #define configENABLE_FPU                         0
 #define configENABLE_MPU                         0
@@ -66,26 +70,31 @@
 #define configMINIMAL_STACK_SIZE                 ((uint16_t)128)
 #define configTOTAL_HEAP_SIZE                    ((size_t)16384)
 #define configMAX_TASK_NAME_LEN                  ( 16 )
+#define configGENERATE_RUN_TIME_STATS            1
+#define configUSE_TRACE_FACILITY                 1
+#define configUSE_STATS_FORMATTING_FUNCTIONS     1
 #define configUSE_16_BIT_TICKS                   0
 #define configUSE_MUTEXES                        1
 #define configQUEUE_REGISTRY_SIZE                8
 #define configCHECK_FOR_STACK_OVERFLOW           2
+#define configUSE_MALLOC_FAILED_HOOK             1
 #define configUSE_PORT_OPTIMISED_TASK_SELECTION  1
+#define configRECORD_STACK_HIGH_ADDRESS          1
 /* USER CODE BEGIN MESSAGE_BUFFER_LENGTH_TYPE */
 /* Defaults to size_t for backward compatibility, but can be changed
    if lengths will always be less than the number of bytes in a size_t. */
 #define configMESSAGE_BUFFER_LENGTH_TYPE         size_t
 /* USER CODE END MESSAGE_BUFFER_LENGTH_TYPE */
 
+/* Co-routine definitions. */
+#define configUSE_CO_ROUTINES                    0
+#define configMAX_CO_ROUTINE_PRIORITIES          ( 2 )
+
 /* Software timer definitions. */
 #define configUSE_TIMERS                         1
 #define configTIMER_TASK_PRIORITY                ( 4 )
 #define configTIMER_QUEUE_LENGTH                 10
 #define configTIMER_TASK_STACK_DEPTH             256
-
-/* Co-routine definitions. */
-#define configUSE_CO_ROUTINES                    0
-#define configMAX_CO_ROUTINE_PRIORITIES          ( 2 )
 
 /* Set the following definitions to 1 to include the API function, or zero
 to exclude the API function. */
@@ -138,6 +147,12 @@ standard names. */
               to prevent overwriting SysTick_Handler defined within STM32Cube HAL */
 
 #define xPortSysTickHandler SysTick_Handler
+
+/* USER CODE BEGIN 2 */
+/* Definitions needed when configGENERATE_RUN_TIME_STATS is on */
+#define portCONFIGURE_TIMER_FOR_RUN_TIME_STATS configureTimerForRunTimeStats
+#define portGET_RUN_TIME_COUNTER_VALUE getRunTimeCounterValue
+/* USER CODE END 2 */
 
 /* USER CODE BEGIN Defines */
 /* Section where parameter definitions can be added (for instance, to override default ones in FreeRTOS.h) */
