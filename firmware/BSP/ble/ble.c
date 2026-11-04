@@ -1,7 +1,7 @@
 /**
   ******************************************************************************
   * @file    ble.c
-  * @brief   Implementation of BLE driver for BMO Robot
+  * @brief   Implementation of BLE & UART command parser for BMO Robot
   ******************************************************************************
   */
 
@@ -14,29 +14,56 @@
 
 static ble_command_type_t BLE_ClassifyCommand(const char *cmd)
 {
-    if (!cmd || strlen(cmd) == 0) {
+    if (!cmd) {
         return BLE_CMD_NONE;
     }
 
-    if (strcmp(cmd, "START") == 0 || strcmp(cmd, "S") == 0) {
+    /* Trim leading spaces and convert to uppercase for case-insensitive matching */
+    while (*cmd == ' ' || *cmd == '\t') {
+        cmd++;
+    }
+
+    char norm[BLE_CMD_MAX_LEN];
+    size_t j = 0;
+    for (size_t i = 0; cmd[i] != '\0' && j < (sizeof(norm) - 1); i++) {
+        char c = cmd[i];
+        if (c >= 'a' && c <= 'z') {
+            c = (char)(c - ('a' - 'A'));
+        }
+        norm[j++] = c;
+    }
+    while (j > 0 && (norm[j - 1] == ' ' || norm[j - 1] == '\t')) {
+        j--;
+    }
+    norm[j] = '\0';
+
+    if (j == 0) {
+        return BLE_CMD_NONE;
+    }
+
+    if (strcmp(norm, "START") == 0 || strcmp(norm, "S") == 0) {
         return BLE_CMD_START;
     }
-    if (strcmp(cmd, "STOP") == 0 || strcmp(cmd, "H") == 0 || strcmp(cmd, "HALT") == 0) {
+    if (strcmp(norm, "STOP") == 0 || strcmp(norm, "H") == 0 ||
+        strcmp(norm, "HALT") == 0 || strcmp(norm, "IDLE") == 0) {
         return BLE_CMD_STOP;
     }
-    if (strcmp(cmd, "RESET") == 0 || strcmp(cmd, "R") == 0) {
+    if (strcmp(norm, "RESET") == 0 || strcmp(norm, "RST") == 0) {
         return BLE_CMD_RESET;
     }
-    if (strcmp(cmd, "F") == 0 || strcmp(cmd, "FWD") == 0) {
+    if (strcmp(norm, "MAP") == 0 || strcmp(norm, "M") == 0) {
+        return BLE_CMD_MAP;
+    }
+    if (strcmp(norm, "F") == 0 || strcmp(norm, "FWD") == 0) {
         return BLE_CMD_MANUAL_FWD;
     }
-    if (strcmp(cmd, "B") == 0 || strcmp(cmd, "BWD") == 0) {
+    if (strcmp(norm, "B") == 0 || strcmp(norm, "BWD") == 0) {
         return BLE_CMD_MANUAL_BWD;
     }
-    if (strcmp(cmd, "L") == 0 || strcmp(cmd, "LFT") == 0) {
+    if (strcmp(norm, "L") == 0 || strcmp(norm, "LFT") == 0) {
         return BLE_CMD_MANUAL_LFT;
     }
-    if (strcmp(cmd, "R") == 0 || strcmp(cmd, "RGT") == 0) {
+    if (strcmp(norm, "R") == 0 || strcmp(norm, "RGT") == 0) {
         return BLE_CMD_MANUAL_RGT;
     }
 
@@ -54,12 +81,13 @@ HAL_StatusTypeDef BLE_Init(ble_t *dev, UART_HandleTypeDef *huart, GPIO_TypeDef *
     dev->en_port = en_port;
     dev->en_pin  = en_pin;
 
-    /* Assert enable pin high by default */
+    /* Assert enable pin high by default (no-op if en_port is NULL) */
     BLE_SetEnabled(dev, true);
 
     dev->initialized = true;
 
-    /* Start non-blocking 1-byte reception in interrupt mode */
+    /* Clear sticky error flags and start non-blocking 1-byte interrupt RX */
+    __HAL_UART_CLEAR_FLAG(dev->huart, UART_CLEAR_OREF | UART_CLEAR_NEF | UART_CLEAR_FEF | UART_CLEAR_PEF);
     return HAL_UART_Receive_IT(dev->huart, &dev->rx_byte, 1);
 }
 
@@ -140,10 +168,27 @@ void BLE_RxCallback(ble_t *dev)
             dev->command_ready = true;
             dev->rx_index = 0;
         }
+    } else if (byte == 0x08 || byte == 0x7F) {
+        /* Handle interactive terminal Backspace / Delete */
+        if (dev->rx_index > 0) {
+            dev->rx_index--;
+        }
     } else if (dev->rx_index < (sizeof(dev->rx_line) - 1)) {
         dev->rx_line[dev->rx_index++] = (char)byte;
     }
 
     /* Re-arm interrupt for next byte */
+    HAL_UART_Receive_IT(dev->huart, &dev->rx_byte, 1);
+}
+
+void BLE_ErrorCallback(ble_t *dev)
+{
+    if (!dev || !dev->huart) {
+        return;
+    }
+
+    /* Clear sticky UART error flags (ORE/FE/NE) and re-arm 1-byte interrupt RX */
+    __HAL_UART_CLEAR_FLAG(dev->huart, UART_CLEAR_OREF | UART_CLEAR_NEF | UART_CLEAR_FEF | UART_CLEAR_PEF);
+    dev->rx_index = 0;
     HAL_UART_Receive_IT(dev->huart, &dev->rx_byte, 1);
 }

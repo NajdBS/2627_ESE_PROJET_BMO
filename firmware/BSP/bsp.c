@@ -72,8 +72,12 @@ typedef struct {
     bq27220_t         fuel_gauge;
     bq25896_t         charger;
 
-    /* Wireless Communication BLE (USART3) */
+    /* Wireless BLE (USART3) & Debug VCP Command Parser (USART2) */
     ble_t             ble;
+#if (BMO_DEBUG_ENABLE != 0)
+    ble_t             vcp_cmd;
+    bool              vcp_cmd_ok;
+#endif
 
     /* Sensors */
     encoder_t         enc_left;
@@ -89,6 +93,11 @@ typedef struct {
     uint16_t          tof_left_mm;
     uint16_t          tof_right_mm;
     apds9960_data_t   color_data;
+    bmo_can_color_t   detected_color;
+    uint16_t          lidar_target_dist_mm;
+    int16_t           lidar_target_angle_deg;
+    uint16_t          lidar_target_width_mm;
+    bool              lidar_target_found;
 
     /* Subsampling timestamp counters */
     uint32_t          last_heartbeat_ms;
@@ -212,15 +221,22 @@ void bsp_init(unsigned int task_priority) {
         printf("[BSP] MPU-6050 IMU (I2C3 0x68): Not detected\r\n");
     }
 
-    /* VL53L0X ToF distance sensors | Periph: I2C3 | Addr: 0x30, 0x31 (opt 0x32) | Pins: PC8 SCL, PC9 SDA, PC4/PC5/PB13 XSHUT */
+    /* VL53L0X ToF Sensors Architecture:
+     * - Center ToF (PB13 / EXT_PB13 -> 0x32): Dedicated Can / Gripper sensor inside jaw.
+     * - Left Cliff ToF (PC2 / XSHUT_TOF_L -> 0x30): Floor sensor pointing down on front-left.
+     * - Right Cliff ToF (PC3 / XSHUT_TOF_R -> 0x31): Floor sensor pointing down on front-right.
+     *
+     * CURRENT TEST BENCH SETUP:
+     * Only 1 physical ToF is connected right now on PC2 (tof_left).
+     * We initialize and use it to emulate the Center Can/Gripper sensor for this bench test.
+     */
     ctx->tof_left_mm = 65535;
     ctx->tof_right_mm = 65535;
     HAL_GPIO_WritePin(XSHUT_TOF_L_GPIO_Port, XSHUT_TOF_L_Pin, GPIO_PIN_RESET);
     HAL_GPIO_WritePin(XSHUT_TOF_R_GPIO_Port, XSHUT_TOF_R_Pin, GPIO_PIN_RESET);
-    /* HAL_GPIO_WritePin(EXT_PB13_GPIO_Port, EXT_PB13_Pin, GPIO_PIN_RESET); */ /* Center ToF XSHUT */
     HAL_Delay(10);
 
-    /* Left ToF -> 0x30 */
+    /* 1. Sensor connected to PC2 (Addr: 0x30) - Currently used as Can/Gripper test sensor */
     HAL_GPIO_WritePin(XSHUT_TOF_L_GPIO_Port, XSHUT_TOF_L_Pin, GPIO_PIN_SET);
     HAL_Delay(10);
     if (HAL_I2C_IsDeviceReady(&hi2c3, VL53L0X_DEFAULT_ADDRESS_8BIT, 2, 50) == HAL_OK) {
@@ -228,14 +244,14 @@ void bsp_init(unsigned int task_priority) {
             VL53L0X_SetAddress(&ctx->tof_left, VL53L0X_ADDR_LEFT_8BIT);
             VL53L0X_StartContinuous(&ctx->tof_left, 0);
             ctx->tof_left_ok = true;
-            printf("[BSP] VL53L0X Left (I2C3 0x30): OK\r\n");
+            printf("[BSP] ToF on PC2 (I2C3 0x30) [Acting as Center/Gripper]: OK\r\n");
         }
     }
     if (!ctx->tof_left_ok) {
-        printf("[BSP] VL53L0X Left (I2C3 0x30): Not detected\r\n");
+        printf("[BSP] ToF on PC2 (I2C3 0x30): Not detected\r\n");
     }
 
-    /* Right ToF -> 0x31 */
+    /* 2. Right ToF -> PC3 / Addr: 0x31 */
     HAL_GPIO_WritePin(XSHUT_TOF_R_GPIO_Port, XSHUT_TOF_R_Pin, GPIO_PIN_SET);
     HAL_Delay(10);
     if (HAL_I2C_IsDeviceReady(&hi2c3, VL53L0X_DEFAULT_ADDRESS_8BIT, 2, 50) == HAL_OK) {
@@ -250,7 +266,7 @@ void bsp_init(unsigned int task_priority) {
         printf("[BSP] VL53L0X Right (I2C3 0x31): Not detected\r\n");
     }
 
-    /* Optional Center ToF -> 0x32 (uncomment if hardware installed)
+    /* 3. Future Dedicated Center Can/Gripper ToF -> PB13 / Addr: 0x32 (Uncomment when installed)
     HAL_GPIO_WritePin(EXT_PB13_GPIO_Port, EXT_PB13_Pin, GPIO_PIN_SET);
     HAL_Delay(10);
     if (HAL_I2C_IsDeviceReady(&hi2c3, VL53L0X_DEFAULT_ADDRESS_8BIT, 2, 50) == HAL_OK) {
@@ -258,11 +274,8 @@ void bsp_init(unsigned int task_priority) {
             VL53L0X_SetAddress(&ctx->tof_center, 0x32 << 1);
             VL53L0X_StartContinuous(&ctx->tof_center, 0);
             ctx->tof_center_ok = true;
-            printf("[BSP] VL53L0X Center (I2C3 0x32): OK\r\n");
+            printf("[BSP] ToF Center Gripper (I2C3 0x32 / PB13): OK\r\n");
         }
-    }
-    if (!ctx->tof_center_ok) {
-        printf("[BSP] VL53L0X Center (I2C3 0x32): Not detected\r\n");
     }
     */
 
@@ -278,15 +291,23 @@ void bsp_init(unsigned int task_priority) {
 
     /* YDLIDAR X2 scanner | Periph: USART1 | Addr: N/A | Pins: PB6 TX / PB7 RX (or PC4/PC5) */
     YDLIDAR_X2_Init(&ctx->lidar, &huart1);
+    ctx->lidar.angle_offset_deg = BSP_LIDAR_ANGLE_OFFSET_DEG;
     ctx->lidar_ok = true;
     printf("[BSP] YDLIDAR X2 (USART1): OK\r\n");
 
-    /* --- 5. Wireless communication --- */
+    /* --- 5. Wireless & VCP command interfaces --- */
     /* Bluetooth BLE module | Periph: USART3 | Addr: N/A | Pins: PB10 TX, PB11 RX, PA10 BLE_EN */
     if (BLE_Init(&ctx->ble, &huart3, BLE_EN_GPIO_Port, BLE_EN_Pin) == HAL_OK) {
         ctx->ble_ok = true;
         printf("[BSP] Bluetooth BLE (USART3 / PA10): OK\r\n");
     }
+#if (BMO_DEBUG_ENABLE != 0)
+    /* PC VCP command listener | Periph: USART2 | Commands: MAP, START, STOP */
+    if (BLE_Init(&ctx->vcp_cmd, &huart2, NULL, 0) == HAL_OK) {
+        ctx->vcp_cmd_ok = true;
+        printf("[BSP] VCP Command Shell (USART2): Ready (send MAP, START, STOP)\r\n");
+    }
+#endif
 
     /* --- 6. FreeRTOS task --- */
     BaseType_t ok = xTaskCreate(bsp_task, "BSP", BSP_TASK_STACK_DEPTH,
@@ -383,23 +404,155 @@ static void bsp_task(void *unused) {
  * - FG_GPOUT     (PD2  / EXTI2)     : BQ27220 critical low-battery hardware shutdown alert
  * Currently, periodic 100 Hz polling is used for stability and deterministic bringup.
  */
+typedef struct {
+    uint16_t best_can_dist;
+    int16_t  best_can_angle;
+    uint16_t best_can_width;
+    uint16_t best_any_dist;
+    int16_t  best_any_angle;
+    uint16_t best_any_width;
+} lidar_scan_res_t;
+
+static void bsp_eval_cluster(uint16_t start_deg, uint16_t first_step, uint16_t last_step,
+                             uint16_t min_d, uint16_t hit_count, lidar_scan_res_t *res) {
+    if (hit_count < 2 || min_d < BSP_LIDAR_MIN_DIST_MM || min_d > BSP_LIDAR_MAX_DIST_MM) {
+        return;
+    }
+
+    uint16_t span_deg   = (last_step - first_step) + 1;
+    uint16_t width_mm   = (uint16_t)((float)min_d * (float)span_deg * 0.01745329f + 0.5f);
+    uint16_t center_u16 = (uint16_t)((start_deg + (first_step + last_step) / 2) % 360);
+    int16_t  center_deg = (center_u16 > 180) ? ((int16_t)center_u16 - 360) : (int16_t)center_u16;
+    int16_t  abs_deg    = (center_deg < 0) ? -center_deg : center_deg;
+
+    if (abs_deg > BSP_LIDAR_SCAN_HALF_DEG) {
+        return;
+    }
+
+    if (min_d < res->best_any_dist) {
+        res->best_any_dist  = min_d;
+        res->best_any_angle = center_deg;
+        res->best_any_width = width_mm;
+    }
+
+    bool is_can = (width_mm >= BSP_LIDAR_CAN_MIN_WIDTH_MM) &&
+                  (width_mm <= BSP_LIDAR_CAN_MAX_WIDTH_MM);
+    if (is_can && min_d < res->best_can_dist) {
+        res->best_can_dist  = min_d;
+        res->best_can_angle = center_deg;
+        res->best_can_width = width_mm;
+    }
+}
+
+/* Segment 360-deg LiDAR point cloud into clusters and isolate cylindrical cans from arena walls */
+static void bsp_lidar_cluster_scan(bsp_ctx_t *ctx) {
+    lidar_scan_res_t res = {
+        .best_can_dist = 65535, .best_can_angle = 0, .best_can_width = 0,
+        .best_any_dist = 65535, .best_any_angle = 0, .best_any_width = 0
+    };
+
+    /* 1. Find a clean angular seam (empty ray or depth jump) so no wall is cut at 0 deg */
+    uint16_t start_deg = 0;
+    for (uint16_t i = 0; i < 360; i++) {
+        uint16_t prev  = (i == 0) ? 359 : (i - 1);
+        uint16_t d_cur = ctx->lidar.distances[i];
+        uint16_t d_prv = ctx->lidar.distances[prev];
+        if (d_cur < BSP_LIDAR_MIN_DIST_MM) d_cur = 0;
+        if (d_prv < BSP_LIDAR_MIN_DIST_MM) d_prv = 0;
+        uint16_t diff  = (d_cur > d_prv) ? (d_cur - d_prv) : (d_prv - d_cur);
+        if (d_cur == 0 || d_prv == 0 || diff > BSP_LIDAR_CLUSTER_JUMP_MM) {
+            start_deg = i;
+            break;
+        }
+    }
+
+    /* 2. Walk 360 degrees (step == 360 flushes the final open cluster) */
+    bool     in_cluster = false;
+    uint16_t first_step = 0;
+    uint16_t last_step  = 0;
+    uint16_t last_d     = 0;
+    uint16_t min_d      = 65535;
+    uint16_t hit_count  = 0;
+    uint8_t  gap_count  = 0;
+
+    for (uint16_t step = 0; step <= 360; step++) {
+        uint16_t d = (step < 360) ? ctx->lidar.distances[(start_deg + step) % 360] : 0;
+        if (d < BSP_LIDAR_MIN_DIST_MM) d = 0;
+
+        if (step < 360 && d > 0) {
+            if (!in_cluster) {
+                in_cluster = true;
+                first_step = step;
+                last_step  = step;
+                last_d     = d;
+                min_d      = d;
+                hit_count  = 1;
+                gap_count  = 0;
+            } else {
+                uint16_t diff = (d > last_d) ? (d - last_d) : (last_d - d);
+                if (diff <= BSP_LIDAR_CLUSTER_JUMP_MM) {
+                    last_step = step;
+                    last_d    = d;
+                    if (d < min_d) min_d = d;
+                    hit_count++;
+                    gap_count = 0;
+                } else {
+                    /* Depth discontinuity (e.g. can edge in front of arena wall) */
+                    bsp_eval_cluster(start_deg, first_step, last_step, min_d, hit_count, &res);
+                    first_step = step;
+                    last_step  = step;
+                    last_d     = d;
+                    min_d      = d;
+                    hit_count  = 1;
+                    gap_count  = 0;
+                }
+            }
+        } else if (in_cluster) {
+            if (step < 360 && gap_count < BSP_LIDAR_MAX_GAP_DEG) {
+                gap_count++;
+            } else {
+                bsp_eval_cluster(start_deg, first_step, last_step, min_d, hit_count, &res);
+                in_cluster = false;
+            }
+        }
+    }
+
+    /* 3. Publish closest valid can (or closest ignored obstacle for live diagnostics) */
+    if (res.best_can_dist <= BSP_LIDAR_MAX_DIST_MM) {
+        ctx->lidar_target_found     = true;
+        ctx->lidar_target_dist_mm   = res.best_can_dist;
+        ctx->lidar_target_angle_deg = res.best_can_angle;
+        ctx->lidar_target_width_mm  = res.best_can_width;
+        app_post_event((app_event_t){.type = EVT_LIDAR_TARGET, .data = (int32_t)res.best_can_dist});
+    } else {
+        ctx->lidar_target_found     = false;
+        ctx->lidar_target_dist_mm   = (res.best_any_dist <= BSP_LIDAR_MAX_DIST_MM) ? res.best_any_dist : 0;
+        ctx->lidar_target_angle_deg = res.best_any_angle;
+        ctx->lidar_target_width_mm  = res.best_any_width;
+    }
+}
+
 static void bsp_process(void) {
     bsp_ctx_t *ctx = &bsp_ctx;
     uint32_t now = HAL_GetTick();
     const float dt = (float)BSP_POLL_PERIOD_MS / 1000.0f;
 
-    /* 1. Push button sampling and debouncing */
+    /* 1. Push button sampling and debouncing (USER_BTN on PC13) */
     bool user_pressed = (HAL_GPIO_ReadPin(USER_BTN_GPIO_Port, USER_BTN_Pin) == GPIO_PIN_RESET);
     if (debounce_process(&ctx->deb_user_btn, user_pressed, now)) {
+        printf("[BTN] USER_BTN (PC13) Clicked! Posting EVT_BTN_USER_CLICK\r\n");
         app_post_event((app_event_t){.type = EVT_BTN_USER_CLICK, .data = 0});
     }
 
+    /* PWR_BUTTON ignored for bench test to prevent floating pin queue saturation */
+    /*
     bool pwr_pressed = (HAL_GPIO_ReadPin(PWR_BUTTON_GPIO_Port, PWR_BUTTON_Pin) == GPIO_PIN_RESET);
     if (debounce_process(&ctx->deb_pwr_btn, pwr_pressed, now)) {
         app_post_event((app_event_t){.type = EVT_BTN_PWR_CLICK, .data = 0});
     }
+    */
 
-    /* 2. High-rate 100 Hz updates: Encoders, IMU, Buzzer */
+    /* 2. High-rate 100 Hz updates: Encoders, IMU, Buzzer, LiDAR */
     if (ctx->encoders_ok) {
         Encoder_Update(&ctx->enc_left, dt);
         Encoder_Update(&ctx->enc_right, dt);
@@ -413,12 +566,24 @@ static void bsp_process(void) {
         BUZZER_Process(&ctx->buzzer, now);
     }
 
-    /* 3. Inbound BLE command parser */
+    if (ctx->lidar_ok) {
+        YDLIDAR_X2_Process(&ctx->lidar);
+    }
+
+    /* 3. Inbound BLE & VCP command parsers */
     if (ctx->ble_ok && BLE_HasCommand(&ctx->ble)) {
         char cmd_str[BLE_CMD_MAX_LEN] = {0};
         ble_command_type_t cmd_type = BLE_GetCommand(&ctx->ble, cmd_str, sizeof(cmd_str));
         app_post_event((app_event_t){.type = EVT_BLE_CMD, .data = (int32_t)cmd_type});
     }
+#if (BMO_DEBUG_ENABLE != 0)
+    if (ctx->vcp_cmd_ok && BLE_HasCommand(&ctx->vcp_cmd)) {
+        char cmd_str[BLE_CMD_MAX_LEN] = {0};
+        ble_command_type_t cmd_type = BLE_GetCommand(&ctx->vcp_cmd, cmd_str, sizeof(cmd_str));
+        printf("[VCP] Command: '%s'\r\n", cmd_str);
+        app_post_event((app_event_t){.type = EVT_BLE_CMD, .data = (int32_t)cmd_type});
+    }
+#endif
 
     /* 4. Heartbeat LED (500 ms) */
     if ((int32_t)(now - ctx->last_heartbeat_ms) >= BSP_HEARTBEAT_PERIOD_MS) {
@@ -426,7 +591,22 @@ static void bsp_process(void) {
         HAL_GPIO_TogglePin(LED_STATUS_GPIO_Port, LED_STATUS_Pin);
     }
 
-    /* 5. Dual VL53L0X ToF range measurement (100 ms) */
+    /* 5a. LiDAR 360-deg Angular Clustering (Can vs Wall discrimination, every 200 ms) */
+    static uint32_t last_lidar_scan_ms = 0;
+    if (ctx->lidar_ok && (int32_t)(now - last_lidar_scan_ms) >= 200) {
+        last_lidar_scan_ms = now;
+        bsp_lidar_cluster_scan(ctx);
+    }
+
+    /* 5b. ToF Distance Sensors (100 ms)
+     * Target Architecture:
+     * - Center ToF (PB13): Dedicated Can / Gripper sensor inside the jaw.
+     * - Left ToF (PC2) & Right ToF (PC3): Downward-facing Cliff sensors for table edge detection.
+     *
+     * CURRENT BENCH TEST EMULATION:
+     * Since only 1 sensor is wired right now (on PC2 / tof_left), it acts as the Can/Gripper sensor.
+     * Once the center sensor is plugged into PB13, swap ctx->tof_left_mm for ctx->tof_center_mm below.
+     */
     if ((int32_t)(now - ctx->last_tof_ms) >= BSP_TOF_PERIOD_MS) {
         ctx->last_tof_ms = now;
 
@@ -437,19 +617,35 @@ static void bsp_process(void) {
             ctx->tof_right_mm = VL53L0X_ReadDistanceContinuous(&ctx->tof_right, NULL);
         }
 
-        uint16_t min_tof = ctx->tof_left_mm;
-        if (ctx->tof_right_mm < min_tof) {
+        /* 1. Can / Gripper close-range detection (< BSP_TOF_GRIPPER_MM) */
+        uint16_t min_tof = 65535;
+        if (ctx->tof_left_ok && ctx->tof_left_mm > 0 && ctx->tof_left_mm < min_tof) {
+            min_tof = ctx->tof_left_mm;
+        }
+        if (ctx->tof_right_ok && ctx->tof_right_mm > 0 && ctx->tof_right_mm < min_tof) {
             min_tof = ctx->tof_right_mm;
         }
-        if (min_tof < 150) {
+
+        if (min_tof < BSP_TOF_GRIPPER_MM) {
+            /* Decoupled Active Object: post ToF event; consumed in SEARCH or APPROACH */
             app_post_event((app_event_t){.type = EVT_TOF_OBJECT, .data = (int32_t)min_tof});
         }
     }
 
-    /* 6. APDS-9960 Color sensor read (every 200 ms) */
-    if (ctx->color_ok && (int32_t)(now - ctx->last_color_ms) >= BSP_COLOR_PERIOD_MS) {
+    /* 6. APDS-9960 Color sensor read (every 150 ms) */
+    if (ctx->color_ok && (int32_t)(now - ctx->last_color_ms) >= 150) {
         ctx->last_color_ms = now;
-        (void)APDS9960_ReadData(&ctx->color, &ctx->color_data);
+        if (APDS9960_ReadData(&ctx->color, &ctx->color_data)) {
+            bmo_can_color_t color = APDS9960_ClassifyColor(&ctx->color_data);
+            ctx->detected_color = color;
+
+            if (color == BMO_CAN_COLOR_RED ||
+                color == BMO_CAN_COLOR_GREEN ||
+                color == BMO_CAN_COLOR_BLUE) {
+                /* Decoupled Active Object: post periodic color event; FSM consumes it in VERIFY_COLOR */
+                app_post_event((app_event_t){.type = EVT_CAN_COLOR, .data = (int32_t)color});
+            }
+        }
     }
 
     /* 7. Battery & Charger monitoring (BQ27220 & BQ25896 every 1000 ms) */
@@ -713,6 +909,48 @@ void bsp_get_tof_distances(uint16_t *left_mm, uint16_t *right_mm) {
     }
 }
 
+bool bsp_get_lidar_target(uint16_t *dist_mm, int16_t *angle_deg) {
+    bsp_ctx_t *ctx = &bsp_ctx;
+    if (dist_mm != NULL) {
+        *dist_mm = ctx->lidar_target_dist_mm;
+    }
+    if (angle_deg != NULL) {
+        *angle_deg = ctx->lidar_target_angle_deg;
+    }
+    return ctx->lidar_target_found;
+}
+
+uint16_t bsp_get_lidar_target_width(void) {
+    return bsp_ctx.lidar_target_width_mm;
+}
+
+const uint16_t* bsp_get_lidar_distances(float *scan_hz) {
+    bsp_ctx_t *ctx = &bsp_ctx;
+    if (scan_hz != NULL) {
+        *scan_hz = ctx->lidar.scan_frequency_hz;
+    }
+    return ctx->lidar.distances;
+}
+
+uint8_t bsp_get_detected_color(void) {
+    bsp_ctx_t *ctx = &bsp_ctx;
+    return (uint8_t)ctx->detected_color;
+}
+
+const char* bsp_get_color_name(void) {
+    bsp_ctx_t *ctx = &bsp_ctx;
+    return APDS9960_ColorToString(ctx->detected_color);
+}
+
+void bsp_get_color_raw(uint16_t *r, uint16_t *g, uint16_t *b, uint16_t *c, uint8_t *prox) {
+    bsp_ctx_t *ctx = &bsp_ctx;
+    if (r != NULL) *r = ctx->color_data.red;
+    if (g != NULL) *g = ctx->color_data.green;
+    if (b != NULL) *b = ctx->color_data.blue;
+    if (c != NULL) *c = ctx->color_data.clear;
+    if (prox != NULL) *prox = ctx->color_data.proximity;
+}
+
 float bsp_get_imu_yaw(void) {
     bsp_ctx_t *ctx = &bsp_ctx;
     return ctx->imu_ok ? ctx->imu.yaw : 0.0f;
@@ -751,6 +989,32 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
             BLE_RxCallback(&ctx->ble);
         }
     }
+#if (BMO_DEBUG_ENABLE != 0)
+    else if (huart->Instance == USART2) {
+        if (ctx->vcp_cmd_ok) {
+            BLE_RxCallback(&ctx->vcp_cmd);
+        }
+    }
+#endif
+}
+
+/**
+  * @brief  Recover interrupt-driven UART RX (USART3 BLE / USART2 VCP) after ORE/FE/NE error.
+  */
+void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart) {
+    bsp_ctx_t *ctx = &bsp_ctx;
+    if (huart->Instance == USART3) {
+        if (ctx->ble_ok) {
+            BLE_ErrorCallback(&ctx->ble);
+        }
+    }
+#if (BMO_DEBUG_ENABLE != 0)
+    else if (huart->Instance == USART2) {
+        if (ctx->vcp_cmd_ok) {
+            BLE_ErrorCallback(&ctx->vcp_cmd);
+        }
+    }
+#endif
 }
 
 /*

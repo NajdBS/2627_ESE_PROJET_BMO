@@ -9,6 +9,7 @@ typedef enum {
     EVT_BTN_USER_CLICK,     /* User button (PC13) debounced click */
     EVT_BTN_PWR_CLICK,      /* Power button (PA11) debounced click */
     EVT_BLE_CMD,            /* data : ble_command_type_t */
+    EVT_LIDAR_TARGET,       /* data : target distance in mm */
     EVT_TOF_OBJECT,         /* data : nearest ToF distance in mm */
     EVT_CAN_COLOR,          /* data : detected can color id */
     EVT_BATTERY_LOW,        /* data : battery voltage in mV */

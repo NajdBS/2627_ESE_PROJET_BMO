@@ -1,4 +1,4 @@
-﻿/**
+/**
   ******************************************************************************
   * @file           : ydlidar_x2.h
   * @brief          : YDLIDAR X2 driver using circular UART DMA reception.
@@ -41,7 +41,8 @@ typedef struct {
     uint8_t             last_byte;
 
     /* Point cloud data (360 degrees, 0 to 359) */
-    uint16_t            distances[YDLIDAR_X2_DEG_COUNT]; /* Distance in mm (0 = invalid/blind zone) */
+    uint16_t            distances[YDLIDAR_X2_DEG_COUNT];        /* Distance in mm (0 = invalid/blind zone) */
+    uint16_t            last_lap_updated[YDLIDAR_X2_DEG_COUNT]; /* Lap count when distance was last refreshed */
     
     /* Diagnostics and Telemetry */
     uint32_t            valid_packets_count;
@@ -49,7 +50,21 @@ typedef struct {
     uint32_t            laps_count;
     float               scan_frequency_hz;
     uint8_t             new_scan_ready;
+
+    /* RX watchdog (HAL aborts circular DMA on any UART error: ORE/FE/NE) */
+    uint32_t            last_rx_ms;     /* Tick of last received byte */
+    uint32_t            restart_count;  /* Number of DMA reception restarts */
+    int16_t             angle_offset_deg; /* Mechanical mounting offset so 0 deg = robot front */
 } ydlidar_x2_t;
+
+#define YDLIDAR_X2_RX_TIMEOUT_MS        500  /* No byte for 500 ms -> restart DMA RX */
+
+/**
+  * @brief  Aborts and restarts the circular DMA reception, clears the point cloud.
+  *         Called automatically by YDLIDAR_X2_Process() when RX is stalled.
+  * @param  lidar: Pointer to ydlidar_x2_t structure.
+  */
+void YDLIDAR_X2_Restart(ydlidar_x2_t *lidar);
 
 /**
   * @brief  Initializes the YDLIDAR X2 driver and starts circular DMA reception.

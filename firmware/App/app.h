@@ -8,8 +8,17 @@
 #define APP_H
 
 #include <stdbool.h>
+#include <stdio.h>
 
 #include "events.h"
+
+/* Debug output switch: 1 = UART printf enabled (test bench), 0 = disabled (match mode) */
+#define BMO_DEBUG_ENABLE   1
+
+#if (BMO_DEBUG_ENABLE == 0)
+    #undef printf
+    #define printf(...)    ((void)0)
+#endif
 
 /* Fonction a appeler dans le main, avant vTaskStartScheduler().
  * L'app est un objet actif : app_init cree sa file d'evenements et sa
