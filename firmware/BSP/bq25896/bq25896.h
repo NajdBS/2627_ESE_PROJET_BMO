@@ -1,4 +1,4 @@
-﻿/**
+/**
   ******************************************************************************
   * @file    bq25896.h
   * @brief   Driver for Texas Instruments BQ25896 / BQ25895 Fast Charger & 5V Boost

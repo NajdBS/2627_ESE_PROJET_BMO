@@ -142,8 +142,10 @@ void bsp_init(unsigned int task_priority) {
     /* --- 1. Power management --- */
     /* BQ25896 charger & 5V boost | Periph: I2C1 | Addr: 0x6B | Pins: PB8 SCL, PB9 SDA */
     if (BQ25896_Init(&ctx->charger, &hi2c1) == HAL_OK) {
+        (void)BQ25896_DisableWatchdog(&ctx->charger);
+        (void)BQ25896_SetBoostMode(&ctx->charger, true);
         ctx->charger_ok = true;
-        printf("[BSP] BQ25896 Charger (I2C1 0x%02X): OK (VBUS: %u mV, VBAT: %u mV)\r\n",
+        printf("[BSP] BQ25896 Charger (I2C1 0x%02X): OK (VBUS: %u mV, VBAT: %u mV, Boost 5V: ON)\r\n",
                ctx->charger.i2c_addr >> 1,
                ctx->charger.vbus_mv,
                ctx->charger.vbat_mv);
@@ -171,8 +173,8 @@ void bsp_init(unsigned int task_priority) {
 
     /* DRV8833 dual DC motors | Periph: TIM3_CH1..CH4 | Addr: N/A | Pins: PA6, PA7, PB0, PB1 */
     if (htim3.Instance != NULL) {
-        DRV8833_Init(&ctx->motor_left, &htim3, TIM_CHANNEL_1, TIM_CHANNEL_2, false);
-        DRV8833_Init(&ctx->motor_right, &htim3, TIM_CHANNEL_3, TIM_CHANNEL_4, true);
+        DRV8833_Init(&ctx->motor_left, &htim3, TIM_CHANNEL_1, TIM_CHANNEL_2, true);
+        DRV8833_Init(&ctx->motor_right, &htim3, TIM_CHANNEL_3, TIM_CHANNEL_4, false);
         DRV8833_Coast(&ctx->motor_left);
         DRV8833_Coast(&ctx->motor_right);
         ctx->motors_ok = true;
@@ -204,8 +206,8 @@ void bsp_init(unsigned int task_priority) {
 
     /* --- 4. Sensors --- */
     /* Quadrature encoders | Periph: TIM2 (32-bit), TIM4 (16-bit) | Addr: N/A | Pins: PA0/PA1, PB6/PB7 */
-    Encoder_Init(&ctx->enc_left, &htim2, ENCODER_DEFAULT_CPR_WHEEL, ENCODER_DEFAULT_WHEEL_DIAM_MM, false);
-    Encoder_Init(&ctx->enc_right, &htim4, ENCODER_DEFAULT_CPR_WHEEL, ENCODER_DEFAULT_WHEEL_DIAM_MM, true);
+    Encoder_Init(&ctx->enc_left, &htim2, ENCODER_DEFAULT_CPR_WHEEL, ENCODER_DEFAULT_WHEEL_DIAM_MM, true);
+    Encoder_Init(&ctx->enc_right, &htim4, ENCODER_DEFAULT_CPR_WHEEL, ENCODER_DEFAULT_WHEEL_DIAM_MM, false);
     ctx->encoders_ok = true;
     printf("[BSP] Encoders (TIM2 / TIM4): OK\r\n");
 
@@ -289,7 +291,11 @@ void bsp_init(unsigned int task_priority) {
         printf("[BSP] APDS-9960 Color/Prox (I2C3 0x39): Not detected\r\n");
     }
 
-    /* YDLIDAR X2 scanner | Periph: USART1 | Addr: N/A | Pins: PB6 TX / PB7 RX (or PC4/PC5) */
+    /* YDLIDAR X2 scanner | Periph: USART1, TIM16_CH1 (PA12 PWM) | Pins: PC5 RX */
+    if (htim16.Instance != NULL) {
+        HAL_TIM_PWM_Start(&htim16, TIM_CHANNEL_1);
+        __HAL_TIM_SET_COMPARE(&htim16, TIM_CHANNEL_1, 65);
+    }
     YDLIDAR_X2_Init(&ctx->lidar, &huart1);
     ctx->lidar.angle_offset_deg = BSP_LIDAR_ANGLE_OFFSET_DEG;
     ctx->lidar_ok = true;
@@ -544,13 +550,10 @@ static void bsp_process(void) {
         app_post_event((app_event_t){.type = EVT_BTN_USER_CLICK, .data = 0});
     }
 
-    /* PWR_BUTTON ignored for bench test to prevent floating pin queue saturation */
-    /*
     bool pwr_pressed = (HAL_GPIO_ReadPin(PWR_BUTTON_GPIO_Port, PWR_BUTTON_Pin) == GPIO_PIN_RESET);
     if (debounce_process(&ctx->deb_pwr_btn, pwr_pressed, now)) {
         app_post_event((app_event_t){.type = EVT_BTN_PWR_CLICK, .data = 0});
     }
-    */
 
     /* 2. High-rate 100 Hz updates: Encoders, IMU, Buzzer, LiDAR */
     if (ctx->encoders_ok) {

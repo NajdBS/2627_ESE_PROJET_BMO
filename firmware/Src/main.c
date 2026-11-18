@@ -189,7 +189,22 @@ void SystemClock_Config(void)
   RCC_OscInitStruct.PLL.PLLR = RCC_PLLR_DIV2;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
   {
-    Error_Handler();
+    /* Fallback automatique sur HSI + PLL (170 MHz) si HSE echoue */
+    RCC_OscInitTypeDef RCC_HsiFallback = {0};
+    RCC_HsiFallback.OscillatorType = RCC_OSCILLATORTYPE_HSI;
+    RCC_HsiFallback.HSIState = RCC_HSI_ON;
+    RCC_HsiFallback.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
+    RCC_HsiFallback.PLL.PLLState = RCC_PLL_ON;
+    RCC_HsiFallback.PLL.PLLSource = RCC_PLLSOURCE_HSI;
+    RCC_HsiFallback.PLL.PLLM = RCC_PLLM_DIV4;
+    RCC_HsiFallback.PLL.PLLN = 85;
+    RCC_HsiFallback.PLL.PLLP = RCC_PLLP_DIV2;
+    RCC_HsiFallback.PLL.PLLQ = RCC_PLLQ_DIV2;
+    RCC_HsiFallback.PLL.PLLR = RCC_PLLR_DIV2;
+    if (HAL_RCC_OscConfig(&RCC_HsiFallback) != HAL_OK)
+    {
+      Error_Handler();
+    }
   }
 
   /** Initializes the CPU, AHB and APB buses clocks
