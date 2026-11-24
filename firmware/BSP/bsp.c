@@ -65,18 +65,22 @@ static const SSD1306_Font_t *const OLED_FONT = &Font_6x8;
 #define BSP_SPEED_CMD_MAX       1000.0f /* limite de la commande du PI [pour mille], 1000 = 100 % PWM ;
                                          * a baisser ICI (pas apres le PID) pour garder l'anti-windup */
 
-/* Reglages qui dependent du robot : 0 = desactive, a remplir apres l'identification
- * (essai en boucle ouverte : vitesse mesuree pour des PWM de 100 a 1000 pour mille). */
-#define BSP_SPEED_ACCEL_MM_S2   0.0f    /* rampe de consigne [mm/s2] ; 0 pendant le reglage de KP/KI,
-                                         * ensuite ~500 pour limiter le courant de demarrage et le patinage */
-#define BSP_SPEED_KFF           0.0f    /* anticipation [pour mille / (mm/s)] = 1000 / vitesse mesuree a 100 % */
-#define BSP_SPEED_FF_OFFSET     0.0f    /* anticipation [pour mille] = PWM ou la roue commence a tourner */
+/* Reglages qui dependent du robot (0 = desactive).
+ * Anticipation mesuree le 24/11/2026, roues en l'air, boost 5 V : commande en regime permanent
+ * G/D = 606/628, 720/727, 797/805, 871/879, 939/948 pour mille a 50, 100, 150, 200, 250 mm/s ;
+ * 1000 pour mille donne 292/285 mm/s. Droite des moindres carres : 551 + 1,61 x vitesse.
+ * On prend 540 + 1,6 x vitesse, un peu sous le besoin : le PI ajoute le reste, sans depassement. */
+#define BSP_SPEED_ACCEL_MM_S2   500.0f  /* rampe de consigne [mm/s2] : 0 -> 150 mm/s en 0,3 s ; limite le courant de
+                                         * demarrage et le patinage. Mettre 0 pour regler KP/KI sur des echelons */
+#define BSP_SPEED_KFF           1.6f    /* anticipation : pente [pour mille / (mm/s)] */
+#define BSP_SPEED_FF_OFFSET     540.0f  /* anticipation : decalage [pour mille] (zone morte : depart vers 600) */
 
 /* Commandes de test du PI au terminal (VCP ST-Link 115200 bauds, ou BLE), une par ligne :
  *   V 150    consigne des deux roues en mm/s (V -100 : marche arriere, V 0 : roue libre)
  *   F / B    consigne + / - BSP_SPEED_TEST_STEP mm/s
  *   H        (ou STOP) arret : roue libre, consigne 0
  *   KP 3     KI 15 : change le gain des deux roues tout de suite, sans recompiler
+ *   KF 1.6   FO 540 : change l'anticipation (pente, decalage) tout de suite
  *   ?        affiche les reglages
  * Traitees dans le BSP : la machine d'etat n'est pas modifiee (elle ignore V, F, B, KP, KI, ?).
  * A remettre a 0 apres le reglage (sinon une commande F en match ferait bouger le robot). */
@@ -218,6 +222,10 @@ void bsp_init(unsigned int task_priority) {
         DRV8833_Init(&ctx->motor_right, &htim3, TIM_CHANNEL_3, TIM_CHANNEL_4, false);
         DRV8833_Coast(&ctx->motor_left);
         DRV8833_Coast(&ctx->motor_right);
+        /* Reveille le DRV8833 : MX_GPIO_Init() met nSLEEP (PA4) a 0, et a 0 le driver reste en veille,
+         * sorties coupees (SLVSAR1E p.3 : "Logic high to enable device"). Les entrees sont deja
+         * en roue libre (Coast) : rien ne bouge au reveil. */
+        HAL_GPIO_WritePin(MOT_nSLEEP_GPIO_Port, MOT_nSLEEP_Pin, GPIO_PIN_SET);
         ctx->motors_ok = true;
         PID_Init(&ctx->pid_left,  BSP_SPEED_KP, BSP_SPEED_KI, BSP_SPEED_KD, -BSP_SPEED_CMD_MAX, BSP_SPEED_CMD_MAX);
         PID_Init(&ctx->pid_right, BSP_SPEED_KP, BSP_SPEED_KI, BSP_SPEED_KD, -BSP_SPEED_CMD_MAX, BSP_SPEED_CMD_MAX);
@@ -692,6 +700,18 @@ static void bsp_speed_test_command(bsp_ctx_t *ctx, ble_command_type_t type, cons
             ctx->pid_right.ki = k;
         }
         printf("[PID] KP %ld.%02ld KI %ld.%02ld\r\n", BSP_X100(ctx->pid_left.kp), BSP_X100(ctx->pid_left.ki));
+        return;
+    } else if ((up[0] == 'K' && up[1] == 'F') || (up[0] == 'F' && up[1] == 'O')) {
+        float k;
+        if (!bsp_parse_number(&up[2], &k) || k < 0.0f) {
+            printf("[PID] Valeur invalide : %s\r\n", str);
+            return;
+        }
+        float kff = (up[0] == 'K') ? k : ctx->pid_left.kff;
+        float off = (up[0] == 'F') ? k : ctx->pid_left.ff_offset;
+        PID_SetFeedforward(&ctx->pid_left, kff, off);
+        PID_SetFeedforward(&ctx->pid_right, kff, off);
+        printf("[PID] KFF %ld.%02ld OFFSET %ld\r\n", BSP_X100(kff), (long)off);
         return;
     } else if (up[0] == 'V') {
         if (!bsp_parse_number(&up[1], &v)) {
