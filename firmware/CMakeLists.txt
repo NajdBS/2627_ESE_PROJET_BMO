@@ -60,6 +60,7 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     BSP/bq27220/bq27220.c
     BSP/bq25896/bq25896.c
     BSP/ble/ble.c
+    BSP/pid/pid.c
     BSP/debounce.c
     BSP/bsp.c
 
@@ -86,6 +87,7 @@ target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
     BSP/bq27220
     BSP/bq25896
     BSP/ble
+    BSP/pid
     App
     stats
 )

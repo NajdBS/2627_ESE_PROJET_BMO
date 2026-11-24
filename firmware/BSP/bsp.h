@@ -60,6 +60,10 @@ void bsp_oled_show(void);
 
 /* Actuators: DRV8833 dual DC motors, SER0039 gripper servo, buzzer */
 void bsp_motors_set_speed(int16_t left_permille, int16_t right_permille);
+/* Consigne de vitesse en boucle fermee (PI a 100 Hz), en mm/s par roue.
+ * Consigne 0 : roue libre (avec la rampe BSP_SPEED_ACCEL_MM_S2 : ralentissement progressif, puis roue libre).
+ * bsp_motors_set_speed(), bsp_motors_brake() et bsp_motors_coast() coupent la boucle. */
+void bsp_motors_set_target_speed(float left_mm_s, float right_mm_s);
 void bsp_motors_brake(void);
 void bsp_motors_coast(void);
 void bsp_gripper_grab(void);

@@ -8,6 +8,7 @@
 
 #include "bsp.h"
 
+#include <math.h>
 #include <stdio.h>
 #include <string.h>
 
@@ -36,6 +37,7 @@
 #include "bq27220.h"
 #include "bq25896.h"
 #include "ble.h"
+#include "pid.h"
 
 #define BSP_OLED_WIDTH          128
 #define BSP_OLED_HEIGHT         64
@@ -52,6 +54,36 @@ static const SSD1306_Font_t *const OLED_FONT = &Font_6x8;
 #define BSP_POWER_PERIOD_MS     1000
 #define BSP_WD_RESET_PERIOD_MS  10000   /* BQ25896 charger watchdog refresh every 10 s */
 
+/* Asservissement en vitesse des roues (PI), execute a 100 Hz dans bsp_process().
+ * Gains de depart A REGLER sur le robot : commencer par KI = 0, augmenter KP
+ * jusqu'a une reponse rapide sans oscillation, puis ajouter KI pour annuler
+ * l'erreur statique. Commande en pour mille (-1000..+1000) vers le DRV8833. */
+#define BSP_SPEED_KP            2.0f    /* [pour mille / (mm/s)]       */
+#define BSP_SPEED_KI            10.0f   /* [pour mille / (mm/s) / s]   */
+#define BSP_SPEED_KD            0.0f    /* D non utilise : mesure bruitee */
+#define BSP_SPEED_LOG           1       /* 1 = trace de reglage sur le port serie, 0 = rien */
+#define BSP_SPEED_CMD_MAX       1000.0f /* limite de la commande du PI [pour mille], 1000 = 100 % PWM ;
+                                         * a baisser ICI (pas apres le PID) pour garder l'anti-windup */
+
+/* Reglages qui dependent du robot : 0 = desactive, a remplir apres l'identification
+ * (essai en boucle ouverte : vitesse mesuree pour des PWM de 100 a 1000 pour mille). */
+#define BSP_SPEED_ACCEL_MM_S2   0.0f    /* rampe de consigne [mm/s2] ; 0 pendant le reglage de KP/KI,
+                                         * ensuite ~500 pour limiter le courant de demarrage et le patinage */
+#define BSP_SPEED_KFF           0.0f    /* anticipation [pour mille / (mm/s)] = 1000 / vitesse mesuree a 100 % */
+#define BSP_SPEED_FF_OFFSET     0.0f    /* anticipation [pour mille] = PWM ou la roue commence a tourner */
+
+/* Commandes de test du PI au terminal (VCP ST-Link 115200 bauds, ou BLE), une par ligne :
+ *   V 150    consigne des deux roues en mm/s (V -100 : marche arriere, V 0 : roue libre)
+ *   F / B    consigne + / - BSP_SPEED_TEST_STEP mm/s
+ *   H        (ou STOP) arret : roue libre, consigne 0
+ *   KP 3     KI 15 : change le gain des deux roues tout de suite, sans recompiler
+ *   ?        affiche les reglages
+ * Traitees dans le BSP : la machine d'etat n'est pas modifiee (elle ignore V, F, B, KP, KI, ?).
+ * A remettre a 0 apres le reglage (sinon une commande F en match ferait bouger le robot). */
+#define BSP_SPEED_TEST          1
+#define BSP_SPEED_TEST_STEP     50.0f   /* pas de F / B [mm/s] */
+#define BSP_SPEED_TEST_MAX      600.0f  /* consigne de test max [mm/s] */
+
 /* Internal BSP Context (private singleton encapsulated in bsp.c) */
 typedef struct {
     TaskHandle_t      task;             /* periodic sensor & input scanning task */
@@ -67,6 +99,15 @@ typedef struct {
     drv8833_t         motor_right;
     servo_t           gripper;
     buzzer_t          buzzer;
+
+    /* Speed control loop (PI), run by bsp_task, set by the APP task */
+    pid_ctrl_t        pid_left;
+    pid_ctrl_t        pid_right;
+    volatile float    target_left_mm_s;   /* consigne roue gauche [mm/s] */
+    volatile float    target_right_mm_s;  /* consigne roue droite [mm/s] */
+    volatile bool     speed_loop_on;      /* boucle active ; remise a false par tout arret */
+    float             ramp_left_mm_s;     /* consigne apres rampe, suivie par le PI gauche [mm/s] */
+    float             ramp_right_mm_s;    /* consigne apres rampe, suivie par le PI droit [mm/s] */
 
     /* Power Management (I2C1) */
     bq27220_t         fuel_gauge;
@@ -178,6 +219,11 @@ void bsp_init(unsigned int task_priority) {
         DRV8833_Coast(&ctx->motor_left);
         DRV8833_Coast(&ctx->motor_right);
         ctx->motors_ok = true;
+        PID_Init(&ctx->pid_left,  BSP_SPEED_KP, BSP_SPEED_KI, BSP_SPEED_KD, -BSP_SPEED_CMD_MAX, BSP_SPEED_CMD_MAX);
+        PID_Init(&ctx->pid_right, BSP_SPEED_KP, BSP_SPEED_KI, BSP_SPEED_KD, -BSP_SPEED_CMD_MAX, BSP_SPEED_CMD_MAX);
+        PID_SetFeedforward(&ctx->pid_left,  BSP_SPEED_KFF, BSP_SPEED_FF_OFFSET);
+        PID_SetFeedforward(&ctx->pid_right, BSP_SPEED_KFF, BSP_SPEED_FF_OFFSET);
+        ctx->speed_loop_on = false;
         printf("[BSP] Motors DRV8833 (TIM3 CH1..CH4): OK (Coast)\r\n");
     } else {
         printf("[BSP] Motors DRV8833: TIM3 not initialized\r\n");
@@ -538,6 +584,136 @@ static void bsp_lidar_cluster_scan(bsp_ctx_t *ctx) {
     }
 }
 
+/* Un pas de la boucle de vitesse pour une roue (100 Hz) : rampe, arret propre, PI.
+ * Retourne la commande en pour mille pour le DRV8833. */
+static float bsp_speed_wheel_step(pid_ctrl_t *pid, float *ramp, float target, float measure, float dt) {
+    /* 1. Rampe : la consigne suivie bouge d'au plus ACCEL * dt par cycle (desactivee si 0) */
+    if (BSP_SPEED_ACCEL_MM_S2 > 0.0f) {
+        float step = BSP_SPEED_ACCEL_MM_S2 * dt;
+        float diff = target - *ramp;
+        *ramp += (diff > step) ? step : (diff < -step) ? -step : diff;
+    } else {
+        *ramp = target;
+    }
+
+    /* 2. Consigne nulle : roue libre et PI remis a zero (pas de regulation autour de 0,
+     *    donc pas de vibration ; avec la rampe, la roue a deja ralenti en suivant la consigne) */
+    if (*ramp == 0.0f) {
+        PID_Reset(pid);
+        return 0.0f;
+    }
+
+    /* 3. Correcteur PI (+ anticipation si reglee) */
+    return PID_Update(pid, *ramp, measure, dt);
+}
+
+#if BSP_SPEED_TEST
+static float bsp_speed_test_mm_s = 0.0f;   /* derniere consigne de test [mm/s] */
+
+/* Affiche x >= 0 avec 2 decimales, en entiers : pas de printf("%f") dans la tache BSP,
+ * car le formatage des float de newlib passe par malloc */
+#define BSP_X100(x)  (long)((x) * 100.0f + 0.5f) / 100, (long)((x) * 100.0f + 0.5f) % 100
+
+/* Lit un nombre decimal simple ("150", "-100", "2.5") ; evite strtof, trop gros pour la Flash */
+static bool bsp_parse_number(const char *s, float *out) {
+    float sign = 1.0f, val = 0.0f, scale = 0.0f;
+    bool digit = false;
+    while (*s == ' ' || *s == '\t' || *s == '=') {
+        s++;
+    }
+    if (*s == '-' || *s == '+') {
+        sign = (*s == '-') ? -1.0f : 1.0f;
+        s++;
+    }
+    for (; *s != '\0' && *s != ' ' && *s != '\t'; s++) {
+        if (*s >= '0' && *s <= '9') {
+            digit = true;
+            if (scale == 0.0f) {
+                val = val * 10.0f + (float)(*s - '0');
+            } else {
+                val += (float)(*s - '0') * scale;
+                scale *= 0.1f;
+            }
+        } else if ((*s == '.' || *s == ',') && scale == 0.0f) {
+            scale = 0.1f;
+        } else {
+            return false;
+        }
+    }
+    if (!digit) {
+        return false;
+    }
+    *out = sign * val;
+    return true;
+}
+
+/* Commandes de test du PI (voir BSP_SPEED_TEST), appelee par bsp_process() pour chaque ligne recue */
+static void bsp_speed_test_command(bsp_ctx_t *ctx, ble_command_type_t type, const char *str) {
+    char up[BLE_CMD_MAX_LEN];
+    size_t n = 0;
+    float v = ctx->speed_loop_on ? bsp_speed_test_mm_s : 0.0f;   /* boucle coupee : on repart de 0 */
+
+    while (*str == ' ' || *str == '\t') {
+        str++;
+    }
+    for (; str[n] != '\0' && n < sizeof(up) - 1; n++) {
+        up[n] = (str[n] >= 'a' && str[n] <= 'z') ? (char)(str[n] - ('a' - 'A')) : str[n];
+    }
+    up[n] = '\0';
+
+    if (type == BLE_CMD_STOP) {
+        bsp_speed_test_mm_s = 0.0f;
+        bsp_motors_coast();
+        printf("[PID] Arret : roue libre\r\n");
+        return;
+    }
+    if (type == BLE_CMD_MANUAL_FWD || type == BLE_CMD_MANUAL_BWD) {
+        v += (type == BLE_CMD_MANUAL_FWD) ? BSP_SPEED_TEST_STEP : -BSP_SPEED_TEST_STEP;
+    } else if (type != BLE_CMD_CUSTOM) {
+        return;                                     /* START, MAP... : pour l'application */
+    } else if (up[0] == '?') {
+        printf("[PID] KP %ld.%02ld KI %ld.%02ld KD %ld.%02ld | KFF %ld.%02ld OFFSET %ld | rampe %ld mm/s2 | max %ld | consigne %ld mm/s | boucle %s\r\n",
+               BSP_X100(ctx->pid_left.kp), BSP_X100(ctx->pid_left.ki), BSP_X100(ctx->pid_left.kd),
+               BSP_X100(ctx->pid_left.kff), (long)ctx->pid_left.ff_offset,
+               (long)BSP_SPEED_ACCEL_MM_S2, (long)BSP_SPEED_CMD_MAX,
+               (long)v, ctx->speed_loop_on ? "ON" : "OFF");
+        return;
+    } else if (up[0] == 'K' && (up[1] == 'P' || up[1] == 'I')) {
+        float k;
+        if (!bsp_parse_number(&up[2], &k) || k < 0.0f) {
+            printf("[PID] Valeur invalide : %s\r\n", str);
+            return;
+        }
+        if (up[1] == 'P') {
+            ctx->pid_left.kp = k;
+            ctx->pid_right.kp = k;
+        } else {
+            ctx->pid_left.ki = k;                   /* l'integrale garde sa valeur : pas de saut */
+            ctx->pid_right.ki = k;
+        }
+        printf("[PID] KP %ld.%02ld KI %ld.%02ld\r\n", BSP_X100(ctx->pid_left.kp), BSP_X100(ctx->pid_left.ki));
+        return;
+    } else if (up[0] == 'V') {
+        if (!bsp_parse_number(&up[1], &v)) {
+            printf("[PID] Valeur invalide : %s\r\n", str);
+            return;
+        }
+    } else {
+        return;                                     /* autre texte : ignore */
+    }
+
+    if (v > BSP_SPEED_TEST_MAX) {
+        v = BSP_SPEED_TEST_MAX;
+    } else if (v < -BSP_SPEED_TEST_MAX) {
+        v = -BSP_SPEED_TEST_MAX;
+    }
+    bsp_speed_test_mm_s = v;
+    bsp_motors_set_target_speed(v, v);
+    printf("[PID] Consigne %ld mm/s (KP %ld.%02ld, KI %ld.%02ld)\r\n", (long)v,
+           BSP_X100(ctx->pid_left.kp), BSP_X100(ctx->pid_left.ki));
+}
+#endif
+
 static void bsp_process(void) {
     bsp_ctx_t *ctx = &bsp_ctx;
     uint32_t now = HAL_GetTick();
@@ -561,6 +737,35 @@ static void bsp_process(void) {
         Encoder_Update(&ctx->enc_right, dt);
     }
 
+    /* 2b. Boucle de vitesse PI des roues (100 Hz) : mesure encodeur -> PID -> PWM */
+    if (ctx->speed_loop_on && ctx->motors_ok && ctx->encoders_ok) {
+        float cmd_l = bsp_speed_wheel_step(&ctx->pid_left,  &ctx->ramp_left_mm_s,
+                                           ctx->target_left_mm_s,  ctx->enc_left.speed_mm_s,  dt);
+        float cmd_r = bsp_speed_wheel_step(&ctx->pid_right, &ctx->ramp_right_mm_s,
+                                           ctx->target_right_mm_s, ctx->enc_right.speed_mm_s, dt);
+
+        /* Section critique : si un arret (ou plus tard l'ISR nFAULT) coupe la boucle pendant
+         * le calcul, on n'ecrit pas la PWM, sinon les moteurs repartiraient apres le freinage. */
+        taskENTER_CRITICAL();
+        if (ctx->speed_loop_on) {
+            DRV8833_SetSpeed(&ctx->motor_left,  (int16_t)cmd_l);
+            DRV8833_SetSpeed(&ctx->motor_right, (int16_t)cmd_r);
+        }
+        taskEXIT_CRITICAL();
+
+#if BSP_SPEED_LOG
+        /* Trace pour le reglage (port serie ST-Link, 115200 bauds), toutes les 50 ms :
+         * SPD,consigne_G,mesure_G,commande_G,consigne_D,mesure_D,commande_D  (mm/s et pour mille) */
+        static uint8_t log_div = 0;
+        if (++log_div >= 5) {
+            log_div = 0;
+            printf("SPD,%ld,%ld,%ld,%ld,%ld,%ld\r\n",
+                   (long)ctx->target_left_mm_s,  (long)ctx->enc_left.speed_mm_s,  (long)cmd_l,
+                   (long)ctx->target_right_mm_s, (long)ctx->enc_right.speed_mm_s, (long)cmd_r);
+        }
+#endif
+    }
+
     if (ctx->imu_ok) {
         MPU6050_Update(&ctx->imu, dt);
     }
@@ -577,6 +782,9 @@ static void bsp_process(void) {
     if (ctx->ble_ok && BLE_HasCommand(&ctx->ble)) {
         char cmd_str[BLE_CMD_MAX_LEN] = {0};
         ble_command_type_t cmd_type = BLE_GetCommand(&ctx->ble, cmd_str, sizeof(cmd_str));
+#if BSP_SPEED_TEST
+        bsp_speed_test_command(ctx, cmd_type, cmd_str);
+#endif
         app_post_event((app_event_t){.type = EVT_BLE_CMD, .data = (int32_t)cmd_type});
     }
 #if (BMO_DEBUG_ENABLE != 0)
@@ -584,6 +792,9 @@ static void bsp_process(void) {
         char cmd_str[BLE_CMD_MAX_LEN] = {0};
         ble_command_type_t cmd_type = BLE_GetCommand(&ctx->vcp_cmd, cmd_str, sizeof(cmd_str));
         printf("[VCP] Command: '%s'\r\n", cmd_str);
+#if BSP_SPEED_TEST
+        bsp_speed_test_command(ctx, cmd_type, cmd_str);
+#endif
         app_post_event((app_event_t){.type = EVT_BLE_CMD, .data = (int32_t)cmd_type});
     }
 #endif
@@ -845,8 +1056,36 @@ void bsp_motors_set_speed(int16_t left_permille, int16_t right_permille) {
     if (!ctx->motors_ok) {
         return;
     }
+    ctx->speed_loop_on = false;     /* commande directe : on coupe la boucle */
     DRV8833_SetSpeed(&ctx->motor_left, left_permille);
     DRV8833_SetSpeed(&ctx->motor_right, right_permille);
+}
+
+/* Consigne de vitesse en boucle fermee (mm/s). La boucle PI tourne dans bsp_task.
+ * Appelee par la tache APP (priorite 2), lue par la tache BSP (priorite 3) :
+ * section critique pour que les deux consignes et le depart de la boucle
+ * soient pris en compte ensemble, au meme cycle de 10 ms. */
+void bsp_motors_set_target_speed(float left_mm_s, float right_mm_s) {
+    bsp_ctx_t *ctx = &bsp_ctx;
+    if (!ctx->motors_ok || !ctx->encoders_ok) {
+        return;
+    }
+    if (!isfinite(left_mm_s) || !isfinite(right_mm_s)) {
+        return;                         /* consigne invalide (NaN, infini) : ignoree */
+    }
+    taskENTER_CRITICAL();
+    if (!ctx->speed_loop_on) {
+        /* Depart sans a-coup : la rampe part de la vitesse mesuree,
+         * et l'integrale reprend la PWM deja appliquee (0 apres brake / coast) */
+        ctx->ramp_left_mm_s  = ctx->enc_left.speed_mm_s;
+        ctx->ramp_right_mm_s = ctx->enc_right.speed_mm_s;
+        PID_Preset(&ctx->pid_left,  (float)ctx->motor_left.current_speed,  ctx->ramp_left_mm_s);
+        PID_Preset(&ctx->pid_right, (float)ctx->motor_right.current_speed, ctx->ramp_right_mm_s);
+    }
+    ctx->target_left_mm_s  = left_mm_s;
+    ctx->target_right_mm_s = right_mm_s;
+    ctx->speed_loop_on = true;
+    taskEXIT_CRITICAL();
 }
 
 void bsp_motors_brake(void) {
@@ -854,6 +1093,7 @@ void bsp_motors_brake(void) {
     if (!ctx->motors_ok) {
         return;
     }
+    ctx->speed_loop_on = false;     /* commande directe : on coupe la boucle */
     DRV8833_Brake(&ctx->motor_left);
     DRV8833_Brake(&ctx->motor_right);
 }
@@ -863,6 +1103,7 @@ void bsp_motors_coast(void) {
     if (!ctx->motors_ok) {
         return;
     }
+    ctx->speed_loop_on = false;     /* commande directe : on coupe la boucle */
     DRV8833_Coast(&ctx->motor_left);
     DRV8833_Coast(&ctx->motor_right);
 }
@@ -1028,6 +1269,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
     switch (GPIO_Pin) {
         case MOT_nFAULT_Pin:
             // Fast shutdown: brake motors immediately
+            bsp_ctx.speed_loop_on = false;   // stop the PI loop, otherwise it would restart the motors
             DRV8833_Brake(&bsp_ctx.motor_left);
             DRV8833_Brake(&bsp_ctx.motor_right);
             break;
